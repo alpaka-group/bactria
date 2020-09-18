@@ -17,7 +17,7 @@
 #define BACTRIA_EVENT_HPP
 
 #include <string>
-#include <string_view>
+#include <utility>
 
 /**
  * The bactria user API
@@ -38,8 +38,8 @@ namespace bactria
              * \param event_name The event name as it should appear on the
              *                   output file or the visualizer.
              */
-            event(const std::string& event_name)
-            : name{event_name}
+            event(std::string event_name)
+            : name{std::move(event_name)}
             {}
 
             virtual ~event() = default;
@@ -47,9 +47,9 @@ namespace bactria
             /**
              * Returns the event name.
              */
-            virtual auto get_name() const -> std::string_view
+            virtual auto get_name() const noexcept -> const std::string&
             {
-                return std::string_view(name); 
+                return name; 
             }
 
 

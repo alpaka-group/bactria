@@ -18,7 +18,7 @@
 
 #include <memory>
 #include <string>
-#include <string_view>
+#include <utility>
 
 #include <bactria/event.hpp>
 #include <bactria/phase.hpp>
@@ -80,11 +80,11 @@ namespace bactria
              *          that p is a non-owning pointer; it is expected that
              *          p's lifetime exceeds the region's lifetime.
              */
-            region(const std::string& region_name,
+            region(std::string region_name,
                    region_type region_t = generic_region_type{}, 
                    bool auto_recording = true,
                    const phase* p = nullptr)
-            : name{region_name}
+            : name{std::move(region_name)}
             , type{region_t}
             , recording{auto_recording}
             , handle{plugin::handle::make_handle(name)}
@@ -159,9 +159,9 @@ namespace bactria
             /**
              * Returns the region name.
              */
-            auto get_name() const -> std::string_view
+            auto get_name() const noexcept -> const std::string&
             {
-                return std::string_view(name);
+                return name;
             }
 
             /**

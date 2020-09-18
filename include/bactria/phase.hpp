@@ -17,7 +17,7 @@
 #define BACTRIA_PHASE_HPP
 
 #include <string>
-#include <string_view>
+#include <utility>
 
 namespace bactria
 {
@@ -35,16 +35,16 @@ namespace bactria
              * \param phase_name The phase name as it should appear on the
              *                   output file or visualizer.
              */
-            phase(const std::string& phase_name)
-            : name{phase_name}
+            phase(std::string phase_name)
+            : name{std::move(phase_name)}
             {}
 
             /**
              * Returns the phase name.
              */
-            auto get_name() const -> std::string_view
+            auto get_name() const noexcept -> const std::string&
             {
-                return std::string_view{name};
+                return name;
             }
 
         private:
