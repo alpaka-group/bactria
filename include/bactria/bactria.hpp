@@ -16,10 +16,6 @@
 #ifndef BACTRIA_BACTRIA_HPP
 #define BACTRIA_BACTRIA_HPP
 
-#include <memory>
-#include <string>
-#include <string_view>
-
 #include <bactria/event.hpp>
 #include <bactria/phase.hpp>
 #include <bactria/region.hpp>
