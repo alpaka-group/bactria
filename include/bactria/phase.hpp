@@ -29,15 +29,24 @@ namespace bactria
     class phase
     {
         public:
+            phase() = default;
+
             /**
              * The phase constructor.
              *
              * \param phase_name The phase name as it should appear on the
              *                   output file or visualizer.
              */
-            phase(std::string phase_name)
+            explicit phase(std::string phase_name)
             : name{std::move(phase_name)}
             {}
+
+            phase(const phase&) = delete;
+            auto operator=(const phase&) -> phase& = delete;
+            phase(phase&& other) = default;
+            auto operator=(phase&& other) -> phase& = default;
+
+            ~phase() = default;
 
             /**
              * Returns the phase name.
@@ -48,7 +57,7 @@ namespace bactria
             }
 
         private:
-            std::string name;
+            std::string name = "BACTRIA_GENERIC_PHASE";
     };
 }
 

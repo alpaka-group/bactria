@@ -32,15 +32,22 @@ namespace bactria
     class event
     {
         public:
+            event() = default;
+
             /**
              * The event constructor.
              *
              * \param event_name The event name as it should appear on the
              *                   output file or the visualizer.
              */
-            event(std::string event_name)
+            explicit event(std::string event_name)
             : name{std::move(event_name)}
             {}
+
+            event(const event& other) = default;
+            auto operator=(const event& rhs) -> event& = default;
+            event(event&& other) = default;
+            auto operator=(event&& rhs) -> event& = default;
 
             virtual ~event() = default;
 
@@ -52,9 +59,8 @@ namespace bactria
                 return name; 
             }
 
-
         protected:
-            std::string name;
+            std::string name = "BACTRIA_GENERIC_EVENT";
     };
 
     /**

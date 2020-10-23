@@ -25,6 +25,8 @@
 #include <bactria/plugin.hpp>
 
 /**
+ * \namespace bactria
+ *
  * The bactria user API
  */
 namespace bactria
@@ -63,41 +65,90 @@ namespace bactria
     {
         public:
             /**
-             * The region constructor.
+             * \brief The default constructor.
+             *
+             * The default constructor is intended to be used by containers or
+             * similar use cases. However, it can also be used directly. It
+             * has the following behaviour:
+             *
+             * - The name passed to the plugin will be
+             *   `BACTRIA_GENERIC_REGION`.
+             * - The region will be assigned a `generic_region_type`.
+             * - If the plugin was not loaded before it will be loaded by
+             *   calling this constructor.
+             */
+            region() = default;
+
+            /**
+             * \brief The string constructor.
+             *
+             * This constructor is intended for use cases where the region type
+             * does not matter. It will default to `generic_region_type`. If the
+             * plugin was not loaded before it will be loaded by calling this
+             * constructor.
+             *
+             * \param region_name The name of the region as it should appear in
+             *                    the output file or visualizer.
+             */
+            explicit region(std::string region_name)
+            : name{std::move(region_name)}
+            {}
+
+            /**
+             * \brief The string and type constructor.
+             *
+             * Use this constructor if you need a specialized region type. If
+             * the plugin was not loaded before it will be loaded by the call
+             * to this constructor.
              *
              * \param region_name The name of the region as it should appear in
              *                    the output file or visualizer.
              *
              * \param region_type The type of the region. Must be one of
              *                    generic_tag, function_tag or loop_tag
-             *
-             * \param auto_recording Indicates if the profiling should start
-             *                       immediately after construction or not.
-             *                       true by default.
-             *
-             * \param p The phase this region is assigned to. If a nullptr is
-             *          passed the region will not belong to any phase. Note
-             *          that p is a non-owning pointer; it is expected that
-             *          p's lifetime exceeds the region's lifetime.
              */
-            region(std::string region_name,
-                   region_type region_t = generic_region_type{}, 
-                   bool auto_recording = true,
-                   const phase* p = nullptr)
+            region(std::string region_name, region_type region_t)
             : name{std::move(region_name)}
-            , type{region_t}
-            , recording{auto_recording}
-            , handle{plugin::handle::make_handle(name)}
-            , phase_ptr{p}
-            {
-                if(p != nullptr)
-                {
-                    // TODO
-                }
-                
-                if(recording)
-                    start_recording();
-            }
+            , type{std::move(region_t)}
+            {}
+
+            /**
+             * \brief The copy constructor.
+             *
+             * Copying regions is prohibited; regions are intended to be
+             * unique.
+             */
+            region(const region&) = delete;
+
+            /**
+             * \brief The copy assignment operator.
+             *
+             * Copying regions is prohibited; regions are intended to be
+             * unique.
+             */
+            auto operator=(const region&) -> region& = delete;
+
+            /**
+             * \brief The move constructor.
+             *
+             * Regions are intended to be unique. This means that moving
+             * regions is allowed. Moving a region will invalidate it since
+             * the internal state is transferred to the new region.
+             *
+             * \param other The region from which this region is constructed.
+             */
+            region(region&& other) = default;
+
+            /**
+             * \brief The move assignment operator.
+             *
+             * Regions are intended to be unique. This means that moving
+             * regions is allowed. Moving a region will invalidate it since
+             * the internal state is transferred to the new region.
+             *
+             * \param rhs The region moved to this region.
+             */
+            auto operator=(region&& rhs) -> region& = default;
 
             /**
              * The region destructor. Unless stop_recording() has been
@@ -116,8 +167,11 @@ namespace bactria
              */
             auto start_recording() -> void
             {
-                handle->start_recording();
-                recording = true;
+                if(!recording)
+                {
+                    handle->start_recording();
+                    recording = true;
+                }
             }
 
             /**
@@ -126,8 +180,11 @@ namespace bactria
              */
             auto stop_recording() -> void
             {
-                handle->stop_recording();
-                recording = false;
+                if(recording)
+                {
+                    handle->stop_recording();
+                    recording = false;
+                }
             }
 
             /**
@@ -199,11 +256,11 @@ namespace bactria
             }
         
         private:
-            std::string name;
-            region_type type;
-            bool recording;
-            std::unique_ptr<plugin::handle> handle;
-            const phase* phase_ptr;
+            std::string name {"BACTRIA_GENERIC_REGION"};
+            region_type type {generic_region_type{}};
+            bool recording {false};
+            std::unique_ptr<plugin::handle> handle {plugin::handle::make_handle(name)};
+            const phase* phase_ptr {nullptr};
     };
 }
 
