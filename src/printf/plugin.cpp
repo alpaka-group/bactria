@@ -23,25 +23,32 @@ namespace bactria::plugin
     class printf_handle : public handle
     {
         public:
-            printf_handle(const std::string& handle_name)
-            : name{handle_name}
+            printf_handle(std::string handle_name)
+            : handle()
+            , name{std::move(handle_name)}
             {
-                std::cout << name << " initialized." << std::endl;
+                std::cout << name << " initialized.\n";
             }
 
-            virtual ~printf_handle() noexcept
+            [[gnu::destructor]]
+            ~printf_handle() noexcept override
             {
-                std::cout << "printf dtor reached" << std::endl;
+                std::cout << "printf dtor reached\n";
             }
 
-            virtual auto start_recording() -> void
+            auto start_recording() -> void override
             {
-                std::cout << "Entering " << name << std::endl;
+                std::cout << "Entering " << name << '\n';
             }
 
-            virtual auto stop_recording() -> void
+            auto stop_recording() -> void override
             {
-                std::cout << "Leaving " << name << std::endl;
+                std::cout << "Leaving " << name << '\n';
+            }
+
+            auto record_event(event e) -> void override
+            {
+                std::cout << "Event " << e.get_name() << " reached\n";
             }
 
         private:
@@ -49,7 +56,7 @@ namespace bactria::plugin
     };
 }
 
-extern "C" auto plugin_make_handle(const std::string& name) -> bactria::plugin::handle*
+extern "C" auto plugin_make_handle(std::string name) -> bactria::plugin::handle*
 {
-    return new bactria::plugin::printf_handle(name);
+    return new bactria::plugin::printf_handle(std::move(name));
 }

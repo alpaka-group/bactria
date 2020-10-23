@@ -31,16 +31,21 @@ namespace bactria::plugin
             static auto make_handle(const std::string&) -> std::unique_ptr<handle>;
             virtual ~handle() noexcept = 0;
 
+            handle(const handle&) noexcept = default;
+            auto operator=(const handle&) noexcept -> handle& = default;
+
+            handle(handle&&) noexcept = default;
+            auto operator=(handle&&) noexcept -> handle& = default;
+
             virtual auto start_recording() -> void = 0;
             virtual auto stop_recording() -> void = 0;
             virtual auto record_event(event) -> void = 0;
+
         protected:
-            handle()
-            : library_handle{nullptr}
-            {}
+            handle() noexcept {}
 
         private:
-            void* library_handle; // The corresponding library file
+            void* library_handle = nullptr; // The corresponding library file
     };
 
     handle::~handle() noexcept
@@ -55,6 +60,7 @@ namespace bactria::plugin
                 std::cerr << "Shutting down." << std::endl;
                 std::exit(EXIT_FAILURE);
             }
+            library_handle = nullptr;
             std::cout << "Library handle closed." << std::endl;
         }
     }
@@ -108,4 +114,4 @@ namespace bactria::plugin
     }
 }
 
-extern "C" auto plugin_make_handle(const std::string& name) -> bactria::plugin::handle*;
+extern "C" auto plugin_make_handle(std::string name) -> bactria::plugin::handle*;
