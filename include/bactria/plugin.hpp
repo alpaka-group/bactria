@@ -50,18 +50,18 @@ namespace bactria::plugin
 
     handle::~handle() noexcept
     {
-        std::cout << "Destructor reached" << std::endl;
+        std::cout << "Destructor reached\n";
         if(library_handle != nullptr)
         {
-            std::cout << "Closing library handle." << std::endl;
+            std::cout << "Closing library handle.\n";
             if(auto err = dlclose(library_handle); err != 0)
             {
-                std::cerr << "FATAL ERROR: dlclose() failed. " << dlerror() << std::endl;
-                std::cerr << "Shutting down." << std::endl;
+                std::cerr << "FATAL ERROR: dlclose() failed. " << dlerror() << '\n';
+                std::cerr << "Shutting down.\n";
                 std::exit(EXIT_FAILURE);
             }
             library_handle = nullptr;
-            std::cout << "Library handle closed." << std::endl;
+            std::cout << "Library handle closed.\n";
         }
     }
 
@@ -86,9 +86,9 @@ namespace bactria::plugin
                 {
                     std::cerr << "WARNING: Error while loading symbol for "
                               << " make_plugin_handle(): " << dlerror()
-                              << std::endl;
+                              << '\n';
 
-                    std::cerr << "bactria will be disabled." << std::endl;
+                    std::cerr << "bactria will be disabled.\n";
 
                     return nullptr;
                 }
@@ -99,8 +99,8 @@ namespace bactria::plugin
             {
                 std::cerr << "WARNING: Error while loading bactria plugin: "
                           << dlerror()
-                          << std::endl;
-                std::cerr << "Bactria will be deactivated." << std::endl;
+                          << '\n';
+                std::cerr << "Bactria will be deactivated.\n";
                 
                 return nullptr;
             }
@@ -108,7 +108,7 @@ namespace bactria::plugin
         else
         {
             std::cerr << "WARNING: No bactria plugin specified. "
-                      << "Bactria will be deactivated." << std::endl;
+                      << "Bactria will be deactivated.\n";
             return nullptr;
         }
     }
