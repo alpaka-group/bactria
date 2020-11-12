@@ -14,49 +14,93 @@
  */
 
 #include <iostream>
-#include <string>
 
 #include <bactria/plugin.hpp>
 
-namespace bactria::plugin
+namespace bactria::plugin::printf
 {
-    class printf_handle : public handle
+    struct phase
     {
-        public:
-            printf_handle(std::string handle_name)
-            : handle()
-            , name{std::move(handle_name)}
-            {
-                std::cout << name << " initialized.\n";
-            }
+        const char* name;
+    };
 
-            [[gnu::destructor]]
-            ~printf_handle() noexcept override
-            {
-                std::cout << "printf dtor reached\n";
-            }
+    struct region
+    {
+        const char* name;
+        phase* p;
+    };
 
-            auto start_recording() -> void override
-            {
-                std::cout << "Entering " << name << '\n';
-            }
-
-            auto stop_recording() -> void override
-            {
-                std::cout << "Leaving " << name << '\n';
-            }
-
-            auto record_event(event e) -> void override
-            {
-                std::cout << "Event " << e.get_name() << " reached\n";
-            }
-
-        private:
-            std::string name;
+    struct event
+    {
+        const char* name;
     };
 }
 
-extern "C" auto plugin_make_handle(std::string name) -> bactria::plugin::handle*
+extern "C"
 {
-    return new bactria::plugin::printf_handle(std::move(name));
+    [[clang::acquire_handle("bactria region")]]
+    auto bactria_plugin_create_region(const char* name) noexcept -> void*
+    {
+        return new bactria::plugin::printf::region{name, nullptr};
+    }
+
+    auto bactria_plugin_destroy_region(void* region_handle [[clang::release_handle("bactria region")]]) noexcept -> void
+    {
+        auto region = static_cast<bactria::plugin::printf::region*>(region_handle);
+        delete region;
+    }
+
+    [[clang::acquire_handle("bactria phase")]]
+    auto bactria_plugin_create_phase(const char* name) noexcept -> void*
+    {
+        return new bactria::plugin::printf::phase{name};
+    }
+    
+    auto bactria_plugin_destroy_phase(void* phase_handle [[clang::release_handle("bactria phase")]]) noexcept -> void
+    {
+        auto phase = static_cast<bactria::plugin::printf::phase*>(phase_handle);
+        delete phase;
+    }
+
+    [[clang::acquire_handle("bactria event")]]
+    auto bactria_plugin_create_event(const char* name) noexcept -> void*
+    {
+        return new bactria::plugin::printf::event{name};
+    }
+    
+    auto bactria_plugin_destroy_event(void* event_handle [[clang::release_handle("bactria event")]]) noexcept -> void
+    {
+        auto event = static_cast<bactria::plugin::printf::event*>(event_handle);
+        delete event;
+    }
+
+    auto bactria_plugin_assign_region_phase(void* region_handle [[clang::use_handle("bactria region")]],
+                                            void* phase_handle [[clang::use_handle("bactria phase")]]) noexcept -> void
+    {
+        auto region = static_cast<bactria::plugin::printf::region*>(region_handle);
+        auto phase = static_cast<bactria::plugin::printf::phase*>(phase_handle);
+
+        region->p = phase;
+    }
+
+    auto bactria_plugin_start_recording(void* region_handle [[clang::use_handle("bactria region")]]) noexcept -> void
+    {
+        const auto region = static_cast<bactria::plugin::printf::region*>(region_handle);
+        std::cout << "Entering region " << region->name << '\n';
+    }
+
+    auto bactria_plugin_stop_recording(void* region_handle [[clang::use_handle("bactria region")]]) noexcept-> void
+    {
+        const auto region = static_cast<bactria::plugin::printf::region*>(region_handle);
+        std::cout << "Leaving region " << region->name << '\n';
+    }
+
+    auto bactria_plugin_record_event(void* region_handle [[clang::use_handle("bactria region")]],
+                                     void* event_handle [[clang::use_handle("bactria event")]]) noexcept -> void
+    {
+        const auto region = static_cast<bactria::plugin::printf::region*>(region_handle);
+        const auto event = static_cast<bactria::plugin::printf::event*>(event_handle);
+
+        std::cout << "Recording event " << event->name << " in region " << region->name << '\n';
+    }
 }
