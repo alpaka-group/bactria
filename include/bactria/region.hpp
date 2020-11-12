@@ -159,6 +159,9 @@ namespace bactria
             {
                 if(recording)
                     stop_recording();
+
+                plugin::destroy_region(region_handle);
+                plugin::unload_plugin(plugin_handle);
             }
 
             /**
@@ -169,7 +172,7 @@ namespace bactria
             {
                 if(!recording)
                 {
-                    handle->start_recording();
+                    plugin::start_recording(region_handle);
                     recording = true;
                 }
             }
@@ -182,7 +185,7 @@ namespace bactria
             {
                 if(recording)
                 {
-                    handle->stop_recording();
+                    plugin::stop_recording(region_handle);
                     recording = false;
                 }
             }
@@ -208,9 +211,9 @@ namespace bactria
             /**
              * Record a user-defined event.
              */
-            auto record_event(event e) -> void
+            auto record_event(event& e) -> void
             {
-                handle->record_event(e);
+                plugin::record_event(region_handle, e.event_handle);
             }
 
             /**
@@ -259,7 +262,10 @@ namespace bactria
             std::string name {"BACTRIA_GENERIC_REGION"};
             region_type type {generic_region_type{}};
             bool recording {false};
-            std::unique_ptr<plugin::handle> handle {plugin::handle::make_handle(name)};
+
+            plugin::plugin_handle_t plugin_handle{plugin::load_plugin()};
+
+            void* region_handle{plugin::create_region(name.c_str())};
             const phase* phase_ptr {nullptr};
     };
 }

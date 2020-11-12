@@ -16,6 +16,8 @@
 #ifndef BACTRIA_EVENT_HPP
 #define BACTRIA_EVENT_HPP
 
+#include <bactria/plugin.hpp>
+
 #include <string>
 #include <utility>
 
@@ -31,6 +33,7 @@ namespace bactria
      */
     class event
     {
+        friend class region;
         public:
             event() = default;
 
@@ -44,12 +47,29 @@ namespace bactria
             : name{std::move(event_name)}
             {}
 
-            event(const event& other) = default;
-            auto operator=(const event& rhs) -> event& = default;
+            event(const event& other)
+            : name{other.name}
+            , plugin_handle{plugin::load_plugin()} // increase reference counter
+            , event_handle{plugin::create_event(name.c_str())}
+            {}
+
+            auto operator=(const event& rhs) -> event&
+            {
+                name = rhs.name;
+                plugin_handle = plugin::load_plugin(); // increase reference counter
+                event_handle = plugin::create_event(name.c_str());
+
+                return *this;
+            }
+            
             event(event&& other) = default;
             auto operator=(event&& rhs) -> event& = default;
 
-            virtual ~event() = default;
+            virtual ~event()
+            {
+                plugin::destroy_event(event_handle);
+                plugin::unload_plugin(plugin_handle);
+            }
 
             /**
              * Returns the event name.
@@ -61,6 +81,10 @@ namespace bactria
 
         protected:
             std::string name = "BACTRIA_GENERIC_EVENT";
+
+        private:
+            plugin::plugin_handle_t plugin_handle{plugin::load_plugin()};
+            void* event_handle{plugin::create_event(name.c_str())};
     };
 
     /**

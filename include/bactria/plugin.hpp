@@ -13,105 +13,136 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#include <cstdlib>
-#include <functional>
-#include <iostream>
-#include <memory>
-#include <string>
-
-#include <dlfcn.h>
+#ifndef BACTRIA_PLUGIN_HPP
+#define BACTRIA_PLUGIN_HPP
 
 #include <bactria/event.hpp>
+#include <bactria/detail/plugin_interface.hpp>
+#include <bactria/detail/posix.hpp>
+#include <bactria/detail/win32.hpp>
 
 namespace bactria::plugin
 {
-    class handle
-    {
-        public:
-            static auto make_handle(const std::string&) -> std::unique_ptr<handle>;
-            virtual ~handle() noexcept = 0;
+    using plugin_handle_t = detail::plugin_handle_t;
 
-            handle(const handle&) noexcept = default;
-            auto operator=(const handle&) noexcept -> handle& = default;
-
-            handle(handle&&) noexcept = default;
-            auto operator=(handle&&) noexcept -> handle& = default;
-
-            virtual auto start_recording() -> void = 0;
-            virtual auto stop_recording() -> void = 0;
-            virtual auto record_event(event) -> void = 0;
-
-        protected:
-            handle() noexcept {}
-
-        private:
-            void* library_handle = nullptr; // The corresponding library file
-    };
-
-    handle::~handle() noexcept
-    {
-        std::cout << "Destructor reached\n";
-        if(library_handle != nullptr)
-        {
-            std::cout << "Closing library handle.\n";
-            if(auto err = dlclose(library_handle); err != 0)
-            {
-                std::cerr << "FATAL ERROR: dlclose() failed. " << dlerror() << '\n';
-                std::cerr << "Shutting down.\n";
-                std::exit(EXIT_FAILURE);
-            }
-            library_handle = nullptr;
-            std::cout << "Library handle closed.\n";
-        }
-    }
-
-    auto handle::make_handle(const std::string& name) -> std::unique_ptr<handle>
+    auto load_plugin() noexcept(false) -> plugin_handle_t
     {
         if(const auto path = std::getenv("BACTRIA_PLUGIN"); path != nullptr)
         {
-            if(auto library_handle = dlopen(path, RTLD_NOW); library_handle != nullptr)
-            {
-                using make_signature = handle* (const std::string&);
+            auto handle = detail::open_plugin(path);
 
-                auto plugin_handle = std::unique_ptr<handle>(nullptr);
+            detail::load_func(handle, detail::create_region_ptr, "bactria_plugin_create_region");
+            detail::load_func(handle, detail::destroy_region_ptr, "bactria_plugin_destroy_region");
+            detail::load_func(handle, detail::create_phase_ptr, "bactria_plugin_create_phase");
+            detail::load_func(handle, detail::destroy_phase_ptr, "bactria_plugin_destroy_phase");
+            detail::load_func(handle, detail::create_event_ptr, "bactria_plugin_create_event");
+            detail::load_func(handle, detail::destroy_event_ptr, "bactria_plugin_destroy_event");
+            detail::load_func(handle, detail::assign_region_phase_ptr, "bactria_plugin_assign_region_phase");
+            detail::load_func(handle, detail::start_recording_ptr, "bactria_plugin_start_recording");
+            detail::load_func(handle, detail::stop_recording_ptr, "bactria_plugin_stop_recording");
+            detail::load_func(handle, detail::record_event_ptr, "bactria_plugin_record_event");
 
-                if(auto make = reinterpret_cast<make_signature*>(
-                                dlsym(library_handle, "plugin_make_handle"));
-                    make != nullptr)
-                {
-                    plugin_handle.reset(make(name));
-                    plugin_handle->library_handle = library_handle;
-                }
-                else
-                {
-                    std::cerr << "WARNING: Error while loading symbol for "
-                              << " make_plugin_handle(): " << dlerror()
-                              << '\n';
-
-                    std::cerr << "bactria will be disabled.\n";
-
-                    return nullptr;
-                }
-
-                return plugin_handle;
-            }
-            else
-            {
-                std::cerr << "WARNING: Error while loading bactria plugin: "
-                          << dlerror()
-                          << '\n';
-                std::cerr << "Bactria will be deactivated.\n";
-                
-                return nullptr;
-            }
+            return handle;
         }
-        else
-        {
-            std::cerr << "WARNING: No bactria plugin specified. "
-                      << "Bactria will be deactivated.\n";
-            return nullptr;
-        }
+
+        // getenv failed
+        throw std::runtime_error{"BACTRIA_PLUGIN not specified"};
+    }
+
+    auto unload_plugin(plugin_handle_t handle) noexcept
+    {
+        detail::close_plugin(handle);
+    }
+
+    [[gnu::always_inline, clang::acquire_handle("bactria region")]]
+    inline auto create_region(const char* name) noexcept
+    {
+        return (detail::create_region_ptr)(name);
+    }
+
+    [[gnu::always_inline]]
+    inline auto destroy_region(void* region_handle [[clang::release_handle("bactria region")]]) noexcept
+    {
+        (detail::destroy_region_ptr)(region_handle);
+    }
+
+    [[gnu::always_inline, clang::acquire_handle("bactria phase")]]
+    inline auto create_phase(const char* name) noexcept
+    {
+        return (detail::create_phase_ptr)(name);
+    }
+
+    [[gnu::always_inline]]
+    inline auto destroy_phase(void* phase_handle [[clang::release_handle("bactria phase")]]) noexcept
+    {
+        (detail::destroy_phase_ptr)(phase_handle);
+    }
+
+    [[gnu::always_inline, clang::acquire_handle("bactria event")]]
+    inline auto create_event(const char* name) noexcept
+    {
+        return (detail::create_event_ptr)(name);
+    }
+
+    [[gnu::always_inline]]
+    inline auto destroy_event(void* event_handle [[clang::release_handle("bactria event")]]) noexcept
+    {
+        (detail::destroy_event_ptr)(event_handle);
+    }
+
+    [[gnu::always_inline]]
+    inline auto assign_region_phase(void* region_handle [[clang::use_handle("bactria region")]],
+                                    void* phase_handle [[clang::use_handle("bactria phase")]]) noexcept
+    {
+        (detail::assign_region_phase_ptr)(region_handle, phase_handle);
+    }
+
+    [[gnu::always_inline]]
+    inline auto start_recording(void* region_handle [[clang::use_handle("bactria region")]]) noexcept
+    {
+        (detail::start_recording_ptr)(region_handle);
+    }
+
+    [[gnu::always_inline]]
+    inline auto stop_recording(void* region_handle [[clang::use_handle("bactria region")]]) noexcept
+    {
+        (detail::stop_recording_ptr)(region_handle);
+    }
+
+    [[gnu::always_inline]]
+    inline auto record_event(void* region_handle [[clang::use_handle("bactria region")]],
+                             void* event_handle [[clang::use_handle("bactria event")]]) noexcept
+    {
+        (detail::record_event_ptr)(region_handle, event_handle);
     }
 }
 
-extern "C" auto plugin_make_handle(std::string name) -> bactria::plugin::handle*;
+extern "C"
+{
+    [[clang::acquire_handle("bactria region")]]
+    auto bactria_plugin_create_region(const char* name) noexcept -> void*;
+
+    auto bactria_plugin_destroy_region(void* region_handle [[clang::release_handle("bactria region")]]) noexcept -> void;
+
+    [[clang::acquire_handle("bactria phase")]]
+    auto bactria_plugin_create_phase(const char* name) noexcept -> void*;
+    
+    auto bactria_plugin_destroy_phase(void* phase_handle [[clang::release_handle("bactria phase")]]) noexcept -> void;
+
+    [[clang::acquire_handle("bactria event")]]
+    auto bactria_plugin_create_event(const char* name) noexcept -> void*;
+    
+    auto bactria_plugin_destroy_event(void* event_handle [[clang::release_handle("bactria event")]]) noexcept -> void;
+
+    auto bactria_plugin_assign_region_phase(void* region_handle [[clang::use_handle("bactria region")]],
+                                            void* phase_handle [[clang::use_handle("bactria phase")]]) noexcept -> void;
+
+    auto bactria_plugin_start_recording(void* region_handle [[clang::use_handle("bactria region")]]) noexcept -> void;
+
+    auto bactria_plugin_stop_recording(void* region_handle [[clang::use_handle("bactria region")]]) noexcept-> void;
+
+    auto bactria_plugin_record_event(void* region_handle [[clang::use_handle("bactria region")]],
+                                     void* event_handle [[clang::use_handle("bactria event")]]) noexcept -> void;
+}
+
+#endif
