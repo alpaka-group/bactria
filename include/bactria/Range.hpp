@@ -18,7 +18,7 @@
 
 #   include <bactria/Colors.hpp>
 #   include <bactria/Plugin.hpp>
-#   include <bactria/Record.hpp>
+#   include <bactria/Marker.hpp>
 
 #   include <cstdint>
 #   include <string>
@@ -26,23 +26,23 @@
 
 namespace bactria
 {
-    class Range : public Record
+    class Range : public Marker
     {
     public:
-        Range() : Record("BACTRIA_GENERIC_RANGE", bactria::color::blue, Category{})
+        Range() : Marker("BACTRIA_GENERIC_RANGE", bactria::color::blue, Category{})
         {}
 
         Range(std::string name, std::uint32_t color = bactria::color::blue, Category category = Category{})
-        : Record(std::move(name), color, std::move(category))
+        : Marker(std::move(name), color, std::move(category))
         {}
 
         Range(Range const& other)
-        : Record(other), m_handle{plugin::create_range(m_name.c_str(), m_color, m_category.id)}
+        : Marker(other), m_handle{plugin::create_range(m_name.c_str(), m_color, m_category.id)}
         {}
 
         auto operator=(Range const& rhs) -> Range&
         {
-            Record::operator=(rhs);
+            Marker::operator=(rhs);
             m_handle = plugin::create_range(m_name.c_str(), m_color, m_category.id);
 
             return *this;

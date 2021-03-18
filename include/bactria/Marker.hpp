@@ -13,8 +13,8 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_RECORD_HPP
-#   define BACTRIA_RECORD_HPP
+#ifndef BACTRIA_MARKER_HPP
+#   define BACTRIA_MARKER_HPP
 
 #   include <bactria/Colors.hpp>
 #   include <bactria/Category.hpp>
@@ -25,22 +25,22 @@
 
 namespace bactria
 {
-    class Record
+    class Marker
     {
         public:
-            Record() = default;
+            Marker() = default;
 
-            Record(std::string name, std::uint32_t color, Category category)
+            Marker(std::string name, std::uint32_t color, Category category)
             : m_name{std::move(name)}, m_color{color}, m_category{std::move(category)}
             {}
 
-            Record(Record const&) = default;
-            auto operator=(Record const&) -> Record& = default;
+            Marker(Marker const&) = default;
+            auto operator=(Marker const&) -> Marker& = default;
 
-            Record(Record&&) = default;
-            auto operator=(Record&&) -> Record& = default;
+            Marker(Marker&&) = default;
+            auto operator=(Marker&&) -> Marker& = default;
 
-            virtual ~Record() = default;
+            virtual ~Marker() = default;
 
             virtual auto get_name() const noexcept -> const std::string&
             {
@@ -58,7 +58,7 @@ namespace bactria
             }
 
         protected:
-            std::string m_name{"BACTRIA_GENERIC_RECORD"};
+            std::string m_name{"BACTRIA_GENERIC_MARKER"};
             std::uint32_t m_color{bactria::color::orange};
             Category m_category{};
     };

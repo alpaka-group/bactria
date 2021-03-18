@@ -18,7 +18,7 @@
 
 #   include <bactria/Colors.hpp>
 #   include <bactria/Plugin.hpp>
-#   include <bactria/Record.hpp>
+#   include <bactria/Marker.hpp>
 
 
 #   include <string>
@@ -31,24 +31,24 @@ namespace bactria
      * through the region interface. He can either use the generic event
      * class or use one of the derived types for special cases.
      */
-    class Event : public Record
+    class Event : public Marker
     {
         public:
-            Event() : Record("BACTRIA_GENERIC_EVENT", bactria::color::orange, Category{})
+            Event() : Marker("BACTRIA_GENERIC_EVENT", bactria::color::orange, Category{})
             {}
 
             Event(std::string name, std::uint32_t color = bactria::color::orange, Category category = Category{})
-            : Record(std::move(name), color, std::move(category))
+            : Marker(std::move(name), color, std::move(category))
             {}
 
             Event(const Event& other)
-            : Record(other)
+            : Marker(other)
             , m_handle{plugin::create_event(m_name.c_str(), m_color, m_category.id)}
             {}
 
             auto operator=(const Event& rhs) -> Event&
             {
-                Record::operator=(rhs);
+                Marker::operator=(rhs);
                 m_handle = plugin::create_event(m_name.c_str(), m_color, m_category.id);
 
                 return *this;
