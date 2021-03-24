@@ -20,12 +20,8 @@
 
 #   include <cstdint>
 
-auto enter_generic(sector* sec [[clang::use_handle("bactria sector")]],
-                   char const* source, std::uint32_t lineno, char const* caller) -> void;
-
-auto leave_generic(sector* sec [[clang::use_handle("bactria sector")]],
-                   char const* source, std::uint32_t lineno, char const* caller) -> void;
-
-auto generic_summary(sector* sec [[clang::use_handle("bactria sector")]]) -> void;
+auto enter_generic(sector* sec, char const* source, std::uint32_t lineno, char const* caller) -> void;
+auto leave_generic(sector* sec, char const* source, std::uint32_t lineno, char const* caller) -> void;
+auto generic_summary(sector* sec) -> void;
 
 #endif

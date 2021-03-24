@@ -13,6 +13,14 @@
  *  Licence permissions and limitations under the Licence.
  */
 
+/**
+ * \file Tags.hpp
+ * \brief bactria's Tag include file.
+ *
+ * This file defines a number of tags that can be used to add more details to a Sector.
+ * It should not be included directly by the user.
+ */
+
 #ifndef BACTRIA_TAGS_HPP
 #   define BACTRIA_TAGS_HPP
 
@@ -20,21 +28,48 @@
 
 namespace bactria
 {
+    /**
+     * \ingroup Instrumentation
+     * \brief The generic tag.
+     *
+     * Used for defining a generic Sector.
+     */
     struct Generic
     {
         static constexpr auto id = 1u;
     };
 
+    /**
+     * \ingroup Instrumentation
+     * \brief The function tag.
+     *
+     * Used for defining a Sector that instruments a function.
+     */
     struct Function
     {
         static constexpr auto id = 2u;
     };
 
+    /**
+     * \ingroup Instrumentation
+     * \brief The loop tag.
+     *
+     * Used for defining a Sector that instruments an entire loop.
+     * \sa Body
+     */
     struct Loop
     {
         static constexpr auto id = 3u;
     };
 
+    /**
+     * \ingroup Instrumentation
+     * \brief The body tag.
+     *
+     * Used for defining a Sector that instruments a (loop) body. This will result in separate
+     * instrumentation paths for each (loop) iteration of the Sector.
+     * \sa Loop
+     */
     struct Body
     {
         static constexpr auto id = 4u;

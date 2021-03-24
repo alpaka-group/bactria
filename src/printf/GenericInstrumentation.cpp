@@ -19,22 +19,20 @@
 
 #include <cstdint>
 
-auto enter_generic(sector* sec [[clang::use_handle("bactria sector")]],
-                   char const* source, std::uint32_t lineno, char const* caller)
+auto enter_generic(sector* sec, char const* source, std::uint32_t lineno, char const* caller)
 {
     auto const parents = sector_stack.size();
     fmt::print("{:>{}} Entering sector {} in {}() - {}:{}.\n", "|", 4u * parents, sec->name, caller, source, lineno);
     sector_stack.push(sec);
 }
 
-auto leave_generic(sector* sec [[clang::use_handle("bactria sector")]],
-                   char const* source, std::uint32_t lineno, char const* caller)
+auto leave_generic(sector* sec, char const* source, std::uint32_t lineno, char const* caller)
 {
     const auto parents = sector_stack.size();
     fmt::print("{:>{}} Leaving sector {} in {}() - {}:{}.\n", "|", 4u * (parents - 1u), sec->name, caller, source, lineno);
     handle_pop(sec);
 }
 
-auto generic_summary(sector* sec [[maybe_unused, clang::use_handle("bactria sector")]])
+auto generic_summary(sector* sec [[maybe_unused]])
 {
 }

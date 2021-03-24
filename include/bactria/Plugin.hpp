@@ -13,12 +13,23 @@
  *  Licence permissions and limitations under the Licence.
  */
 
+/**
+ * \file Plugin.hpp
+ * \brief Library-facing plugin interface.
+ *
+ * This file includes the library's view of the plugin functionality. This should never be included by the user. As
+ * the functionality defined here is intended for bactria's internal use the user should never use anything found
+ * in this file.
+ */
+
 #ifndef BACTRIA_PLUGIN_HPP
 #   define BACTRIA_PLUGIN_HPP
 
 #   include <bactria/detail/PluginInterface.hpp>
 #   include <bactria/detail/POSIX.hpp>
 #   include <bactria/detail/Win32.hpp>
+
+#   include <iostream>
 
 namespace bactria
 {
@@ -57,7 +68,8 @@ namespace bactria
             }
 
             // getenv failed
-            throw std::runtime_error{"BACTRIA_PLUGIN not specified"};
+            std::cerr << "BACTRIA_PLUGIN not specified. Plugin functionality deactivated." << std::endl;
+            return plugin_handle_t{};
         }
 
         auto unload_plugin(plugin_handle_t handle) noexcept
@@ -65,104 +77,120 @@ namespace bactria
             detail::close_plugin(handle);
         }
 
-        [[nodiscard, gnu::always_inline, clang::acquire_handle("bactria event")]]
-        inline auto create_event(const char* name, std::uint32_t color, std::uint32_t category) noexcept
+        [[nodiscard, gnu::always_inline]]
+        inline auto create_event(std::uint32_t color, char const* cat_name, std::uint32_t cat_id) noexcept
         {
-            return (detail::create_event_ptr)(name, color, category);
+            if(detail::create_event_ptr != nullptr)
+                return (detail::create_event_ptr)(color, cat_name, cat_id);
+
+            return static_cast<void*>(nullptr);
+        }
+
+        [[gnu::always_inline]] inline auto destroy_event(void* event_handle) noexcept
+        {
+            if(detail::destroy_event_ptr != nullptr)
+                (detail::destroy_event_ptr)(event_handle);
+        }
+
+        [[gnu::always_inline]] inline auto fire_event(void* event_handle, char const* event_name, char const* source,
+                                                      std::uint32_t lineno, char const* caller) noexcept
+        {
+            if(detail::fire_event_ptr != nullptr)
+                (detail::fire_event_ptr)(event_handle, event_name, source, lineno, caller);
+        }
+
+        [[nodiscard, gnu::always_inline]]
+        inline auto create_range(char const* name, std::uint32_t color, char const* cat_name,
+                                 std::uint32_t cat_id) noexcept
+        {
+            if(detail::create_range_ptr != nullptr)
+                return (detail::create_range_ptr)(name, color, cat_name, cat_id);
+
+            return static_cast<void*>(nullptr);
+        }
+
+        [[gnu::always_inline]] inline auto destroy_range(void* range_handle) noexcept
+        {
+            if(detail::destroy_range_ptr != nullptr)
+                (detail::destroy_range_ptr)(range_handle);
+        }
+
+        [[gnu::always_inline]] inline auto start_range(void* range_handle) noexcept
+        {
+            if(detail::start_range_ptr != nullptr)
+                (detail::start_range_ptr)(range_handle);
+        }
+
+        [[gnu::always_inline]] inline auto stop_range(void* range_handle) noexcept
+        {
+            if(detail::stop_range_ptr != nullptr)
+                (detail::stop_range_ptr)(range_handle);
+        }
+
+        [[nodiscard, gnu::always_inline]] inline auto create_sector(char const* name, std::uint32_t tag) noexcept
+        {
+            if(detail::create_sector_ptr != nullptr)
+                return (detail::create_sector_ptr)(name, tag);
+
+            return static_cast<void*>(nullptr);
+        }
+
+        [[gnu::always_inline]] inline auto destroy_sector(void* sector_handle) noexcept
+        {
+            if(detail::destroy_sector_ptr != nullptr)
+                (detail::destroy_sector_ptr)(sector_handle);
         }
 
         [[gnu::always_inline]]
-        inline auto destroy_event(void* event_handle [[clang::release_handle("bactria event")]]) noexcept
+        inline auto enter_sector(void* sector_handle, char const* source, std::uint32_t lineno,
+                                 char const* caller) noexcept
         {
-            (detail::destroy_event_ptr)(event_handle);
+            if(detail::enter_sector_ptr != nullptr)
+                (detail::enter_sector_ptr)(sector_handle, source, lineno, caller);
         }
 
         [[gnu::always_inline]]
-        inline auto fire_event(void* event_handle [[clang::use_handle("bactria event")]]) noexcept
+        inline auto leave_sector(void* sector_handle, char const* source, std::uint32_t lineno,
+                                 char const* caller) noexcept
         {
-            (detail::fire_event_ptr)(event_handle);
+            if(detail::leave_sector_ptr != nullptr)
+                (detail::leave_sector_ptr)(sector_handle, source, lineno, caller);
         }
 
-        [[nodiscard, gnu::always_inline, clang::acquire_handle("bactria range")]]
-        inline auto create_range(const char* name, std::uint32_t color, std::uint32_t category) noexcept
+        [[gnu::always_inline]] inline auto sector_summary(void* sector_handle) noexcept
         {
-            return (detail::create_range_ptr)(name, color, category);
+            if(detail::sector_summary_ptr != nullptr)
+                (detail::sector_summary_ptr)(sector_handle);
         }
 
-        [[gnu::always_inline]]
-        inline auto destroy_range(void* range_handle [[clang::release_handle("bactria range")]]) noexcept
+        [[nodiscard, gnu::always_inline]] inline auto create_phase(char const* name) noexcept
         {
-            (detail::destroy_range_ptr)(range_handle);
+            if(detail::create_phase_ptr != nullptr)
+                return (detail::create_phase_ptr)(name);
+
+            return static_cast<void*>(nullptr);
         }
 
-        [[gnu::always_inline]]
-        inline auto start_range(void* range_handle [[clang::use_handle("bactria range")]]) noexcept
+        [[gnu::always_inline]] inline auto destroy_phase(void* phase_handle) noexcept
         {
-            (detail::start_range_ptr)(range_handle);
-        }
-
-        [[gnu::always_inline]]
-        inline auto stop_range(void* range_handle [[clang::use_handle("bactria range")]]) noexcept
-        {
-            (detail::stop_range_ptr)(range_handle);
-        }
-
-        [[nodiscard, gnu::always_inline, clang::acquire_handle("bactria sector")]]
-        inline auto create_sector(const char* name, std::uint32_t tag) noexcept
-        {
-            return (detail::create_sector_ptr)(name, tag);
+            if(detail::destroy_range_ptr != nullptr)
+                (detail::destroy_phase_ptr)(phase_handle);
         }
 
         [[gnu::always_inline]]
-        inline auto destroy_sector(void* sector_handle [[clang::release_handle("bactria sector")]]) noexcept
+        inline auto enter_phase(void* phase_handle, char const* source, std::uint32_t lineno,
+                                char const* caller) noexcept
         {
-            (detail::destroy_sector_ptr)(sector_handle);
+            if(detail::enter_phase_ptr != nullptr)
+                (detail::enter_phase_ptr)(phase_handle, source, lineno, caller);
         }
 
         [[gnu::always_inline]]
-        inline auto enter_sector(void* sector_handle [[clang::use_handle("bactria sector")]],
-                                 const char* source, std::uint32_t lineno, const char* caller) noexcept
+        inline auto leave_phase(void* phase_handle, char const* source, std::uint32_t lineno,
+                                char const* caller) noexcept
         {
-            (detail::enter_sector_ptr)(sector_handle, source, lineno, caller);
-        }
-
-        [[gnu::always_inline]]
-        inline auto leave_sector(void* sector_handle [[clang::use_handle("bactria sector")]],
-                                 const char* source, std::uint32_t lineno, const char* caller) noexcept
-        {
-            (detail::leave_sector_ptr)(sector_handle, source, lineno, caller);
-        }
-
-        [[gnu::always_inline]]
-        inline auto sector_summary(void* sector_handle [[clang::use_handle("bactria sector")]]) noexcept
-        {
-            (detail::sector_summary_ptr)(sector_handle);
-        }
-
-        [[nodiscard, gnu::always_inline, clang::acquire_handle("bactria phase")]]
-        inline auto create_phase(const char* name) noexcept
-        {
-            return (detail::create_phase_ptr)(name);
-        }
-
-        [[gnu::always_inline]]
-        inline auto destroy_phase(void* phase_handle [[clang::release_handle("bactria phase")]]) noexcept
-        {
-            (detail::destroy_phase_ptr)(phase_handle);
-        }
-
-        [[gnu::always_inline]]
-        inline auto enter_phase(void* phase_handle [[clang::use_handle("bactria phase")]],
-                                char const* source, std::uint32_t lineno, char const* caller) noexcept
-        {
-            (detail::enter_phase_ptr)(phase_handle, source, lineno, caller);
-        }
-
-        [[gnu::always_inline]]
-        inline auto leave_phase(void* phase_handle [[clang::use_handle("bactria phase")]],
-                                char const* source, std::uint32_t lineno, char const* caller) noexcept
-        {
-            (detail::leave_phase_ptr)(phase_handle, source, lineno, caller);
+            if(detail::leave_phase_ptr != nullptr)
+                (detail::leave_phase_ptr)(phase_handle, source, lineno, caller);
         }
     }
 }

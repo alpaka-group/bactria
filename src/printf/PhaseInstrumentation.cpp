@@ -21,20 +21,20 @@
 
 #include <cstdint>
 
-auto enter_phase(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void
+auto enter_phase(sector* sec, char const* source, std::uint32_t lineno) -> void
 {
     auto const parents = sector_stack.size();
     fmt::print("{:>{}} Entering phase {} - {}:{}.\n", "|", 4u * parents, sec->name, source, lineno);
     sector_stack.push(sec);
 }
 
-auto leave_phase(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void
+auto leave_phase(sector* sec, char const* source, std::uint32_t lineno) -> void
 {
     auto const parents = sector_stack.size();
     fmt::print("{:>{}} Leaving phase {} - {}:{}.\n", "|", 4u * (parents - 1u), sec->name, source, lineno);
     handle_pop(sec);
 }
 
-auto phase_summary(sector* sec [[maybe_unused, clang::use_handle("bactria sector")]]) -> void
+auto phase_summary(sector* sec [[maybe_unused]]) -> void
 {
 }

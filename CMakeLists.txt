@@ -4,6 +4,8 @@ project("bactria" VERSION 0.0.1
                   DESCRIPTION "Broadly Applicable C++ Tracing and Instrumentation API"
                   LANGUAGES CXX)
 
+include(GNUInstallDirs)
+
 ###############################################################################
 # Options and variants
 ###############################################################################

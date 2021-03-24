@@ -20,9 +20,9 @@
 
 #   include <cstdint>
 
-auto enter_phase(sector* sec [[clang::use_handle("bactria phase")]], char const* source, std::uint32_t lineno) -> void;
-auto leave_phase(sector* sec [[clang::use_handle("bactria phase")]], char const* source, std::uint32_t lineno) -> void;
-auto phase_summary(sector* sec [[maybe_unused, clang::use_handle("bactria phase")]]) -> void;
+auto enter_phase(sector* sec, char const* source, std::uint32_t lineno) -> void;
+auto leave_phase(sector* sec, char const* source, std::uint32_t lineno) -> void;
+auto phase_summary(sector* sec) -> void;
 
 #endif
 

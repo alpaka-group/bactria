@@ -21,20 +21,20 @@
 
 #include <cstdint>
 
-auto enter_loop(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void
+auto enter_loop(sector* sec, char const* source, std::uint32_t lineno) -> void
 {
     auto const parents = sector_stack.size();
     fmt::print("{:>{}} Entering loop {} - {}:{}.\n", "|", 4u * parents, sec->name, source, lineno);
     sector_stack.push(sec);
 }
 
-auto leave_loop(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void
+auto leave_loop(sector* sec, char const* source, std::uint32_t lineno) -> void
 {
     auto const parents = sector_stack.size();
     fmt::print("{:>{}} Leaving loop {} - {}:{}.\n", "|", 4u * (parents - 1u), sec->name, source, lineno);
     handle_pop(sec);
 }
 
-auto loop_summary(sector* sec [[maybe_unused, clang::use_handle("bactria sector")]]) -> void
+auto loop_summary(sector* sec [[maybe_unused]]) -> void
 {
 }

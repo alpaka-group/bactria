@@ -13,6 +13,14 @@
  *  Licence permissions and limitations under the Licence.
  */
 
+/**
+ * \file Marker.hpp
+ * \brief bactria's Marker include file.
+ *
+ * This file contains the definition for the Marker class. It should not be included by the
+ * user.
+ */
+
 #ifndef BACTRIA_MARKER_HPP
 #   define BACTRIA_MARKER_HPP
 
@@ -25,6 +33,18 @@
 
 namespace bactria
 {
+    /**
+     * \defgroup Markers Visualization markers
+     *
+     * These markers enable user-defined highlighting during visualization.
+     * \{
+     */
+
+    /**
+     * \brief The abstract base class for markers.
+     *
+     * This class serves as abstract base for Events and Ranges. It should not be used directly by the user.
+     */
     class Marker
     {
         public:
@@ -42,17 +62,50 @@ namespace bactria
 
             virtual ~Marker() = default;
 
-            virtual auto get_name() const noexcept -> const std::string&
+            /**
+             * \brief Return the marker's name.
+             *
+             * Returns the name assigned to \a this event / range.
+             *
+             * \return The name.
+             */
+            auto get_name() const noexcept -> std::string const&
             {
                 return m_name;
             }
 
-            virtual auto get_color() const noexcept -> std::uint32_t
+            /**
+             * \brief Return the marker's name (C string).
+             *
+             * Returns the name assigned to \a this event / range as a C string.
+             *
+             * \return The name.
+             */
+            auto get_c_name() const noexcept -> char const*
+            {
+                return m_name.c_str();
+            }
+
+            /**
+             * \brief Return the marker's color.
+             *
+             * Returns the color assigned to \a this event / range.
+             *
+             * \return The color.
+             */
+            auto get_color() const noexcept -> std::uint32_t
             {
                 return m_color;
             }
 
-            virtual auto get_category() const noexcept -> const Category&
+            /**
+             * \brief Return the marker's category.
+             *
+             * Returns the Category assigned to \a this event / range.
+             *
+             * \return The Category.
+             */
+            auto get_category() const noexcept -> Category const&
             {
                 return m_category;
             }
@@ -62,6 +115,10 @@ namespace bactria
             std::uint32_t m_color{bactria::color::orange};
             Category m_category{};
     };
+
+    /**
+     * \}
+     */
 }
 
 #endif

@@ -48,11 +48,11 @@ struct sector
 
 extern thread_local std::stack<sector*> sector_stack;
 
-[[gnu::always_inline]] inline auto handle_pop(sector* sec [[clang::use_handle("bactria sector")]])
+[[gnu::always_inline]] inline auto handle_pop(sector* sec)
 {
     if(sector_stack.top() != sec)
     {
-        fmt::print(stderr, fg(fmt::rgb(bactria::color::red)),
+        fmt::print(stderr, fg(fmt::rgb(bactria::color::bactria_red)),
                    "WARNING: enter/leave of sector {} were invalidly nested. This is likely to produce wrong results.\n",
                    sec->name);
     }

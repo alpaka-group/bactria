@@ -29,35 +29,36 @@ namespace
 
     struct event
     {
-        char const* name;
         std::uint32_t color;
-        std::uint32_t category;
+        char const* cat_name;
+        std::uint32_t cat_id;
     };
 
     struct range
     {
         char const* name;
         std::uint32_t color;
-        std::uint32_t category;
+        char const* cat_name;
+        std::uint32_t cat_id;
         std::chrono::steady_clock::time_point start{};
     };
 }
 
 extern "C"
 {
-    [[clang::acquire_handle("bactria event")]]
-    auto bactria_plugin_create_event(char const* name, std::uint32_t color, std::uint32_t category) noexcept -> void*
+    auto bactria_plugin_create_event(std::uint32_t color, char const* cat_name, std::uint32_t cat_id) noexcept -> void*
     {
-        return new event{name, color, category};
+        return new event{color, cat_name, cat_id};
     }
     
-    auto bactria_plugin_destroy_event(void* event_handle [[clang::release_handle("bactria event")]]) noexcept -> void
+    auto bactria_plugin_destroy_event(void* event_handle) noexcept -> void
     {
         auto ev = static_cast<event*>(event_handle);
         delete ev;
     }
 
-    auto bactria_plugin_fire_event(void* event_handle [[clang::use_handle("bactria event")]]) noexcept -> void
+    auto bactria_plugin_fire_event(void* event_handle, char const* event_name, char const* source,
+                                   std::uint32_t lineno, char const* caller) noexcept -> void
     {
 
         using precise_duration = std::chrono::duration<double, std::micro>;
@@ -67,32 +68,33 @@ extern "C"
         auto ev = static_cast<event*>(event_handle);
 
         fmt::print(fg(fmt::rgb(ev->color)),
-                   "Event fired after {:.3}: {} (Category {})\n", elapsed, ev->name, ev->category);
+                   "Event {} (Category {}) fired in {} at {}:{} after {:.3}.\n",
+                   event_name, ev->cat_name, caller, source, lineno, elapsed);
     }
 
-    [[nodiscard, clang::acquire_handle("bactria range")]]
-    auto bactria_plugin_create_range(char const* name, std::uint32_t color, std::uint32_t category) noexcept -> void*
+    auto bactria_plugin_create_range(char const* name, std::uint32_t color,
+                                     char const* cat_name, std::uint32_t cat_id) noexcept -> void*
     {
-        return new range{name, color, category};
+        return new range{name, color, cat_name, cat_id};
     }
 
-    auto bactria_plugin_destroy_range(void* range_handle [[clang::release_handle("bactria range")]]) noexcept -> void
+    auto bactria_plugin_destroy_range(void* range_handle) noexcept -> void
     {
         auto r = static_cast<range*>(range_handle);
         delete r;
     }
 
-    auto bactria_plugin_start_range(void* range_handle [[clang::use_handle("bactria range")]]) noexcept -> void
+    auto bactria_plugin_start_range(void* range_handle) noexcept -> void
     {
         auto const now = std::chrono::steady_clock::now();
 
         auto r = static_cast<range*>(range_handle);
         r->start = now;
 
-        fmt::print(fg(fmt::rgb(r->color)), "Entering range {} (Category {})\n", r->name, r->category);
+        fmt::print(fg(fmt::rgb(r->color)), "Entering range {} (Category {})\n", r->name, r->cat_name);
     }
 
-    auto bactria_plugin_stop_range(void* range_handle [[clang::use_handle("bactria range")]]) noexcept -> void
+    auto bactria_plugin_stop_range(void* range_handle) noexcept -> void
     {
         using precise_duration = std::chrono::duration<double, std::micro>;
 
@@ -102,6 +104,6 @@ extern "C"
         auto const elapsed = std::chrono::duration_cast<precise_duration>(now - r->start);
 
         fmt::print(fg(fmt::rgb(r->color)), "Leaving range {} (Category {}) after {:.3}\n",
-                   r->name, r->category, elapsed);
+                   r->name, r->cat_name, elapsed);
     }
 }

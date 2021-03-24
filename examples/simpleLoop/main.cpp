@@ -26,7 +26,7 @@ auto main() -> int
     try
     {
         /* Initialize bactria. This is required once per process and before any other bactria functionality is used. */
-        auto ctx = bactria::initialize();
+        auto ctx = bactria::Context{};
 
         {
             /* Instrument the main function. Using the bactria_Sector macro will create a sector and immediately start
@@ -48,21 +48,24 @@ auto main() -> int
 
             /* Create a range. Ranges are markers that improve visualization and are completely independent of sectors
              * and phases. Ranges can be used to visualize a time span inside the program. Starting and stopping
-             * ranges does not require any special ordering. */
+             * ranges does not require any special ordering. By default, ranges are started on construction. This
+             * can be switched off by setting the constructor's autostart parameter to false. */
             auto r1 = bactria::Range{"HOW EXPENSIVE IS SECTOR CONSTRUCTION / DESTRUCTION"};
-            r1.start();
             {
                 auto s = bactria_Sector("CONSTRUCTION / DESTRUCTION", bactria::Generic);
             }
+
+            /* Ranges can be stopped manually. If a range goes out of scope before being stopped, the destructor
+             * will stop the range. */
             r1.stop();
 
-            /* Ranges take an optional second parameter for the color. This has to be supplied in ARGB format, e.g.
-             * 0xFF000000 for the color black. A number of colors are predefined in <bactria/Colors.hpp>. */
-            auto r2 = bactria::Range{"HOW EXPENSIVE IS SECTOR ENTER / LEAVE", bactria::color::green };
 
             /* Instrument a generic sector of the code. */
             auto s = bactria::Sector<bactria::Generic>{"ENTER / LEAVE"};
-            r2.start();
+
+            /* Ranges take an optional second parameter for the color. This has to be supplied in ARGB format, e.g.
+             * 0xFF000000 for the color black. A number of colors are predefined in <bactria/Colors.hpp>. */
+            auto r2 = bactria::Range{"HOW EXPENSIVE IS SECTOR ENTER / LEAVE", bactria::color::bactria_green };
             {
                 bactria_Enter(s);
                 bactria_Leave(s);
@@ -75,11 +78,9 @@ auto main() -> int
             auto p2 = bactria::Phase{"LOOP PHASE"};
             bactria_Enter(p2);
 
-            auto r3 = bactria::Range{"LOOP"};
-
             /* Create a loop sector. This will instrument the whole loop but not any individual iterations. */
             auto l = bactria::Sector<bactria::Loop>{"LOOP SECTOR"};
-            r3.start();
+            auto r3 = bactria::Range{"LOOP"};
             bactria_Enter(l);
             for(auto i = 0; i < 20; ++i)
             {
@@ -89,11 +90,14 @@ auto main() -> int
             bactria_Leave(l);
             r3.stop();
 
-            auto r4 = bactria::Range{"LOOP BODY"};
 
             /* Instrument the loop body. Each iteration will be instrumented separately. */
             auto b = bactria::Sector<bactria::Body>{"LOOP BODY"};
-            r4.start();
+            auto r4 = bactria::Range{"LOOP BODY"};
+
+            /* Sectors can be configured to execute user-defined code after entering and/or before leaving
+             * a sector. */
+            b.on_leave([](){ std::cout << "Synchronizing..." << std::endl; });
             for(auto i = 0; i < 20; ++i)
             {
                 bactria_Enter(b);
@@ -102,18 +106,24 @@ auto main() -> int
                 bactria_Leave(b);
             }
             r4.stop();
+
+            /* Evaluate the loop iterations. If summary() is not called at at this point the iterations will
+             * be evaluated once the destructor of the Sector is triggered. */
             b.summary();
 
             bactria_Leave(p2);
 
             /* Events are another type of marker that denote a single point in time. They can be freely
              * combined with Ranges. */
-            auto e = bactria::Event{"LAST EVENT IN MAIN"};
-            e.fire();
+            bactria_Event("EVENT IN MAIN", bactria::color::bactria_orange, bactria::Category{});
+
+            /* You can also define an action event with an action that generates the name. The action will only be
+             * executed if bactria is activated. */
+            bactria_ActionEvent([](){ return "GENERATED EVENT"; }, bactria::color::bactria_turquoise, bactria::Category{});
         }
 
-        /* Let bactria clean up its internals. This is required once per process. */
-        bactria::finalize(std::move(ctx));
+        /* Let bactria clean up its internals. This is done automatically once a Context reaches the end of its
+         * lifetime. */
     }
     catch(std::runtime_error const& err)
     {

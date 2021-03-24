@@ -20,11 +20,8 @@
 
 #   include <cstdint>
 
-auto enter_function(sector* sec [[clang::use_handle("bactria sector")]],
-                    char const* source, std::uint32_t lineno) -> void;
+auto enter_function(sector* sec, char const* source, std::uint32_t lineno) -> void;
+auto leave_function(sector* sec, char const* source, std::uint32_t lineno) -> void;
+auto function_summary(sector* sec) -> void;
 
-auto leave_function(sector* sec [[clang::use_handle("bactria sector")]],
-                    char const* source, std::uint32_t lineno) -> void;
-
-auto function_summary(sector* sec [[maybe_unused, clang::use_handle("bactria sector")]]) -> void;
 #endif

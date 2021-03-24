@@ -55,6 +55,9 @@ namespace bactria
 
             [[gnu::always_inline]] inline auto close_plugin(plugin_handle_t handle) noexcept
             {
+                if(handle == nullptr)
+                    return;
+
                 auto err = dlclose(handle);
                 if(err != 0)
                 {

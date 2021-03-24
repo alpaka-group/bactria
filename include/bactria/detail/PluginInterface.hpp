@@ -28,19 +28,19 @@ namespace bactria
             /* Standard function pointer declaration style is forbidden because of noexcept */
 
             // Event
-            using create_event_t = std::add_pointer_t<void*(const char*, std::uint32_t, std::uint32_t) noexcept>;
+            using create_event_t = std::add_pointer_t<void*(std::uint32_t, char const*, std::uint32_t) noexcept>;
             auto create_event_ptr = create_event_t{nullptr};
 
             using destroy_event_t = std::add_pointer_t<void(void*) noexcept>;
             auto destroy_event_ptr = destroy_event_t{nullptr};
 
-            using fire_event_t = std::add_pointer_t<void(void*) noexcept>;
+            using fire_event_t = std::add_pointer_t<void(void*, char const*, char const*, std::uint32_t, char const*) noexcept>;
             auto fire_event_ptr = fire_event_t{nullptr};
 
-            using create_range_t = std::add_pointer_t<void*(const char*, std::uint32_t, std::uint32_t) noexcept>;
+            // Range
+            using create_range_t = std::add_pointer_t<void*(char const*, std::uint32_t, char const*, std::uint32_t) noexcept>;
             auto create_range_ptr = create_range_t{nullptr};
 
-            // Range
             using destroy_range_t = std::add_pointer_t<void(void*) noexcept>;
             auto destroy_range_ptr = destroy_range_t{nullptr};
 
@@ -51,23 +51,23 @@ namespace bactria
             auto stop_range_ptr = stop_range_t{nullptr};
 
             // Sector
-            using create_sector_t = std::add_pointer_t<void*(const char*, std::uint32_t) noexcept>;
+            using create_sector_t = std::add_pointer_t<void*(char const*, std::uint32_t) noexcept>;
             auto create_sector_ptr = create_sector_t{nullptr};
 
             using destroy_sector_t = std::add_pointer_t<void(void*) noexcept>;
             auto destroy_sector_ptr = destroy_sector_t{nullptr};
 
-            using enter_sector_t = std::add_pointer_t<void(void*, const char*, std::uint32_t, const char*) noexcept>;
+            using enter_sector_t = std::add_pointer_t<void(void*, char const*, std::uint32_t, char const*) noexcept>;
             auto enter_sector_ptr = enter_sector_t{nullptr};
 
-            using leave_sector_t = std::add_pointer_t<void(void*, const char*, std::uint32_t, const char*) noexcept>;
+            using leave_sector_t = std::add_pointer_t<void(void*, char const*, std::uint32_t, char const*) noexcept>;
             auto leave_sector_ptr = leave_sector_t{nullptr};
 
             using sector_summary_t = std::add_pointer_t<void(void*) noexcept>;
             auto sector_summary_ptr = sector_summary_t{nullptr};
 
             // Phase
-            using create_phase_t = std::add_pointer_t<void*(const char*) noexcept>;
+            using create_phase_t = std::add_pointer_t<void*(char const*) noexcept>;
             auto create_phase_ptr = create_phase_t{nullptr};
 
             using destroy_phase_t = std::add_pointer_t<void(void*) noexcept>;

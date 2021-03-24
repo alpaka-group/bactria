@@ -13,15 +13,21 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_PLUGIN_PRINTF_LOOP_INSTRUMENTATION_HPP
-#   define BACTRIA_PLUGIN_PRINTF_LOOP_INSTRUMENTATION_HPP
+#ifndef BACTRIA_DETAIL_ACTIVATION_HPP
+#   define BACTRIA_DETAIL_ACTIVATION_HPP
 
-#   include "Common.hpp"
+#   include <cstdlib>
 
-#   include <cstdint>
-
-auto enter_loop(sector* sec, char const* source, std::uint32_t lineno) -> void;
-auto leave_loop(sector* sec, char const* source, std::uint32_t lineno) -> void;
-auto loop_summary(sector* sec) -> void;
+namespace bactria
+{
+    namespace detail
+    {
+        inline auto is_activated() -> bool
+        {
+            static bool const activated = std::getenv("BACTRIA_DEACTIVATE") == nullptr;
+            return activated;
+        }
+    }
+}
 
 #endif

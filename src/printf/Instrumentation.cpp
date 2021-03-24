@@ -20,11 +20,7 @@
 #include "LoopInstrumentation.hpp"
 #include "PhaseInstrumentation.hpp"
 
-#include <bactria/Colors.hpp>
 #include <bactria/PluginInterface.hpp>
-
-#include <fmt/color.h>
-#include <fmt/core.h>
 
 #include <chrono>
 #include <cstdint>
@@ -37,7 +33,6 @@ thread_local std::stack<sector*> sector_stack;
 
 extern "C"
 {
-    [[clang::acquire_handle("bactria sector")]]
     auto bactria_plugin_create_sector(char const* name, std::uint32_t type) noexcept -> void*
     {
         switch(type)
@@ -60,14 +55,14 @@ extern "C"
         }
     }
 
-    auto bactria_plugin_destroy_sector(void* sector_handle [[clang::release_handle("bactria sector")]]) noexcept -> void
+    auto bactria_plugin_destroy_sector(void* sector_handle) noexcept -> void
     {
         auto sec = static_cast<sector*>(sector_handle);
         delete sec;
     }
 
-    auto bactria_plugin_enter_sector(void* sector_handle [[clang::use_handle("bactria sector")]],
-                                     const char* source, std::uint32_t lineno, const char* caller) noexcept -> void
+    auto bactria_plugin_enter_sector(void* sector_handle, const char* source, std::uint32_t lineno,
+                                     const char* caller) noexcept -> void
     {
         auto const sec = static_cast<sector*>(sector_handle);
         switch(sec->t)
@@ -94,8 +89,8 @@ extern "C"
         }
     }
 
-    auto bactria_plugin_leave_sector(void* sector_handle [[clang::use_handle("bactria sector")]],
-                                     const char* source, std::uint32_t lineno, const char* caller) noexcept-> void
+    auto bactria_plugin_leave_sector(void* sector_handle, const char* source, std::uint32_t lineno,
+                                     const char* caller) noexcept-> void
     {
         const auto sec = static_cast<sector*>(sector_handle);
         switch(sec->t)
@@ -122,7 +117,7 @@ extern "C"
         }
     }
 
-    auto bactria_plugin_sector_summary(void* sector_handle [[clang::use_handle("bactria sector")]]) noexcept -> void
+    auto bactria_plugin_sector_summary(void* sector_handle) noexcept -> void
     {
         const auto sec = static_cast<sector*>(sector_handle);
         switch(sec->t)
@@ -149,24 +144,24 @@ extern "C"
         }
     }
 
-    [[clang::acquire_handle("bactria phase")]] auto bactria_plugin_create_phase(const char* name) noexcept -> void*
+    auto bactria_plugin_create_phase(const char* name) noexcept -> void*
     {
         return bactria_plugin_create_sector(name, 5);
     }
     
-    auto bactria_plugin_destroy_phase(void* phase_handle [[clang::release_handle("bactria phase")]]) noexcept -> void
+    auto bactria_plugin_destroy_phase(void* phase_handle) noexcept -> void
     {
         bactria_plugin_destroy_sector(phase_handle);
     }
 
-    auto bactria_plugin_enter_phase(void* phase_handle [[clang::use_handle("bactria phase")]],
-                                     const char* source, std::uint32_t lineno, const char* caller) noexcept -> void
+    auto bactria_plugin_enter_phase(void* phase_handle, const char* source, std::uint32_t lineno,
+                                    const char* caller) noexcept -> void
     {
         bactria_plugin_enter_sector(phase_handle, source, lineno, caller);
     }
 
-    auto bactria_plugin_leave_phase(void* phase_handle [[clang::use_handle("bactria phase")]],
-                                     const char* source, std::uint32_t lineno, const char* caller) noexcept-> void
+    auto bactria_plugin_leave_phase(void* phase_handle, const char* source, std::uint32_t lineno,
+                                    const char* caller) noexcept-> void
     {
         bactria_plugin_leave_sector(phase_handle, source, lineno, caller);
     }

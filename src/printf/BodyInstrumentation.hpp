@@ -35,8 +35,8 @@ inline auto delete_body(void* data) noexcept
     delete d;
 }
 
-auto enter_body(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void;
-auto leave_body(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void;
-auto body_summary(sector* sec [[maybe_unused, clang::use_handle("bactria sector")]]) -> void;
+auto enter_body(sector* sec, char const* source, std::uint32_t lineno) -> void;
+auto leave_body(sector* sec, char const* source, std::uint32_t lineno) -> void;
+auto body_summary(sector* sec) -> void;
 
 #endif

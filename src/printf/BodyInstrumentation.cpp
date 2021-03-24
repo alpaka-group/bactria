@@ -24,7 +24,7 @@
 #include <numeric>
 #include <vector>
 
-auto enter_body(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void
+auto enter_body(sector* sec, char const* source, std::uint32_t lineno) -> void
 {
     auto const now = std::chrono::steady_clock::now();
     auto data_ptr = static_cast<BodyData*>(sec->data.get());
@@ -44,7 +44,7 @@ auto enter_body(sector* sec [[clang::use_handle("bactria sector")]], char const*
     sector_stack.push(sec);
 }
 
-auto leave_body(sector* sec [[clang::use_handle("bactria sector")]], char const* source, std::uint32_t lineno) -> void
+auto leave_body(sector* sec, char const* source, std::uint32_t lineno) -> void
 {
     auto const now = std::chrono::steady_clock::now();
     auto data_ptr = static_cast<BodyData*>(sec->data.get());
@@ -57,7 +57,7 @@ auto leave_body(sector* sec [[clang::use_handle("bactria sector")]], char const*
     handle_pop(sec);
 }
 
-auto body_summary(sector* sec [[maybe_unused, clang::use_handle("bactria sector")]]) -> void
+auto body_summary(sector* sec) -> void
 {
     auto data_ptr = static_cast<BodyData*>(sec->data.get());
 
