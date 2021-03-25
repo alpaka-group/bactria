@@ -266,7 +266,7 @@ namespace bactria
 
     private:
         std::string m_name{"BACTRIA_GENERIC_SECTOR"};
-        void* m_handle{detail::is_activated() ? plugin::create_sector(m_name.c_str(), TTag::id) : nullptr};
+        void* m_handle{detail::is_activated() ? plugin::create_sector(m_name.c_str(), TTag::value) : nullptr};
         bool m_entered{false};
         bool m_summary{false};
         std::function<void(void)> m_on_enter = [](){};

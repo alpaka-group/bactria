@@ -30,6 +30,7 @@ namespace bactria
     {
         namespace detail
         {
+            // HMODULE <- HINSTANCE <- HANDLE <- PVOID <- void*
             using plugin_handle_t = HMODULE;
 
             [[nodiscard]] auto make_last_error_string() -> std::string
@@ -60,6 +61,9 @@ namespace bactria
 
             auto close_plugin(plugin_handle_t handle) noexcept -> void
             {
+                if(handle == nullptr)
+                    return;
+
                 auto err = FreeLibrary(handle);
                 if(err == 0)
                 {

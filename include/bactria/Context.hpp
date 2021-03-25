@@ -26,13 +26,10 @@
 #   include <bactria/detail/Activation.hpp>
 #   include <bactria/Plugin.hpp>
 
+#   include <utility>
+
 namespace bactria
 {
-    namespace detail
-    {
-        bool bactria_activated = false;
-    }
-
     /**
      * \brief The bactria context.
      *
@@ -43,14 +40,76 @@ namespace bactria
     class Context final
     {
     public:
+        /**
+         * \brief The constructor.
+         *
+         * Loads the plugin and maintains the plugin's internal state. It is allowed to have multiple Context objects
+         * because the plugin is reference counted. It will only be unloaded once the last Context in a process
+         * reaches the end of its lifetime.
+         *
+         * \sa ~Context
+         */
         Context() = default;
-        Context(Context const&) noexcept = default;
-        auto operator=(Context const&) noexcept -> Context& = default;
-        Context(Context&&) noexcept = default;
-        auto operator=(Context&&) noexcept -> Context& = default;
+
+        /**
+         * \brief The copy constructor.
+         *
+         * Copies a context. Internally, both Context objects will point to the same plugin.
+         *
+         * \param[in] other The context to copy from.
+         */
+        Context(Context const& other) noexcept = default;
+
+        /**
+         * \brief The copy assignment operator.
+         *
+         * Copies a context. Internally, both Context objects will point to the same plugin.
+         *
+         * \param[in] rhs The context to copy from.
+         */
+        auto operator=(Context const& rhs) noexcept -> Context& = default;
+
+        /**
+         * \brief The move constructor.
+         *
+         * Moves another context into \a this. The state of the original context is undefined afterwards, while \a
+         * this will maintain the original state.
+         *
+         * \param[in,out] other The context to move into \a this.
+         * \sa ~Context
+         */
+        Context(Context&& other) noexcept
+        {
+            std::swap(m_handle, other.m_handle);
+        }
+
+        /**
+         * \brief The move assignment operator.
+         *
+         * Moves another context into \a this. The state of the original context is undefined afterwards, while \a
+         * this will maintain the original state.
+         *
+         * \param[in,out] rhs The context to move into \a this.
+         */
+        auto operator=(Context&& rhs) noexcept -> Context&
+        {
+            std::swap(m_handle, rhs.m_handle);
+            return *this;
+        }
         
+        /**
+         * \brief The destructor.
+         *
+         * Destructs the context. If there are multiple Context objects in the process, this will decrement the plugin
+         * reference counter. Otherwise, the plugin is unloaded. In this case, bactria's functionality can no longer
+         * be safely used.
+         *
+         * \sa Context()
+         */
         ~Context()
         {
+            /* At first glance, this seems wrong. However, on all supported platforms the plugin handle is reference
+             * counted (per process), so having multiple contexts loading / unloading the library is not a problem. */
             if(detail::is_activated())
                 plugin::unload_plugin(m_handle);
         }

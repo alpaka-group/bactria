@@ -24,8 +24,6 @@
 #ifndef BACTRIA_TAGS_HPP
 #   define BACTRIA_TAGS_HPP
 
-#   include <cstdint>
-
 namespace bactria
 {
     /**
@@ -36,7 +34,7 @@ namespace bactria
      */
     struct Generic
     {
-        static constexpr auto id = 1u;
+        static constexpr auto value = 1u;
     };
 
     /**
@@ -47,7 +45,7 @@ namespace bactria
      */
     struct Function
     {
-        static constexpr auto id = 2u;
+        static constexpr auto value = 2u;
     };
 
     /**
@@ -59,7 +57,7 @@ namespace bactria
      */
     struct Loop
     {
-        static constexpr auto id = 3u;
+        static constexpr auto value = 3u;
     };
 
     /**
@@ -72,7 +70,7 @@ namespace bactria
      */
     struct Body
     {
-        static constexpr auto id = 4u;
+        static constexpr auto value = 4u;
     };
 }
 

@@ -37,7 +37,7 @@ namespace bactria
     {
         using plugin_handle_t = detail::plugin_handle_t;
 
-        [[nodiscard]] auto load_plugin() -> plugin_handle_t
+        [[nodiscard]] inline auto load_plugin() -> plugin_handle_t
         {
             auto const path = std::getenv("BACTRIA_PLUGIN");
             if(path != nullptr)
@@ -72,7 +72,7 @@ namespace bactria
             return plugin_handle_t{};
         }
 
-        auto unload_plugin(plugin_handle_t handle) noexcept
+        inline auto unload_plugin(plugin_handle_t handle) noexcept
         {
             detail::close_plugin(handle);
         }

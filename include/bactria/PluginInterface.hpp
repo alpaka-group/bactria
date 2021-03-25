@@ -40,7 +40,8 @@ extern "C"
      * \return A handle to the plugin-specific event.
      * \sa bactria_plugin_destroy_event, bactria_plugin_fire_event
      */
-    auto bactria_plugin_create_event(std::uint32_t color, char const* cat_name, std::uint32_t cat_id) noexcept -> void*;
+    auto bactria_plugin_create_event(std::uint32_t color, char const* cat_name,
+                                     std::uint32_t cat_id) noexcept -> void*;
 
     /**
      * \brief Destroy an event handle.
@@ -157,7 +158,8 @@ extern "C"
      * \sa bactria_plugin_create_sector, bactria_plugin_destroy_sector, bactria_plugin_leave_sector,
      *     bactria_plugin_sector_summary
      */
-    auto bactria_plugin_enter_sector(void* sector_handle, char const* source, std::uint32_t lineno, char const* caller) noexcept -> void;
+    auto bactria_plugin_enter_sector(void* sector_handle, char const* source, std::uint32_t lineno,
+                                     char const* caller) noexcept -> void;
 
     /**
      * \brief Leave a sector.
@@ -171,7 +173,8 @@ extern "C"
      * \sa bactria_plugin_create_sector, bactria_plugin_destroy_sector, bactria_plugin_enter_sector,
      *     bactria_plugin_sector_summary
      */
-    auto bactria_plugin_leave_sector(void* sector_handle, char const* source, std::uint32_t lineno, char const* caller) noexcept-> void;
+    auto bactria_plugin_leave_sector(void* sector_handle, char const* source, std::uint32_t lineno,
+                                     char const* caller) noexcept-> void;
 
     /**
      * \brief Summarize a sector.
@@ -207,8 +210,6 @@ extern "C"
      * \sa bactria_plugin_create_phase
      */
     auto bactria_plugin_destroy_phase(void* phase_handle) noexcept -> void;
-
-    auto bactria_plugin_assign_sector_phase(void* sector_handle, void* phase_handle) noexcept -> void;
 }
 
 #endif
