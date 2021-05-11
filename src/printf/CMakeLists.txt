@@ -1,8 +1,4 @@
-find_package(fmt)
-
-if(NOT fmt_FOUND)
-    message(WARNING "Could not find {fmt}. Disabling printf backend.")
-else()
+if(bactria_STDOUT_BACKENDS)
     add_library(bactria_printf MODULE BodyInstrumentation.cpp
                                       FunctionInstrumentation.cpp
                                       GenericInstrumentation.cpp

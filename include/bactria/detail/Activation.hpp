@@ -24,7 +24,13 @@ namespace bactria
     {
         inline auto is_activated() -> bool
         {
-            static bool const activated = std::getenv("BACTRIA_DEACTIVATE") == nullptr;
+            static auto const activated = (std::getenv("BACTRIA_DEACTIVATE") == nullptr);
+            return activated;
+        }
+
+        inline auto reports_activated() -> bool
+        {
+            static bool const activated = is_activated() && (std::getenv("BACTRIA_REPORT_PLUGIN") != nullptr);
             return activated;
         }
     }

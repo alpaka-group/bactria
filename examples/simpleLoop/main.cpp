@@ -120,6 +120,69 @@ auto main() -> int
             /* You can also define an action event with an action that generates the name. The action will only be
              * executed if bactria is activated. */
             bactria_ActionEvent([](){ return "GENERATED EVENT"; }, bactria::color::bactria_turquoise, bactria::Category{});
+
+            auto avgLoopTime = 0.0;
+
+            /* Another loop example: How to define and pass user-defined data */
+            using clock = std::chrono::high_resolution_clock;
+
+            /* Set up the recorder. We need to define all intermediate types used by our recorder. */
+            using Recorder = bactria::IncidentRecorder<typename clock::time_point,
+                                                       typename std::chrono::nanoseconds::rep,
+                                                       bactria::Incident<double>,
+                                                       bactria::Incident<int>,
+                                                       bactria::Incident<int>>;
+            auto ir = Recorder{};
+
+            for(auto i = 0; i < 20; ++i)
+            {
+                // Start timer
+                ir.record_step([&]()
+                {
+                    // Store the clock::time_point in the recorder. The index corresponds to the element order defined
+                    // in the using Recorder = ... directive above.
+                    ir.store<0>(clock::now());
+                });
+
+                // Stop timer
+                ir.record_step([&]()
+                {
+                    // Load the clock::time_point from the recorder.
+                    auto const start = ir.load<0>();
+                    auto const end = clock::now();
+                    auto const dur = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+                    
+                    // Store the nanoseconds
+                    ir.store<1>(dur.count());
+                });
+
+                // Calculate average
+                ir.record_step([&]()
+                {
+                    // Load the nanoseconds
+                    auto const dur = ir.load<1>();
+                    avgLoopTime += dur;
+
+                    std::cout << "Hello, Incident!" << std::endl;
+
+                    if(i > 2 && (i + 1) % 5 == 0)
+                    {
+                        auto avg = avgLoopTime / 5.0;
+                        avgLoopTime = 0.0;
+
+                        // Save three different incidents we are interested in
+                        ir.store<2>(bactria::make_incident("Average", avg));
+                        ir.store<3>(bactria::make_incident("Step begin", i - 5 + 1));
+                        ir.store<4>(bactria::make_incident("Step end", i + 1));
+
+                        // Generate a report. The string (without any extensions) may be used to generate a filename
+                        // Make sure you include all incident indices you are interested in.
+                        // Repeated calls to this function with the same name string will append to the already
+                        // existing file (if any).
+                        ir.submit_report<2, 3, 4>("loop_average");
+                    }
+                });
+            }
         }
 
         /* Let bactria clean up its internals. This is done automatically once a Context reaches the end of its

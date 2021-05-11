@@ -78,6 +78,52 @@ namespace bactria
 
             using leave_phase_t = std::add_pointer_t<void(void*, char const*, std::uint32_t, char const*) noexcept>;
             auto leave_phase_ptr = leave_phase_t{nullptr};
+
+            // Reports
+            using report_create_report_t = std::add_pointer_t<void*(char const*)>;
+            auto report_create_report_ptr = report_create_report_t{nullptr};
+
+            using report_destroy_report_t = std::add_pointer_t<void(void*) noexcept>;
+            auto report_destroy_report_ptr = report_destroy_report_t{nullptr};
+            
+            using report_write_report_t = std::add_pointer_t<void(void*)>;
+            auto report_write_report_ptr = report_write_report_t{nullptr};
+            
+            using report_record_bool_t = std::add_pointer_t<void(void*, char const*, bool)>;
+            auto report_record_bool_ptr = report_record_bool_t{nullptr};
+
+            using report_record_int8_t = std::add_pointer_t<void(void*, char const*, std::int8_t)>;
+            auto report_record_int8_ptr = report_record_int8_t{nullptr};
+
+            using report_record_uint8_t = std::add_pointer_t<void(void*, char const*, std::uint8_t)>;
+            auto report_record_uint8_ptr = report_record_uint8_t{nullptr};
+
+            using report_record_int16_t = std::add_pointer_t<void(void*, char const*, std::int16_t)>;
+            auto report_record_int16_ptr = report_record_int16_t{nullptr};
+
+            using report_record_uint16_t = std::add_pointer_t<void(void*, char const*, std::uint16_t)>;
+            auto report_record_uint16_ptr = report_record_uint16_t{nullptr};
+
+            using report_record_int32_t = std::add_pointer_t<void(void*, char const*, std::int32_t)>;
+            auto report_record_int32_ptr = report_record_int32_t{nullptr};
+
+            using report_record_uint32_t = std::add_pointer_t<void(void*, char const*, std::uint32_t)>;
+            auto report_record_uint32_ptr = report_record_uint32_t{nullptr};
+
+            using report_record_int64_t = std::add_pointer_t<void(void*, char const*, std::int64_t)>;
+            auto report_record_int64_ptr = report_record_int64_t{nullptr};
+
+            using report_record_uint64_t = std::add_pointer_t<void(void*, char const*, std::uint64_t)>;
+            auto report_record_uint64_ptr = report_record_uint64_t{nullptr};
+            
+            using report_record_float_t = std::add_pointer_t<void(void*, char const*, float)>;
+            auto report_record_float_ptr = report_record_float_t{nullptr};
+
+            using report_record_double_t = std::add_pointer_t<void(void*, char const*, double)>;
+            auto report_record_double_ptr = report_record_double_t{nullptr};
+
+            using report_record_string_t = std::add_pointer_t<void(void*, char const*, char const*)>;
+            auto report_record_string_ptr = report_record_string_t{nullptr};
         }
     }
 }

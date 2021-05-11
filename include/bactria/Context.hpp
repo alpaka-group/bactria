@@ -40,6 +40,8 @@ namespace bactria
     class Context final
     {
     public:
+        // The plugin handles are reference counted. Copying them around doesn't hurt.
+        
         /**
          * \brief The constructor.
          *
@@ -110,12 +112,17 @@ namespace bactria
         {
             /* At first glance, this seems wrong. However, on all supported platforms the plugin handle is reference
              * counted (per process), so having multiple contexts loading / unloading the library is not a problem. */
+            if(detail::reports_activated())
+                plugin::unload_plugin(m_reportHandle);
+
             if(detail::is_activated())
                 plugin::unload_plugin(m_handle);
         }
 
     private:
         plugin::plugin_handle_t m_handle{detail::is_activated() ? plugin::load_plugin() : plugin::plugin_handle_t{}};
+        plugin::plugin_handle_t m_reportHandle{detail::reports_activated() ?
+                                               plugin::load_report_plugin() : plugin::plugin_handle_t{}};
     };
 }
 

@@ -210,6 +210,22 @@ extern "C"
      * \sa bactria_plugin_create_phase
      */
     auto bactria_plugin_destroy_phase(void* phase_handle) noexcept -> void;
+
+    auto bactria_report_plugin_create_report(char const* name) -> void*;
+    auto bactria_report_plugin_destroy_report(void* report_handle) noexcept -> void;
+    auto bactria_report_plugin_write_report(void* report_handle) -> void;
+    auto bactria_report_plugin_record_incident_bool(void* report_handle, char const* key, bool value) -> void;
+    auto bactria_report_plugin_record_incident_int8(void* report_handle, char const* key, std::int8_t value) -> void;
+    auto bactria_report_plugin_record_incident_uint8(void* report_handle, char const* key, std::uint8_t value) -> void;
+    auto bactria_report_plugin_record_incident_int16(void* report_handle, char const* key, std::int16_t value) -> void;
+    auto bactria_report_plugin_record_incident_uint16(void* report_handle, char const* key, std::uint16_t value) -> void;
+    auto bactria_report_plugin_record_incident_int32(void* report_handle, char const* key, std::int16_t value) -> void;
+    auto bactria_report_plugin_record_incident_uint32(void* report_handle, char const* key, std::uint16_t value) -> void;
+    auto bactria_report_plugin_record_incident_int64(void* report_handle, char const* key, std::int64_t value) -> void;
+    auto bactria_report_plugin_record_incident_uint64(void* report_handle, char const* key, std::uint64_t value) -> void;
+    auto bactria_report_plugin_record_incident_float(void* report_handle, char const* key, float value) -> void;
+    auto bactria_report_plugin_record_incident_double(void* report_handle, char const* key, double value) -> void;
+    auto bactria_report_plugin_record_incident_string(void* report_handle, char const* key, char const* value) -> void;
 }
 
 #endif

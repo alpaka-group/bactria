@@ -26,8 +26,11 @@
 #   include <bactria/Colors.hpp>
 #   include <bactria/Context.hpp>
 #   include <bactria/Event.hpp>
+#   include <bactria/Incident.hpp>
+#   include <bactria/IncidentRecorder.hpp>
 #   include <bactria/Plugin.hpp>
 #   include <bactria/Range.hpp>
+#   include <bactria/Report.hpp>
 #   include <bactria/Phase.hpp>
 #   include <bactria/Sector.hpp>
 
