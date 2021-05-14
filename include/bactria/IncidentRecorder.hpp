@@ -13,15 +13,14 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_INCIDENT_RECORDER_HPP
-#define BACTRIA_INCIDENT_RECORDER_HPP
+#pragma once
 
-#   include <bactria/Report.hpp>
+#include <bactria/Report.hpp>
 
-#   include <cstddef>
-#   include <string>
-#   include <tuple>
-#   include <utility>
+#include <cstddef>
+#include <string>
+#include <tuple>
+#include <utility>
 
 namespace bactria
 {
@@ -61,4 +60,3 @@ namespace bactria
     };
 }
 
-#endif

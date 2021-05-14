@@ -20,14 +20,13 @@
  * This file contains the Phase definition. It should not be included directly by the user.
  */
 
-#ifndef BACTRIA_PHASE_HPP
-#   define BACTRIA_PHASE_HPP
+#pragma once
 
-#   include <bactria/detail/Activation.hpp>
-#   include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
+#include <bactria/Plugin.hpp>
 
-#   include <string>
-#   include <utility>
+#include <string>
+#include <utility>
 
 namespace bactria
 {
@@ -198,4 +197,3 @@ namespace bactria
     };
 }
 
-#endif

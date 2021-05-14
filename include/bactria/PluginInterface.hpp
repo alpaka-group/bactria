@@ -21,10 +21,9 @@
  * by it.
  */
 
-#ifndef BACTRIA_PLUGIN_INTERFACE_HPP
-#   define BACTRIA_PLUGIN_INTERFACE_HPP
+#pragma once
 
-#   include <cstdint>
+#include <cstdint>
 
 extern "C"
 {
@@ -228,4 +227,3 @@ extern "C"
     auto bactria_report_plugin_record_incident_string(void* report_handle, char const* key, char const* value) -> void;
 }
 
-#endif

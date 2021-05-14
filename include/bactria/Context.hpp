@@ -20,13 +20,12 @@
  * This file defines the Context interface. The user should not include this directly.
  */
 
-#ifndef BACTRIA_CONTEXT_HPP
-#   define BACTRIA_CONTEXT_HPP
+#pragma once
 
-#   include <bactria/detail/Activation.hpp>
-#   include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
+#include <bactria/Plugin.hpp>
 
-#   include <utility>
+#include <utility>
 
 namespace bactria
 {
@@ -126,4 +125,3 @@ namespace bactria
     };
 }
 
-#endif

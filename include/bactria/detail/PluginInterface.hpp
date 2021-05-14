@@ -13,11 +13,10 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_DETAIL_PLUGIN_INTERFACE_HPP
-#   define BACTRIA_DETAIL_PLUGIN_INTERFACE_HPP
+#pragma once
 
-#   include <cstdint>
-#   include <type_traits>
+#include <cstdint>
+#include <type_traits>
 
 namespace bactria
 {
@@ -128,4 +127,3 @@ namespace bactria
     }
 }
 
-#endif

@@ -13,10 +13,9 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_DETAIL_ACTIVATION_HPP
-#   define BACTRIA_DETAIL_ACTIVATION_HPP
+#pragma once
 
-#   include <cstdlib>
+#include <cstdlib>
 
 namespace bactria
 {
@@ -36,4 +35,3 @@ namespace bactria
     }
 }
 
-#endif

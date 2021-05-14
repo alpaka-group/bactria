@@ -22,14 +22,13 @@
  * in this file.
  */
 
-#ifndef BACTRIA_PLUGIN_HPP
-#   define BACTRIA_PLUGIN_HPP
+#pragma once
 
-#   include <bactria/detail/PluginInterface.hpp>
-#   include <bactria/detail/POSIX.hpp>
-#   include <bactria/detail/Win32.hpp>
+#include <bactria/detail/PluginInterface.hpp>
+#include <bactria/detail/POSIX.hpp>
+#include <bactria/detail/Win32.hpp>
 
-#   include <iostream>
+#include <iostream>
 
 namespace bactria
 {
@@ -318,4 +317,3 @@ namespace bactria
     }
 }
 
-#endif

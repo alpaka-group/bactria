@@ -13,16 +13,13 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_DETAIL_WIN32_HPP
-#   define BACTRIA_DETAIL_WIN32_HPP
+#ifdef _WIN32
 
-#   ifdef _WIN32
+#   include <windows.h>
 
-#       include <windows.h>
-
-#       include <cstdio>
-#       include <string>
-#       include <system_error>
+#   include <cstdio>
+#   include <string>
+#   include <system_error>
 
 namespace bactria
 {
@@ -78,6 +75,5 @@ namespace bactria
     }
 }
 
-#   endif // _WIN32
+#endif // _WIN32
 
-#endif

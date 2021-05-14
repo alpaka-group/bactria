@@ -20,18 +20,17 @@
  * This file defines the interface for the Sector class. It should not be included directly by the user.
  */
 
-#ifndef BACTRIA_SECTOR_HPP
-#   define BACTRIA_SECTOR_HPP
+#pragma once
 
-#   include <bactria/detail/Activation.hpp>
-#   include <bactria/Plugin.hpp>
-#   include <bactria/Tags.hpp>
+#include <bactria/detail/Activation.hpp>
+#include <bactria/Plugin.hpp>
+#include <bactria/Tags.hpp>
 
-#   include <functional>
-#   include <iostream>
-#   include <string>
-#   include <type_traits>
-#   include <utility>
+#include <functional>
+#include <iostream>
+#include <string>
+#include <type_traits>
+#include <utility>
 
 namespace bactria
 {
@@ -278,5 +277,3 @@ namespace bactria
      */
 }
 
-
-#endif

@@ -13,12 +13,11 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_INCIDENT_HPP
-#define BACTRIA_INCIDENT_HPP
+#pragma once
 
-#   include <string>
-#   include <type_traits>
-#   include <utility>
+#include <string>
+#include <type_traits>
+#include <utility>
 
 namespace bactria
 {
@@ -82,4 +81,3 @@ namespace bactria
     }
 }
 
-#endif

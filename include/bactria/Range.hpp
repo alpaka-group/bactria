@@ -20,17 +20,16 @@
  * This file contains the definition of the Range class. It should not be included directly by the user.
  */
 
-#ifndef BACTRIA_RANGE_HPP
-#   define BACTRIA_RANGE_HPP
+#pragma once
 
-#   include <bactria/Colors.hpp>
-#   include <bactria/detail/Activation.hpp>
-#   include <bactria/Plugin.hpp>
-#   include <bactria/Marker.hpp>
+#include <bactria/Colors.hpp>
+#include <bactria/detail/Activation.hpp>
+#include <bactria/Plugin.hpp>
+#include <bactria/Marker.hpp>
 
-#   include <cstdint>
-#   include <string>
-#   include <utility>
+#include <cstdint>
+#include <string>
+#include <utility>
 
 namespace bactria
 {
@@ -222,4 +221,3 @@ namespace bactria
     };
 }
 
-#endif

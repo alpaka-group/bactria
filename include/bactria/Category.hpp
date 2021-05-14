@@ -20,11 +20,10 @@
  * This is bactria's include file for Categories. It should not be included on its own.
  */
 
-#ifndef BACTRIA_CATEGORY_HPP
-#   define BACTRIA_CATEGORY_HPP
+#pragma once
 
-#   include <cstdint>
-#   include <string>
+#include <cstdint>
+#include <string>
 
 namespace bactria
 {
@@ -136,4 +135,3 @@ namespace bactria
     };
 }
 
-#endif

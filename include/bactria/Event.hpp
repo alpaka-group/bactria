@@ -21,17 +21,16 @@
  * visualizer. This file should not be included directly by the user.
  */
 
-#ifndef BACTRIA_EVENT_HPP
-#   define BACTRIA_EVENT_HPP
+#pragma once
 
-#   include <bactria/Colors.hpp>
-#   include <bactria/detail/Activation.hpp>
-#   include <bactria/Plugin.hpp>
-#   include <bactria/Marker.hpp>
+#include <bactria/Colors.hpp>
+#include <bactria/detail/Activation.hpp>
+#include <bactria/Plugin.hpp>
+#include <bactria/Marker.hpp>
 
-#   include <functional>
-#   include <string>
-#   include <utility>
+#include <functional>
+#include <string>
+#include <utility>
 
 namespace bactria
 {
@@ -191,4 +190,3 @@ namespace bactria
     };
 }
 
-#endif

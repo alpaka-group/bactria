@@ -13,17 +13,16 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_DETAIL_POSIX_HPP
-#   define BACTRIA_DETAIL_POSIX_HPP
+#pragma once
 
-#   ifndef _WIN32
+#ifndef _WIN32
 
-#       include <dlfcn.h>
+#   include <dlfcn.h>
 
-#       include <cstdio>
-#       include <cstdlib>
-#       include <stdexcept>
-#       include <string>
+#   include <cstdio>
+#   include <cstdlib>
+#   include <stdexcept>
+#   include <string>
 
 namespace bactria
 {
@@ -72,7 +71,5 @@ namespace bactria
     }
 }
 
-#   endif // _WIN32
-
-#endif
+#endif // _WIN32
 

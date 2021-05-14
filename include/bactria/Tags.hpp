@@ -21,8 +21,7 @@
  * It should not be included directly by the user.
  */
 
-#ifndef BACTRIA_TAGS_HPP
-#   define BACTRIA_TAGS_HPP
+#pragma once
 
 namespace bactria
 {
@@ -74,4 +73,3 @@ namespace bactria
     };
 }
 
-#endif

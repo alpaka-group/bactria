@@ -21,15 +21,14 @@
  * user.
  */
 
-#ifndef BACTRIA_MARKER_HPP
-#   define BACTRIA_MARKER_HPP
+#pragma once
 
-#   include <bactria/Colors.hpp>
-#   include <bactria/Category.hpp>
+#include <bactria/Colors.hpp>
+#include <bactria/Category.hpp>
 
-#   include <cstdint>
-#   include <string>
-#   include <utility>
+#include <cstdint>
+#include <string>
+#include <utility>
 
 namespace bactria
 {
@@ -121,4 +120,3 @@ namespace bactria
      */
 }
 
-#endif

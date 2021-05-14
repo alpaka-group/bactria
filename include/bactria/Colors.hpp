@@ -24,8 +24,7 @@
  * This file should not be included directly, it is already pulled in by bactria.hpp.
  */
 
-#ifndef BACTRIA_COLORS_HPP
-#   define BACTRIA_COLORS_HPP
+#pragma once
 
 namespace bactria
 {
@@ -188,4 +187,3 @@ namespace bactria
     }
 }
 
-#endif

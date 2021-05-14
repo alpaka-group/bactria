@@ -13,17 +13,16 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#ifndef BACTRIA_REPORT_HPP
-#define BACTRIA_REPORT_HPP
+#pragma once
 
-#   include <bactria/detail/Activation.hpp>
-#   include <bactria/Incident.hpp>
-#   include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
+#include <bactria/Incident.hpp>
+#include <bactria/Plugin.hpp>
 
-#   include <functional>
-#   include <string>
-#   include <tuple>
-#   include <utility>
+#include <functional>
+#include <string>
+#include <tuple>
+#include <utility>
 
 namespace bactria
 {
@@ -105,4 +104,3 @@ namespace bactria
     }
 }
 
-#endif

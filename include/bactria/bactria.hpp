@@ -20,19 +20,18 @@
  * This is bactria's main include file. It pulls in all functionality required by the user.
  */
 
-#ifndef BACTRIA_BACTRIA_HPP
-#   define BACTRIA_BACTRIA_HPP
+#pragma once
 
-#   include <bactria/Colors.hpp>
-#   include <bactria/Context.hpp>
-#   include <bactria/Event.hpp>
-#   include <bactria/Incident.hpp>
-#   include <bactria/IncidentRecorder.hpp>
-#   include <bactria/Plugin.hpp>
-#   include <bactria/Range.hpp>
-#   include <bactria/Report.hpp>
-#   include <bactria/Phase.hpp>
-#   include <bactria/Sector.hpp>
+#include <bactria/Colors.hpp>
+#include <bactria/Context.hpp>
+#include <bactria/Event.hpp>
+#include <bactria/Incident.hpp>
+#include <bactria/IncidentRecorder.hpp>
+#include <bactria/Plugin.hpp>
+#include <bactria/Range.hpp>
+#include <bactria/Report.hpp>
+#include <bactria/Phase.hpp>
+#include <bactria/Sector.hpp>
 
 /**
  * \brief A macro that fires an event.
@@ -45,11 +44,11 @@
  * \param[in] color    The color of the event as it should later appear on the visualizer.
  * \param[in] category The Category of the event.
  */
-#   define bactria_Event(name, color, category) \
-    { \
-        auto e = bactria::Event(name, color, category); \
-        e.fire(__FILE__, __LINE__, __func__); \
-    }
+#define bactria_Event(name, color, category) \
+{ \
+    auto e = bactria::Event(name, color, category); \
+    e.fire(__FILE__, __LINE__, __func__); \
+}
 
 /**
  * \brief A macro that fires an event with an action.
@@ -62,12 +61,12 @@
  * \param[in] color    The color of the event as it should later appear on the visualizer.
  * \param[in] category The Category of the event.
  */
-#   define bactria_ActionEvent(action, color, category) \
-    { \
-        auto e = bactria::Event("BACTRIA_ACTION_EVENT", color, category); \
-        e.set_action(action); \
-        e.fire(__FILE__, __LINE__, __func__); \
-    }
+#define bactria_ActionEvent(action, color, category) \
+{ \
+    auto e = bactria::Event("BACTRIA_ACTION_EVENT", color, category); \
+    e.set_action(action); \
+    e.fire(__FILE__, __LINE__, __func__); \
+}
 
 /**
  * \brief A macro that creates a phase and immediately enters it.
@@ -79,7 +78,7 @@
  * \param[in] name The name of the phase as it should later appear in the output or the visualizer.
  * \sa bactria_Enter, bactria_Leave, bactria_Sector, Phase
  */
-#   define bactria_Phase(name) ::bactria::Phase{name, __FILE__, __LINE__, __func__}
+#define bactria_Phase(name) ::bactria::Phase{name, __FILE__, __LINE__, __func__}
 
 /**
  * \brief A macro that creates a sector and immediately enters it.
@@ -92,7 +91,7 @@
  * \param[in] tag The tag of the sector.
  * \sa bactria_Enter, bactria_Leave, bactria_Phase, Sector, Generic, Function, Loop, Body
  */
-#   define bactria_Sector(name, tag) ::bactria::Sector<tag>{name, __FILE__, __LINE__, __func__}
+#define bactria_Sector(name, tag) ::bactria::Sector<tag>{name, __FILE__, __LINE__, __func__}
 
 /**
  * \brief Enter a phase or sector.
@@ -103,7 +102,7 @@
  * \param[in] sec The previously created Phase or Sector object.
  * \sa bactria_Leave, Phase, Sector
  */
-#   define bactria_Enter(sec) sec.enter(__FILE__, __LINE__, __func__)
+#define bactria_Enter(sec) sec.enter(__FILE__, __LINE__, __func__)
 
 /**
  * \brief Leave a phase or sector.
@@ -114,6 +113,5 @@
  * \param[in] sec The previously created Phase or Sector object.
  * \sa bactria_Leave, Phase, Sector
  */
-#   define bactria_Leave(sec) sec.leave(__FILE__, __LINE__, __func__)
+#define bactria_Leave(sec) sec.leave(__FILE__, __LINE__, __func__)
 
-#endif
