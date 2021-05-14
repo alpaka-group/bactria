@@ -27,9 +27,8 @@ namespace bactria
     template <typename TValue>
     class Incident
     {
-        static_assert(std::is_fundamental<TValue>::value || std::is_same<TValue, std::string>::value ||
-                      std::is_same<TValue, char const*>::value,
-                      "Incident value must be a fundamental type or a string type");
+        static_assert(std::is_arithmetic<TValue>::value || std::is_same<TValue, std::string>::value,
+                      "Incident value must be an arithmetic type or std::string");
 
         template <typename... TIncidents>
         friend class Report;
