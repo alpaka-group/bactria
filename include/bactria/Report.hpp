@@ -98,7 +98,7 @@ namespace bactria
     };
 
     template <typename... TIncidents>
-    auto make_report(std::string name, TIncidents&&... incidents)
+    auto make_report(std::string name, TIncidents&&... incidents) -> Report<TIncidents...>
     {
         return Report<TIncidents...>{std::move(name), std::forward<TIncidents>(incidents)...};
     }

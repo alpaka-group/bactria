@@ -74,7 +74,7 @@ namespace bactria
     };
 
     template <typename TValue>
-    auto make_incident(std::string key, TValue value)
+    auto make_incident(std::string key, TValue value) -> Incident<std::remove_reference_t<TValue>>
     {
         using ValueType = std::remove_reference_t<TValue>;
         return Incident<ValueType>{std::move(key), value};
