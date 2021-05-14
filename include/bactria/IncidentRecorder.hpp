@@ -18,8 +18,10 @@
 #include <bactria/Report.hpp>
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 
 namespace bactria
@@ -28,8 +30,25 @@ namespace bactria
     class IncidentRecorder
     {
     public:
+        using record_t = IncidentRecorder<TValues...>;
+
+    public:
         template <typename TFunc>
-        auto record_step(TFunc&& f) -> void
+        auto record_step(TFunc&& f,
+                         /* Poor man's std::is_invocable until we have access to C++17 */
+                         std::enable_if_t<std::is_constructible<std::function<void(record_t&)>,
+                                                                std::reference_wrapper<
+                                                                    typename std::remove_reference<TFunc>::type>
+                                            >::value, int> = 0)
+        {
+            f(*this);
+        }
+
+        template <typename TFunc>
+        auto record_step(TFunc&& f,
+                         std::enable_if_t<std::is_constructible<std::function<void(void)>,
+                                                                std::reference_wrapper<typename std::remove_reference<TFunc>::type>
+                                            >::value, int> = 0)
         {
             f();
         }
