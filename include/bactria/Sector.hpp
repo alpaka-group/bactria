@@ -22,9 +22,9 @@
 
 #pragma once
 
-#include <bactria/detail/Activation.hpp>
 #include <bactria/Plugin.hpp>
 #include <bactria/Tags.hpp>
+#include <bactria/detail/Activation.hpp>
 
 #include <functional>
 #include <iostream>
@@ -49,7 +49,7 @@ namespace bactria
      *
      * \sa Phase
      */
-    template <typename TTag = Generic>
+    template<typename TTag = Generic>
     class Sector final
     {
     public:
@@ -74,8 +74,7 @@ namespace bactria
          * \param sector_name The sector name as it should appear on the output file or visualizer.
          * \sa bactria_Enter, bactria_Leave, ~Sector
          */
-        Sector(std::string sector_name)
-        : m_name{std::move(sector_name)}
+        Sector(std::string sector_name) : m_name{std::move(sector_name)}
         {
         }
 
@@ -93,7 +92,7 @@ namespace bactria
          * \sa bactria_Enter, bactria_Leave, ~Sector()
          */
         Sector(std::string sector_name, std::string source, std::uint32_t lineno, std::string caller)
-        : m_name{std::move(sector_name)}
+            : m_name{std::move(sector_name)}
         {
             if(detail::is_activated())
             {
@@ -125,8 +124,11 @@ namespace bactria
          * \param other The sector to be moved.
          */
         Sector(Sector&& other)
-        : m_name{std::move(other.m_name)}, m_entered{other.m_entered}, m_summary{other.m_summary}
-        , m_on_enter{std::move(other.m_on_enter)}, m_on_leave{other.m_on_leave}
+            : m_name{std::move(other.m_name)}
+            , m_entered{other.m_entered}
+            , m_summary{other.m_summary}
+            , m_on_enter{std::move(other.m_on_enter)}
+            , m_on_leave{other.m_on_leave}
         {
             std::swap(m_handle, other.m_handle);
         }
@@ -156,7 +158,7 @@ namespace bactria
          * Destructs the sector. If the sector was entered and there was no preceeding call to #bactria_Leave() or
          * leave() the destructor will trigger this functionality before the contents of \a this are deleted. Using
          * \a this after the destructor was triggered results in undefined behaviour.
-         * 
+         *
          * \sa Sector(), bactria_Enter, bactria_Leave, enter, leave
          */
         ~Sector()
@@ -268,12 +270,11 @@ namespace bactria
         void* m_handle{detail::is_activated() ? plugin::create_sector(m_name.c_str(), TTag::value) : nullptr};
         bool m_entered{false};
         bool m_summary{false};
-        std::function<void(void)> m_on_enter = [](){};
-        std::function<void(void)> m_on_leave = [](){};
+        std::function<void(void)> m_on_enter = []() {};
+        std::function<void(void)> m_on_leave = []() {};
     };
 
     /**
      * \}
      */
-}
-
+} // namespace bactria

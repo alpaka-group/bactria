@@ -33,11 +33,13 @@ namespace bactria
             using destroy_event_t = std::add_pointer_t<void(void*) noexcept>;
             auto destroy_event_ptr = destroy_event_t{nullptr};
 
-            using fire_event_t = std::add_pointer_t<void(void*, char const*, char const*, std::uint32_t, char const*) noexcept>;
+            using fire_event_t
+                = std::add_pointer_t<void(void*, char const*, char const*, std::uint32_t, char const*) noexcept>;
             auto fire_event_ptr = fire_event_t{nullptr};
 
             // Range
-            using create_range_t = std::add_pointer_t<void*(char const*, std::uint32_t, char const*, std::uint32_t) noexcept>;
+            using create_range_t
+                = std::add_pointer_t<void*(char const*, std::uint32_t, char const*, std::uint32_t) noexcept>;
             auto create_range_ptr = create_range_t{nullptr};
 
             using destroy_range_t = std::add_pointer_t<void(void*) noexcept>;
@@ -84,10 +86,10 @@ namespace bactria
 
             using report_destroy_report_t = std::add_pointer_t<void(void*) noexcept>;
             auto report_destroy_report_ptr = report_destroy_report_t{nullptr};
-            
+
             using report_write_report_t = std::add_pointer_t<void(void*)>;
             auto report_write_report_ptr = report_write_report_t{nullptr};
-            
+
             using report_record_bool_t = std::add_pointer_t<void(void*, char const*, bool)>;
             auto report_record_bool_ptr = report_record_bool_t{nullptr};
 
@@ -114,7 +116,7 @@ namespace bactria
 
             using report_record_uint64_t = std::add_pointer_t<void(void*, char const*, std::uint64_t)>;
             auto report_record_uint64_ptr = report_record_uint64_t{nullptr};
-            
+
             using report_record_float_t = std::add_pointer_t<void(void*, char const*, float)>;
             auto report_record_float_ptr = report_record_float_t{nullptr};
 
@@ -123,7 +125,6 @@ namespace bactria
 
             using report_record_string_t = std::add_pointer_t<void(void*, char const*, char const*)>;
             auto report_record_string_ptr = report_record_string_t{nullptr};
-        }
-    }
-}
-
+        } // namespace detail
+    } // namespace plugin
+} // namespace bactria

@@ -42,7 +42,7 @@ namespace
         std::uint32_t cat_id;
         std::chrono::steady_clock::time_point start{};
     };
-}
+} // namespace
 
 extern "C"
 {
@@ -50,30 +50,42 @@ extern "C"
     {
         return new event{color, cat_name, cat_id};
     }
-    
+
     auto bactria_plugin_destroy_event(void* event_handle) noexcept -> void
     {
         auto ev = static_cast<event*>(event_handle);
         delete ev;
     }
 
-    auto bactria_plugin_fire_event(void* event_handle, char const* event_name, char const* source,
-                                   std::uint32_t lineno, char const* caller) noexcept -> void
+    auto bactria_plugin_fire_event(
+        void* event_handle,
+        char const* event_name,
+        char const* source,
+        std::uint32_t lineno,
+        char const* caller) noexcept -> void
     {
-
         using precise_duration = std::chrono::duration<double, std::micro>;
         auto const timestamp = std::chrono::steady_clock::now();
         auto const elapsed = std::chrono::duration_cast<precise_duration>(timestamp - exec_stamp);
 
         auto ev = static_cast<event*>(event_handle);
 
-        fmt::print(fg(fmt::rgb(ev->color)),
-                   "Event {} (Category {}) fired in {} at {}:{} after {:.3}.\n",
-                   event_name, ev->cat_name, caller, source, lineno, elapsed);
+        fmt::print(
+            fg(fmt::rgb(ev->color)),
+            "Event {} (Category {}) fired in {} at {}:{} after {:.3}.\n",
+            event_name,
+            ev->cat_name,
+            caller,
+            source,
+            lineno,
+            elapsed);
     }
 
-    auto bactria_plugin_create_range(char const* name, std::uint32_t color,
-                                     char const* cat_name, std::uint32_t cat_id) noexcept -> void*
+    auto bactria_plugin_create_range(
+        char const* name,
+        std::uint32_t color,
+        char const* cat_name,
+        std::uint32_t cat_id) noexcept -> void*
     {
         return new range{name, color, cat_name, cat_id};
     }
@@ -103,7 +115,11 @@ extern "C"
 
         auto const elapsed = std::chrono::duration_cast<precise_duration>(now - r->start);
 
-        fmt::print(fg(fmt::rgb(r->color)), "Leaving range {} (Category {}) after {:.3}\n",
-                   r->name, r->cat_name, elapsed);
+        fmt::print(
+            fg(fmt::rgb(r->color)),
+            "Leaving range {} (Category {}) after {:.3}\n",
+            r->name,
+            r->cat_name,
+            elapsed);
     }
 }

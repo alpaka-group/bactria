@@ -14,15 +14,14 @@
  */
 
 #ifndef BACTRIA_PLUGIN_PRINTF_PHASE_INSTRUMENTATION_HPP
-#   define BACTRIA_PLUGIN_PRINTF_PHASE_INSTRUMENTATION_HPP
+#define BACTRIA_PLUGIN_PRINTF_PHASE_INSTRUMENTATION_HPP
 
-#   include "Common.hpp"
+#include "Common.hpp"
 
-#   include <cstdint>
+#include <cstdint>
 
 auto enter_phase(sector* sec, char const* source, std::uint32_t lineno) -> void;
 auto leave_phase(sector* sec, char const* source, std::uint32_t lineno) -> void;
 auto phase_summary(sector* sec) -> void;
 
 #endif
-

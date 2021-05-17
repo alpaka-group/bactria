@@ -71,5 +71,4 @@ namespace bactria
     {
         static constexpr auto value = 4u;
     };
-}
-
+} // namespace bactria

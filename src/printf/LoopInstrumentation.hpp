@@ -14,11 +14,11 @@
  */
 
 #ifndef BACTRIA_PLUGIN_PRINTF_LOOP_INSTRUMENTATION_HPP
-#   define BACTRIA_PLUGIN_PRINTF_LOOP_INSTRUMENTATION_HPP
+#define BACTRIA_PLUGIN_PRINTF_LOOP_INSTRUMENTATION_HPP
 
-#   include "Common.hpp"
+#include "Common.hpp"
 
-#   include <cstdint>
+#include <cstdint>
 
 auto enter_loop(sector* sec, char const* source, std::uint32_t lineno) -> void;
 auto leave_loop(sector* sec, char const* source, std::uint32_t lineno) -> void;

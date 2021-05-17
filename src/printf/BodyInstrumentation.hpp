@@ -14,12 +14,12 @@
  */
 
 #ifndef BACTRIA_PLUGIN_PRINTF_BODY_INSTRUMENTATION_HPP
-#   define BACTRIA_PLUGIN_PRINTF_BODY_INSTRUMENTATION_HPP
+#define BACTRIA_PLUGIN_PRINTF_BODY_INSTRUMENTATION_HPP
 
-#   include "Common.hpp"
+#include "Common.hpp"
 
-#   include <cstdint>
-#   include <vector>
+#include <cstdint>
+#include <vector>
 
 struct BodyData
 {

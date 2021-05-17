@@ -26,48 +26,53 @@
 
 namespace bactria
 {
-    template <typename... TValues>
+    template<typename... TValues>
     class IncidentRecorder
     {
     public:
         using record_t = IncidentRecorder<TValues...>;
 
     public:
-        template <typename TFunc>
-        auto record_step(TFunc&& f,
-                         /* Poor man's std::is_invocable until we have access to C++17 */
-                         std::enable_if_t<std::is_constructible<std::function<void(record_t&)>,
-                                                                std::reference_wrapper<
-                                                                    typename std::remove_reference<TFunc>::type>
-                                            >::value, int> = 0)
+        template<typename TFunc>
+        auto record_step(
+            TFunc&& f,
+            /* Poor man's std::is_invocable until we have access to C++17 */
+            std::enable_if_t<
+                std::is_constructible<
+                    std::function<void(record_t&)>,
+                    std::reference_wrapper<typename std::remove_reference<TFunc>::type>>::value,
+                int> = 0)
         {
             f(*this);
         }
 
-        template <typename TFunc>
-        auto record_step(TFunc&& f,
-                         std::enable_if_t<std::is_constructible<std::function<void(void)>,
-                                                                std::reference_wrapper<typename std::remove_reference<TFunc>::type>
-                                            >::value, int> = 0)
+        template<typename TFunc>
+        auto record_step(
+            TFunc&& f,
+            std::enable_if_t<
+                std::is_constructible<
+                    std::function<void(void)>,
+                    std::reference_wrapper<typename std::remove_reference<TFunc>::type>>::value,
+                int> = 0)
         {
             f();
         }
 
-        template <std::size_t TIndex>
+        template<std::size_t TIndex>
         auto load()
         {
             static_assert(TIndex < std::tuple_size<decltype(m_values)>::value, "Data index out of bounds");
             return std::get<TIndex>(m_values);
         }
 
-        template <std::size_t TIndex, typename TValue>
+        template<std::size_t TIndex, typename TValue>
         auto store(TValue&& value)
         {
             static_assert(TIndex < std::tuple_size<decltype(m_values)>::value, "Data index out of bounds");
             std::get<TIndex>(m_values) = value;
         }
 
-        template <std::size_t... TIndices>
+        template<std::size_t... TIndices>
         auto submit_report(std::string name) const
         {
             auto const r = make_report(std::move(name), std::get<TIndices>(m_values)...);
@@ -77,5 +82,4 @@ namespace bactria
     private:
         std::tuple<TValues...> m_values{std::make_tuple(TValues{}...)};
     };
-}
-
+} // namespace bactria

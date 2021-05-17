@@ -14,11 +14,11 @@
  */
 
 #ifndef BACTRIA_PLUGIN_PRINTF_GENERIC_INSTRUMENTATION_HPP
-#   define BACTRIA_PLUGIN_PRINTF_GENERIC_INSTRUMENTATION_HPP
+#define BACTRIA_PLUGIN_PRINTF_GENERIC_INSTRUMENTATION_HPP
 
-#   include "Common.hpp"
+#include "Common.hpp"
 
-#   include <cstdint>
+#include <cstdint>
 
 auto enter_generic(sector* sec, char const* source, std::uint32_t lineno, char const* caller) -> void;
 auto leave_generic(sector* sec, char const* source, std::uint32_t lineno, char const* caller) -> void;

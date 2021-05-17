@@ -29,7 +29,14 @@ auto enter_generic(sector* sec, char const* source, std::uint32_t lineno, char c
 auto leave_generic(sector* sec, char const* source, std::uint32_t lineno, char const* caller)
 {
     const auto parents = sector_stack.size();
-    fmt::print("{:>{}} Leaving sector {} in {}() - {}:{}.\n", "|", 4u * (parents - 1u), sec->name, caller, source, lineno);
+    fmt::print(
+        "{:>{}} Leaving sector {} in {}() - {}:{}.\n",
+        "|",
+        4u * (parents - 1u),
+        sec->name,
+        caller,
+        source,
+        lineno);
     handle_pop(sec);
 }
 

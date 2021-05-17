@@ -24,8 +24,8 @@
 
 #pragma once
 
-#include <bactria/detail/PluginInterface.hpp>
 #include <bactria/detail/POSIX.hpp>
+#include <bactria/detail/PluginInterface.hpp>
 #include <bactria/detail/Win32.hpp>
 
 #include <iostream>
@@ -81,18 +81,54 @@ namespace bactria
                 detail::load_func(handle, detail::report_create_report_ptr, "bactria_report_plugin_create_report");
                 detail::load_func(handle, detail::report_destroy_report_ptr, "bactria_report_plugin_destroy_report");
                 detail::load_func(handle, detail::report_write_report_ptr, "bactria_report_plugin_write_report");
-                detail::load_func(handle, detail::report_record_bool_ptr, "bactria_report_plugin_record_incident_bool");
-                detail::load_func(handle, detail::report_record_int8_ptr, "bactria_report_plugin_record_incident_int8");
-                detail::load_func(handle, detail::report_record_uint8_ptr, "bactria_report_plugin_record_incident_uint8");
-                detail::load_func(handle, detail::report_record_int16_ptr, "bactria_report_plugin_record_incident_int16");
-                detail::load_func(handle, detail::report_record_uint16_ptr, "bactria_report_plugin_record_incident_uint16");
-                detail::load_func(handle, detail::report_record_int32_ptr, "bactria_report_plugin_record_incident_int32");
-                detail::load_func(handle, detail::report_record_uint32_ptr, "bactria_report_plugin_record_incident_uint32");
-                detail::load_func(handle, detail::report_record_int64_ptr, "bactria_report_plugin_record_incident_int64");
-                detail::load_func(handle, detail::report_record_uint64_ptr, "bactria_report_plugin_record_incident_uint64");
-                detail::load_func(handle, detail::report_record_float_ptr, "bactria_report_plugin_record_incident_float");
-                detail::load_func(handle, detail::report_record_double_ptr, "bactria_report_plugin_record_incident_double");
-                detail::load_func(handle, detail::report_record_string_ptr, "bactria_report_plugin_record_incident_string");
+                detail::load_func(
+                    handle,
+                    detail::report_record_bool_ptr,
+                    "bactria_report_plugin_record_incident_bool");
+                detail::load_func(
+                    handle,
+                    detail::report_record_int8_ptr,
+                    "bactria_report_plugin_record_incident_int8");
+                detail::load_func(
+                    handle,
+                    detail::report_record_uint8_ptr,
+                    "bactria_report_plugin_record_incident_uint8");
+                detail::load_func(
+                    handle,
+                    detail::report_record_int16_ptr,
+                    "bactria_report_plugin_record_incident_int16");
+                detail::load_func(
+                    handle,
+                    detail::report_record_uint16_ptr,
+                    "bactria_report_plugin_record_incident_uint16");
+                detail::load_func(
+                    handle,
+                    detail::report_record_int32_ptr,
+                    "bactria_report_plugin_record_incident_int32");
+                detail::load_func(
+                    handle,
+                    detail::report_record_uint32_ptr,
+                    "bactria_report_plugin_record_incident_uint32");
+                detail::load_func(
+                    handle,
+                    detail::report_record_int64_ptr,
+                    "bactria_report_plugin_record_incident_int64");
+                detail::load_func(
+                    handle,
+                    detail::report_record_uint64_ptr,
+                    "bactria_report_plugin_record_incident_uint64");
+                detail::load_func(
+                    handle,
+                    detail::report_record_float_ptr,
+                    "bactria_report_plugin_record_incident_float");
+                detail::load_func(
+                    handle,
+                    detail::report_record_double_ptr,
+                    "bactria_report_plugin_record_incident_double");
+                detail::load_func(
+                    handle,
+                    detail::report_record_string_ptr,
+                    "bactria_report_plugin_record_incident_string");
 
                 return handle;
             }
@@ -107,8 +143,10 @@ namespace bactria
             detail::close_plugin(handle);
         }
 
-        [[nodiscard, gnu::always_inline]]
-        inline auto create_event(std::uint32_t color, char const* cat_name, std::uint32_t cat_id) noexcept
+        [[nodiscard, gnu::always_inline]] inline auto create_event(
+            std::uint32_t color,
+            char const* cat_name,
+            std::uint32_t cat_id) noexcept
         {
             if(detail::create_event_ptr != nullptr)
                 return (detail::create_event_ptr)(color, cat_name, cat_id);
@@ -122,16 +160,22 @@ namespace bactria
                 (detail::destroy_event_ptr)(event_handle);
         }
 
-        [[gnu::always_inline]] inline auto fire_event(void* event_handle, char const* event_name, char const* source,
-                                                      std::uint32_t lineno, char const* caller) noexcept
+        [[gnu::always_inline]] inline auto fire_event(
+            void* event_handle,
+            char const* event_name,
+            char const* source,
+            std::uint32_t lineno,
+            char const* caller) noexcept
         {
             if(detail::fire_event_ptr != nullptr)
                 (detail::fire_event_ptr)(event_handle, event_name, source, lineno, caller);
         }
 
-        [[nodiscard, gnu::always_inline]]
-        inline auto create_range(char const* name, std::uint32_t color, char const* cat_name,
-                                 std::uint32_t cat_id) noexcept
+        [[nodiscard, gnu::always_inline]] inline auto create_range(
+            char const* name,
+            std::uint32_t color,
+            char const* cat_name,
+            std::uint32_t cat_id) noexcept
         {
             if(detail::create_range_ptr != nullptr)
                 return (detail::create_range_ptr)(name, color, cat_name, cat_id);
@@ -171,17 +215,21 @@ namespace bactria
                 (detail::destroy_sector_ptr)(sector_handle);
         }
 
-        [[gnu::always_inline]]
-        inline auto enter_sector(void* sector_handle, char const* source, std::uint32_t lineno,
-                                 char const* caller) noexcept
+        [[gnu::always_inline]] inline auto enter_sector(
+            void* sector_handle,
+            char const* source,
+            std::uint32_t lineno,
+            char const* caller) noexcept
         {
             if(detail::enter_sector_ptr != nullptr)
                 (detail::enter_sector_ptr)(sector_handle, source, lineno, caller);
         }
 
-        [[gnu::always_inline]]
-        inline auto leave_sector(void* sector_handle, char const* source, std::uint32_t lineno,
-                                 char const* caller) noexcept
+        [[gnu::always_inline]] inline auto leave_sector(
+            void* sector_handle,
+            char const* source,
+            std::uint32_t lineno,
+            char const* caller) noexcept
         {
             if(detail::leave_sector_ptr != nullptr)
                 (detail::leave_sector_ptr)(sector_handle, source, lineno, caller);
@@ -207,17 +255,21 @@ namespace bactria
                 (detail::destroy_phase_ptr)(phase_handle);
         }
 
-        [[gnu::always_inline]]
-        inline auto enter_phase(void* phase_handle, char const* source, std::uint32_t lineno,
-                                char const* caller) noexcept
+        [[gnu::always_inline]] inline auto enter_phase(
+            void* phase_handle,
+            char const* source,
+            std::uint32_t lineno,
+            char const* caller) noexcept
         {
             if(detail::enter_phase_ptr != nullptr)
                 (detail::enter_phase_ptr)(phase_handle, source, lineno, caller);
         }
 
-        [[gnu::always_inline]]
-        inline auto leave_phase(void* phase_handle, char const* source, std::uint32_t lineno,
-                                char const* caller) noexcept
+        [[gnu::always_inline]] inline auto leave_phase(
+            void* phase_handle,
+            char const* source,
+            std::uint32_t lineno,
+            char const* caller) noexcept
         {
             if(detail::leave_phase_ptr != nullptr)
                 (detail::leave_phase_ptr)(phase_handle, source, lineno, caller);
@@ -314,6 +366,5 @@ namespace bactria
             if(detail::report_record_string_ptr != nullptr)
                 (detail::report_record_string_ptr)(report_handle, key, value);
         }
-    }
-}
-
+    } // namespace plugin
+} // namespace bactria

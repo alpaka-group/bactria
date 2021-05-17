@@ -14,18 +14,18 @@
  */
 
 #ifndef BACTRIA_PLUGIN_PRINTF_COMMON_HPP
-#   define BACTRIA_PLUGIN_PRINTF_COMMON_HPP
+#define BACTRIA_PLUGIN_PRINTF_COMMON_HPP
 
-#   include <bactria/Colors.hpp>
+#include <bactria/Colors.hpp>
 
-#   include <fmt/color.h>
-#   include <fmt/core.h>
+#include <fmt/color.h>
+#include <fmt/core.h>
 
-#   include <chrono>
-#   include <functional>
-#   include <memory>
-#   include <stack>
-#   include <utility>
+#include <chrono>
+#include <functional>
+#include <memory>
+#include <stack>
+#include <utility>
 
 using TimePair = std::pair<std::chrono::steady_clock::time_point, std::chrono::steady_clock::time_point>;
 
@@ -52,9 +52,11 @@ extern thread_local std::stack<sector*> sector_stack;
 {
     if(sector_stack.top() != sec)
     {
-        fmt::print(stderr, fg(fmt::rgb(bactria::color::bactria_red)),
-                   "WARNING: enter/leave of sector {} were invalidly nested. This is likely to produce wrong results.\n",
-                   sec->name);
+        fmt::print(
+            stderr,
+            fg(fmt::rgb(bactria::color::bactria_red)),
+            "WARNING: enter/leave of sector {} were invalidly nested. This is likely to produce wrong results.\n",
+            sec->name);
     }
     else
         sector_stack.pop();

@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include <bactria/detail/Activation.hpp>
 #include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
 
 #include <string>
 #include <utility>
@@ -62,9 +62,9 @@ namespace bactria
          * \param name The phase name as it should appear on the output file or visualizer.
          * \sa bactria_Enter, bactria_Leave, ~Phase
          */
-        explicit Phase(std::string name)
-        : m_name{std::move(name)}
-        {}
+        explicit Phase(std::string name) : m_name{std::move(name)}
+        {
+        }
 
         /**
          * \brief The entering constructor.
@@ -79,8 +79,7 @@ namespace bactria
          * \param caller The surrounding function this phase is constructed in. This should be `__func__`.
          * \sa bactria_Enter, bactria_Leave, ~Phase()
          */
-        Phase(std::string name, std::string source, std::uint32_t lineno, std::string caller)
-        : m_name{std::move(name)}
+        Phase(std::string name, std::string source, std::uint32_t lineno, std::string caller) : m_name{std::move(name)}
         {
             if(detail::is_activated())
                 enter(std::move(source), lineno, std::move(caller));
@@ -108,8 +107,7 @@ namespace bactria
          *
          * \param other The phase to be moved.
          */
-        Phase(Phase&& other)
-        : m_name{std::move(other.m_name)}, m_entered{other.m_entered}
+        Phase(Phase&& other) : m_name{std::move(other.m_name)}, m_entered{other.m_entered}
         {
             std::swap(m_handle, other.m_handle);
         }
@@ -136,7 +134,7 @@ namespace bactria
          * Destructs the phase. If the phase was entered and there was no preceeding call to #bactria_Leave() or
          * leave() the destructor will trigger this functionality before the contents of \a this are deleted. Using
          * \a this after the destructor was triggered results in undefined behaviour.
-         * 
+         *
          * \sa Phase, bactria_Enter, bactria_Leave, enter, leave
          */
         ~Phase()
@@ -193,7 +191,6 @@ namespace bactria
     private:
         std::string m_name{"BACTRIA_GENERIC_PHASE"};
         void* m_handle{detail::is_activated() ? plugin::create_phase(m_name.c_str()) : nullptr};
-        bool m_entered{false}; 
+        bool m_entered{false};
     };
-}
-
+} // namespace bactria
