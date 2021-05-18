@@ -19,8 +19,8 @@
 #include <fmt/core.h>
 
 #include <algorithm>
-#include <cstdint>
 #include <chrono>
+#include <cstdint>
 #include <numeric>
 #include <vector>
 
@@ -39,7 +39,7 @@ auto enter_body(sector* sec, char const* source, std::uint32_t lineno) -> void
 
     data_ptr->locals.emplace_back(now, now);
 
-    auto const parents = sector_stack.size(); 
+    auto const parents = sector_stack.size();
     fmt::print("{:>{}} Entering body {} - {}:{}.\n", "|", 4u * parents, sec->name, source, lineno);
     sector_stack.push(sec);
 }
@@ -64,18 +64,17 @@ auto body_summary(sector* sec) -> void
     using precise_duration = std::chrono::duration<double, std::micro>;
 
     auto dur_vec = std::vector<double>(data_ptr->locals.size());
-    std::transform(std::begin(data_ptr->locals), std::end(data_ptr->locals),
-                   std::begin(dur_vec),
-                   [](TimePair const& p)
-                   {
-                        return (std::chrono::duration_cast<precise_duration>(p.second - p.first)).count(); 
-                   });
+    std::transform(
+        std::begin(data_ptr->locals),
+        std::end(data_ptr->locals),
+        std::begin(dur_vec),
+        [](TimePair const& p) { return (std::chrono::duration_cast<precise_duration>(p.second - p.first)).count(); });
 
     // duration
     auto const dur = std::chrono::duration_cast<precise_duration>(data_ptr->global.second - data_ptr->global.first);
 
     // min, max
-    auto const minmax_ticks = std::minmax_element(std::begin(dur_vec), std::end(dur_vec));    
+    auto const minmax_ticks = std::minmax_element(std::begin(dur_vec), std::end(dur_vec));
     auto const min = precise_duration{*minmax_ticks.first};
     auto const max = precise_duration{*minmax_ticks.second};
 
@@ -83,7 +82,7 @@ auto body_summary(sector* sec) -> void
     auto const sum_ticks = std::accumulate(std::begin(dur_vec), std::end(dur_vec), 0.0);
     auto const avg_ticks = sum_ticks / dur_vec.size();
     auto const avg = precise_duration{avg_ticks};
-    
+
     // stddev
     auto const squared_ticks = std::inner_product(std::begin(dur_vec), std::end(dur_vec), std::begin(dur_vec), 0.0);
     auto const stddev_ticks = std::sqrt(squared_ticks / dur_vec.size() - (avg_ticks * avg_ticks));

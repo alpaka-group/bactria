@@ -48,9 +48,9 @@ namespace bactria
          *
          * This constructs a Category with the ID \a id and the name \a name.
          */
-        Category(std::uint32_t id, std::string name)
-        : m_id{id}, m_name{std::move(name)}
-        {}
+        Category(std::uint32_t id, std::string name) : m_id{id}, m_name{std::move(name)}
+        {
+        }
 
         /**
          * \brief The copy constructor.
@@ -128,10 +128,10 @@ namespace bactria
         {
             return m_name.c_str();
         }
-    
+
     private:
-        std::uint32_t m_id{0u}; ///< The identifier of the category. Different categories require different identifiers.
+        std::uint32_t m_id{
+            0u}; ///< The identifier of the category. Different categories require different identifiers.
         std::string m_name{"BACTRIA_GENERIC_CATEGORY"};
     };
-}
-
+} // namespace bactria

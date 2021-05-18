@@ -21,28 +21,27 @@
 
 namespace bactria
 {
-    template <typename... TIncidents>
+    template<typename... TIncidents>
     class Report;
 
-    template <typename TValue>
+    template<typename TValue>
     class Incident
     {
-        static_assert(std::is_arithmetic<TValue>::value || std::is_same<TValue, std::string>::value,
-                      "Incident value must be an arithmetic type or std::string");
+        static_assert(
+            std::is_arithmetic<TValue>::value || std::is_same<TValue, std::string>::value,
+            "Incident value must be an arithmetic type or std::string");
 
-        template <typename... TIncidents>
+        template<typename... TIncidents>
         friend class Report;
 
     public:
         Incident() = default;
 
-        Incident(std::string key, TValue value)
-        : m_key{std::move(key)}, m_value{value}
+        Incident(std::string key, TValue value) : m_key{std::move(key)}, m_value{value}
         {
         }
 
-        Incident(Incident const& other)
-        : m_key{other.m_key}, m_value{other.m_value}
+        Incident(Incident const& other) : m_key{other.m_key}, m_value{other.m_value}
         {
         }
 
@@ -52,9 +51,8 @@ namespace bactria
             m_value = rhs.m_value;
             return *this;
         }
-        
-        Incident(Incident&& other) noexcept
-        : m_key{std::move(other.m_key)}, m_value{std::move(other.m_value)}
+
+        Incident(Incident&& other) noexcept : m_key{std::move(other.m_key)}, m_value{std::move(other.m_value)}
         {
         }
 
@@ -72,11 +70,10 @@ namespace bactria
         TValue m_value{};
     };
 
-    template <typename TValue>
+    template<typename TValue>
     auto make_incident(std::string key, TValue value) -> Incident<std::remove_reference_t<TValue>>
     {
         using ValueType = std::remove_reference_t<TValue>;
         return Incident<ValueType>{std::move(key), value};
     }
-}
-
+} // namespace bactria

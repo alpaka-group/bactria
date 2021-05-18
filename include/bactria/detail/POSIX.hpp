@@ -17,12 +17,12 @@
 
 #ifndef _WIN32
 
-#   include <dlfcn.h>
+#    include <dlfcn.h>
 
-#   include <cstdio>
-#   include <cstdlib>
-#   include <stdexcept>
-#   include <string>
+#    include <cstdio>
+#    include <cstdlib>
+#    include <stdexcept>
+#    include <string>
 
 namespace bactria
 {
@@ -41,7 +41,7 @@ namespace bactria
                 throw std::runtime_error{dlerror()};
             }
 
-            template <typename Sig>
+            template<typename Sig>
             [[gnu::always_inline]] inline auto load_func(plugin_handle_t handle, Sig& ptr, const char* name)
             {
                 if(ptr == nullptr)
@@ -67,9 +67,8 @@ namespace bactria
                         std::fprintf(stderr, "WARNING: Unknown error while closing plugin library.\n");
                 }
             }
-        }
-    }
-}
+        } // namespace detail
+    } // namespace plugin
+} // namespace bactria
 
 #endif // _WIN32
-

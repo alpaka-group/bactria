@@ -24,9 +24,9 @@
 #pragma once
 
 #include <bactria/Colors.hpp>
-#include <bactria/detail/Activation.hpp>
-#include <bactria/Plugin.hpp>
 #include <bactria/Marker.hpp>
+#include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
 
 #include <functional>
 #include <string>
@@ -53,7 +53,8 @@ namespace bactria
          * the generic Category.
          */
         Event() : Marker("BACTRIA_GENERIC_EVENT", bactria::color::orange, Category{})
-        {}
+        {
+        }
 
         /**
          * \brief The constructor.
@@ -66,8 +67,9 @@ namespace bactria
          * \param category The category this event should be assigned to. This allows for later filtering.
          */
         Event(std::string name, std::uint32_t color = bactria::color::orange, Category category = Category{})
-        : Marker(std::move(name), color, std::move(category))
-        {}
+            : Marker(std::move(name), color, std::move(category))
+        {
+        }
 
         /**
          * \brief The copy constructor.
@@ -77,12 +79,11 @@ namespace bactria
          * \param other The event to copy the properties from.
          */
         Event(const Event& other)
-        : Marker(other)
-        , m_handle{detail::is_activated() ? plugin::create_event(m_color, m_category.get_c_name(),
-                                                                 m_category.get_id())
-                                            : nullptr}
-        , m_action{other.m_action}
-        {}
+            : Marker(other)
+            , m_handle{detail::is_activated() ? plugin::create_event(m_color, m_category.get_c_name(), m_category.get_id()) : nullptr}
+            , m_action{other.m_action}
+        {
+        }
 
         /**
          * \brief The copy assignment operator.
@@ -113,8 +114,7 @@ namespace bactria
          *
          * \param other The Event to be moved.
          */
-        Event(Event&& other) noexcept
-        : Marker(std::move(other))
+        Event(Event&& other) noexcept : Marker(std::move(other))
         {
             std::swap(m_handle, other.m_handle);
             std::swap(m_action, other.m_action);
@@ -183,10 +183,9 @@ namespace bactria
         }
 
     private:
-        void* m_handle{detail::is_activated() ? plugin::create_event(m_color, m_category.get_c_name(),
-                                                                     m_category.get_id())
-                                                : nullptr};
-        std::function<std::string(void)> m_action = [this](){ return m_name; };
+        void* m_handle{
+            detail::is_activated() ? plugin::create_event(m_color, m_category.get_c_name(), m_category.get_id())
+                                   : nullptr};
+        std::function<std::string(void)> m_action = [this]() { return m_name; };
     };
-}
-
+} // namespace bactria

@@ -23,8 +23,8 @@
 
 #pragma once
 
-#include <bactria/Colors.hpp>
 #include <bactria/Category.hpp>
+#include <bactria/Colors.hpp>
 
 #include <cstdint>
 #include <string>
@@ -46,77 +46,79 @@ namespace bactria
      */
     class Marker
     {
-        public:
-            Marker() = default;
+    public:
+        Marker() = default;
 
-            Marker(std::string name, std::uint32_t color, Category category)
-            : m_name{std::move(name)}, m_color{color}, m_category{std::move(category)}
-            {}
+        Marker(std::string name, std::uint32_t color, Category category)
+            : m_name{std::move(name)}
+            , m_color{color}
+            , m_category{std::move(category)}
+        {
+        }
 
-            Marker(Marker const&) = default;
-            auto operator=(Marker const&) -> Marker& = default;
+        Marker(Marker const&) = default;
+        auto operator=(Marker const&) -> Marker& = default;
 
-            Marker(Marker&&) = default;
-            auto operator=(Marker&&) -> Marker& = default;
+        Marker(Marker&&) = default;
+        auto operator=(Marker&&) -> Marker& = default;
 
-            virtual ~Marker() = default;
+        virtual ~Marker() = default;
 
-            /**
-             * \brief Return the marker's name.
-             *
-             * Returns the name assigned to \a this event / range.
-             *
-             * \return The name.
-             */
-            auto get_name() const noexcept -> std::string const&
-            {
-                return m_name;
-            }
+        /**
+         * \brief Return the marker's name.
+         *
+         * Returns the name assigned to \a this event / range.
+         *
+         * \return The name.
+         */
+        auto get_name() const noexcept -> std::string const&
+        {
+            return m_name;
+        }
 
-            /**
-             * \brief Return the marker's name (C string).
-             *
-             * Returns the name assigned to \a this event / range as a C string.
-             *
-             * \return The name.
-             */
-            auto get_c_name() const noexcept -> char const*
-            {
-                return m_name.c_str();
-            }
+        /**
+         * \brief Return the marker's name (C string).
+         *
+         * Returns the name assigned to \a this event / range as a C string.
+         *
+         * \return The name.
+         */
+        auto get_c_name() const noexcept -> char const*
+        {
+            return m_name.c_str();
+        }
 
-            /**
-             * \brief Return the marker's color.
-             *
-             * Returns the color assigned to \a this event / range.
-             *
-             * \return The color.
-             */
-            auto get_color() const noexcept -> std::uint32_t
-            {
-                return m_color;
-            }
+        /**
+         * \brief Return the marker's color.
+         *
+         * Returns the color assigned to \a this event / range.
+         *
+         * \return The color.
+         */
+        auto get_color() const noexcept -> std::uint32_t
+        {
+            return m_color;
+        }
 
-            /**
-             * \brief Return the marker's category.
-             *
-             * Returns the Category assigned to \a this event / range.
-             *
-             * \return The Category.
-             */
-            auto get_category() const noexcept -> Category const&
-            {
-                return m_category;
-            }
+        /**
+         * \brief Return the marker's category.
+         *
+         * Returns the Category assigned to \a this event / range.
+         *
+         * \return The Category.
+         */
+        auto get_category() const noexcept -> Category const&
+        {
+            return m_category;
+        }
 
-        protected:
-            std::string m_name{"BACTRIA_GENERIC_MARKER"};
-            std::uint32_t m_color{bactria::color::orange};
-            Category m_category{};
+    protected:
+        std::string m_name{"BACTRIA_GENERIC_MARKER"};
+        std::uint32_t m_color{bactria::color::orange};
+        Category m_category{};
     };
 
     /**
      * \}
      */
-}
-
+} // namespace bactria

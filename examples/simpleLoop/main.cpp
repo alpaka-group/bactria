@@ -15,8 +15,8 @@
 
 #include <bactria/bactria.hpp>
 
-#include <cstdlib>
 #include <chrono>
+#include <cstdlib>
 #include <iostream>
 #include <thread>
 #include <utility>
@@ -65,7 +65,7 @@ auto main() -> int
 
             /* Ranges take an optional second parameter for the color. This has to be supplied in ARGB format, e.g.
              * 0xFF000000 for the color black. A number of colors are predefined in <bactria/Colors.hpp>. */
-            auto r2 = bactria::Range{"HOW EXPENSIVE IS SECTOR ENTER / LEAVE", bactria::color::bactria_green };
+            auto r2 = bactria::Range{"HOW EXPENSIVE IS SECTOR ENTER / LEAVE", bactria::color::bactria_green};
             {
                 bactria_Enter(s);
                 bactria_Leave(s);
@@ -97,7 +97,7 @@ auto main() -> int
 
             /* Sectors can be configured to execute user-defined code after entering and/or before leaving
              * a sector. */
-            b.on_leave([](){ std::cout << "Synchronizing..." << std::endl; });
+            b.on_leave([]() { std::cout << "Synchronizing..." << std::endl; });
             for(auto i = 0; i < 20; ++i)
             {
                 bactria_Enter(b);
@@ -119,7 +119,10 @@ auto main() -> int
 
             /* You can also define an action event with an action that generates the name. The action will only be
              * executed if bactria is activated. */
-            bactria_ActionEvent([](){ return "GENERATED EVENT"; }, bactria::color::bactria_turquoise, bactria::Category{});
+            bactria_ActionEvent(
+                []() { return "GENERATED EVENT"; },
+                bactria::color::bactria_turquoise,
+                bactria::Category{});
 
             auto avgLoopTime = 0.0;
 
@@ -127,11 +130,12 @@ auto main() -> int
             using clock = std::chrono::high_resolution_clock;
 
             /* Set up the recorder. We need to define all intermediate types used by our recorder. */
-            using Recorder = bactria::IncidentRecorder<typename clock::time_point,
-                                                       typename std::chrono::nanoseconds::rep,
-                                                       bactria::Incident<double>,
-                                                       bactria::Incident<int>,
-                                                       bactria::Incident<int>>;
+            using Recorder = bactria::IncidentRecorder<
+                typename clock::time_point,
+                typename std::chrono::nanoseconds::rep,
+                bactria::Incident<double>,
+                bactria::Incident<int>,
+                bactria::Incident<int>>;
             auto ir = Recorder{};
 
             /* Extract record type from recorder. Our functors can use this to access the recorded values. */
@@ -140,34 +144,28 @@ auto main() -> int
             for(auto i = 0; i < 20; ++i)
             {
                 // Start timer
-                ir.record_step([](Record& r)
-                {
+                ir.record_step([](Record& r) {
                     // Store the clock::time_point in the recorder. The index corresponds to the element order defined
                     // in the using Recorder = ... directive above.
                     r.store<0>(clock::now());
                 });
 
                 // Stop timer
-                ir.record_step([](Record& r)
-                {
+                ir.record_step([](Record& r) {
                     // Load the clock::time_point from the recorder.
                     auto const start = r.load<0>();
                     auto const end = clock::now();
                     auto const dur = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-                    
+
                     // Store the nanoseconds
                     r.store<1>(dur.count());
                 });
 
                 // Do something else with no storage requirements
-                ir.record_step([]()
-                {
-                    std::cout << "Something else..." << std::endl;
-                });
+                ir.record_step([]() { std::cout << "Something else..." << std::endl; });
 
                 // Calculate average
-                ir.record_step([&](Record& r)
-                {
+                ir.record_step([&](Record& r) {
                     // Load the nanoseconds
                     auto const dur = r.load<1>();
                     avgLoopTime += dur;

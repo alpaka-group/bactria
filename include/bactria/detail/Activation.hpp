@@ -32,6 +32,5 @@ namespace bactria
             static bool const activated = is_activated() && (std::getenv("BACTRIA_REPORT_PLUGIN") != nullptr);
             return activated;
         }
-    }
-}
-
+    } // namespace detail
+} // namespace bactria

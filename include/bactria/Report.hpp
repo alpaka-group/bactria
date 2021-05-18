@@ -15,9 +15,9 @@
 
 #pragma once
 
-#include <bactria/detail/Activation.hpp>
 #include <bactria/Incident.hpp>
 #include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
 
 #include <functional>
 #include <string>
@@ -26,19 +26,19 @@
 
 namespace bactria
 {
-    template <typename... TIncidents>
+    template<typename... TIncidents>
     class Report
     {
     public:
         Report() = default;
 
         Report(std::string name, TIncidents&&... incidents)
-        : m_name{std::move(name)}, m_incidents{std::forward<TIncidents>(incidents)...}
+            : m_name{std::move(name)}
+            , m_incidents{std::forward<TIncidents>(incidents)...}
         {
         }
 
-        Report(Report const& other)
-        : m_name{other.m_name}, m_incidents{other.m_incidents}
+        Report(Report const& other) : m_name{other.m_name}, m_incidents{other.m_incidents}
         {
         }
 
@@ -49,8 +49,7 @@ namespace bactria
             return *this;
         }
 
-        Report(Report&& other) noexcept
-        : m_name{std::move(other.m_name)}, m_incidents{std::move(other.m_incidents)}
+        Report(Report&& other) noexcept : m_name{std::move(other.m_name)}, m_incidents{std::move(other.m_incidents)}
         {
         }
 
@@ -80,13 +79,13 @@ namespace bactria
         }
 
     private:
-        template <std::size_t... Is>
+        template<std::size_t... Is>
         auto submit_incidents(std::index_sequence<Is...>) const
         {
-            auto dummy = { (submit_incident(std::get<Is>(m_incidents)), 0)... };
+            auto dummy = {(submit_incident(std::get<Is>(m_incidents)), 0)...};
         }
 
-        template <typename TIncident>
+        template<typename TIncident>
         auto submit_incident(TIncident const& incident) const
         {
             plugin::record_value(m_handle, incident.m_key.c_str(), incident.m_value);
@@ -97,10 +96,9 @@ namespace bactria
         void* m_handle{detail::reports_activated() ? plugin::create_report(m_name.c_str()) : nullptr};
     };
 
-    template <typename... TIncidents>
+    template<typename... TIncidents>
     auto make_report(std::string name, TIncidents&&... incidents) -> Report<TIncidents...>
     {
         return Report<TIncidents...>{std::move(name), std::forward<TIncidents>(incidents)...};
     }
-}
-
+} // namespace bactria

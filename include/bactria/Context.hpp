@@ -22,8 +22,8 @@
 
 #pragma once
 
-#include <bactria/detail/Activation.hpp>
 #include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
 
 #include <utility>
 
@@ -40,7 +40,7 @@ namespace bactria
     {
     public:
         // The plugin handles are reference counted. Copying them around doesn't hurt.
-        
+
         /**
          * \brief The constructor.
          *
@@ -97,7 +97,7 @@ namespace bactria
             std::swap(m_handle, rhs.m_handle);
             return *this;
         }
-        
+
         /**
          * \brief The destructor.
          *
@@ -120,8 +120,7 @@ namespace bactria
 
     private:
         plugin::plugin_handle_t m_handle{detail::is_activated() ? plugin::load_plugin() : plugin::plugin_handle_t{}};
-        plugin::plugin_handle_t m_reportHandle{detail::reports_activated() ?
-                                               plugin::load_report_plugin() : plugin::plugin_handle_t{}};
+        plugin::plugin_handle_t m_reportHandle{
+            detail::reports_activated() ? plugin::load_report_plugin() : plugin::plugin_handle_t{}};
     };
-}
-
+} // namespace bactria

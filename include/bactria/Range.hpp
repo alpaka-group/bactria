@@ -23,9 +23,9 @@
 #pragma once
 
 #include <bactria/Colors.hpp>
-#include <bactria/detail/Activation.hpp>
-#include <bactria/Plugin.hpp>
 #include <bactria/Marker.hpp>
+#include <bactria/Plugin.hpp>
+#include <bactria/detail/Activation.hpp>
 
 #include <cstdint>
 #include <string>
@@ -60,7 +60,8 @@ namespace bactria
          * \sa ~Range, start, stop, Category
          */
         Range() : Marker("BACTRIA_GENERIC_RANGE", bactria::color::bactria_cyan, Category{})
-        {}
+        {
+        }
 
         /**
          * \brief The constructor.
@@ -68,15 +69,19 @@ namespace bactria
          * Constructs a Range with the name \a name, the color \a color and the Category \a category.
          *
          * \param name The name of the range as it should be shown on the visualizer.
-         * \param color The range's color in ARGB format as it should be shown on the visualizer. 
+         * \param color The range's color in ARGB format as it should be shown on the visualizer.
          *              Default: bactria::color::bactria_cyan.
          * \param category The range's category. Default: bactria's default category.
          * \param autostart If \a true start the range on construction. Default: \a true.
          *
          * \sa ~Range, start, stop, Category
          */
-        Range(std::string name, std::uint32_t color = bactria::color::cyan, Category category = Category{}, bool autostart = true)
-        : Marker(std::move(name), color, std::move(category))
+        Range(
+            std::string name,
+            std::uint32_t color = bactria::color::cyan,
+            Category category = Category{},
+            bool autostart = true)
+            : Marker(std::move(name), color, std::move(category))
         {
             if(autostart && detail::is_activated())
                 start();
@@ -135,8 +140,7 @@ namespace bactria
          *
          * \sa ~Range, start, stop
          */
-        Range(Range&& other) noexcept
-        : Marker(std::forward<Range>(other))
+        Range(Range&& other) noexcept : Marker(std::forward<Range>(other))
         {
             std::swap(m_handle, other.m_handle);
             std::swap(m_started, other.m_started);
@@ -216,8 +220,10 @@ namespace bactria
         }
 
     private:
-        void* m_handle{detail::is_activated() ? plugin::create_range(m_name.c_str(), m_color, m_category.get_c_name(), m_category.get_id()) : nullptr};
+        void* m_handle{
+            detail::is_activated()
+                ? plugin::create_range(m_name.c_str(), m_color, m_category.get_c_name(), m_category.get_id())
+                : nullptr};
         bool m_started{false};
     };
-}
-
+} // namespace bactria

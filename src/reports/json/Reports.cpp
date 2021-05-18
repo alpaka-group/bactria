@@ -30,13 +30,13 @@ struct report
 
 namespace
 {
-    template <typename TValue>
+    template<typename TValue>
     auto record_incident(void* handle, char const* key, TValue value)
     {
         auto r = static_cast<report*>(handle);
         r->j[key] = value;
     }
-}
+} // namespace
 
 extern "C"
 {

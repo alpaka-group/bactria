@@ -184,6 +184,5 @@ namespace bactria
         constexpr auto violet = 0xFFEE82EEu;
         constexpr auto yellow = 0xFFFFFF00u;
         constexpr auto white = 0xFFFFFFFFu;
-    }
-}
-
+    } // namespace color
+} // namespace bactria

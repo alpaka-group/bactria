@@ -15,11 +15,11 @@
 
 #ifdef _WIN32
 
-#   include <windows.h>
+#    include <windows.h>
 
-#   include <cstdio>
-#   include <string>
-#   include <system_error>
+#    include <cstdio>
+#    include <string>
+#    include <system_error>
 
 namespace bactria
 {
@@ -45,7 +45,7 @@ namespace bactria
                 throw std::runtime_error{make_last_error_string()};
             }
 
-            template <typename Sig>
+            template<typename Sig>
             auto load_func(plugin_handle_t handle, Sig& ptr, const char* name) -> void
             {
                 if(ptr == nullptr)
@@ -71,9 +71,8 @@ namespace bactria
                         std::fprintf(stderr, "WARNING: Unknown error while closing plugin library.\n");
                 }
             }
-        }
-    }
-}
+        } // namespace detail
+    } // namespace plugin
+} // namespace bactria
 
 #endif // _WIN32
-
