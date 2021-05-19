@@ -13,25 +13,15 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-/**
- * \file bactria.hpp
- * \brief bactria's main include file.
- *
- * This is bactria's main include file. It pulls in all functionality required by the user.
- */
-
 #pragma once
 
-#include <bactria/core/Activation.hpp>
-#include <bactria/core/Context.hpp>
-#include <bactria/metrics/Phase.hpp>
-#include <bactria/metrics/Sector.hpp>
-#include <bactria/metrics/Tags.hpp>
-#include <bactria/ranges/Category.hpp>
-#include <bactria/ranges/Colors.hpp>
-#include <bactria/ranges/Event.hpp>
-#include <bactria/ranges/Marker.hpp>
-#include <bactria/ranges/Range.hpp>
-#include <bactria/reports/Incident.hpp>
-#include <bactria/reports/IncidentRecorder.hpp>
-#include <bactria/reports/Report.hpp>
+#include <cstdlib>
+
+namespace bactria
+{
+    inline auto is_active() -> bool
+    {
+        static auto const active = (std::getenv("BACTRIA_DEACTIVATE") == nullptr);
+        return active;
+    }
+} // namespace bactria

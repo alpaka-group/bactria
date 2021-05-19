@@ -1,2 +1,3 @@
-add_subdirectory(printf)
+add_subdirectory(metrics)
+add_subdirectory(ranges)
 add_subdirectory(reports)
