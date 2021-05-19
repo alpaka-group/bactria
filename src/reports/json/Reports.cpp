@@ -13,7 +13,7 @@
  *  Licence permissions and limitations under the Licence.
  */
 
-#include <bactria/PluginInterface.hpp>
+#include <bactria/reports/PluginInterface.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -31,7 +31,7 @@ struct report
 namespace
 {
     template<typename TValue>
-    auto record_incident(void* handle, char const* key, TValue value)
+    auto record(void* handle, char const* key, TValue value)
     {
         auto r = static_cast<report*>(handle);
         r->j[key] = value;
@@ -40,18 +40,18 @@ namespace
 
 extern "C"
 {
-    auto bactria_report_plugin_create_report(char const* name) -> void*
+    auto bactria_reports_create_report(char const* name) -> void*
     {
         return new report{name};
     }
 
-    auto bactria_report_plugin_destroy_report(void* handle) noexcept -> void
+    auto bactria_reports_destroy_report(void* handle) noexcept -> void
     {
         auto r = static_cast<report*>(handle);
         delete r;
     }
 
-    auto bactria_report_plugin_write_report(void* handle) -> void
+    auto bactria_reports_write_report(void* handle) -> void
     {
         auto r = static_cast<report const*>(handle);
         auto const filename = r->name + ".json";
@@ -60,63 +60,63 @@ extern "C"
         file << std::setw(4) << r->j << std::endl;
     }
 
-    auto bactria_report_plugin_record_incident_bool(void* handle, char const* key, bool value) -> void
+    auto bactria_reports_record_bool(void* handle, char const* key, bool value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_int8(void* handle, char const* key, std::int8_t value) -> void
+    auto bactria_reports_record_int8(void* handle, char const* key, std::int8_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_uint8(void* handle, char const* key, std::uint8_t value) -> void
+    auto bactria_reports_record_uint8(void* handle, char const* key, std::uint8_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_int16(void* handle, char const* key, std::int16_t value) -> void
+    auto bactria_reports_record_int16(void* handle, char const* key, std::int16_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_uint16(void* handle, char const* key, std::uint16_t value) -> void
+    auto bactria_reports_record_uint16(void* handle, char const* key, std::uint16_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_int32(void* handle, char const* key, std::int16_t value) -> void
+    auto bactria_reports_record_int32(void* handle, char const* key, std::int16_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_uint32(void* handle, char const* key, std::uint16_t value) -> void
+    auto bactria_reports_record_uint32(void* handle, char const* key, std::uint16_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_int64(void* handle, char const* key, std::int64_t value) -> void
+    auto bactria_reports_record_int64(void* handle, char const* key, std::int64_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_uint64(void* handle, char const* key, std::uint64_t value) -> void
+    auto bactria_reports_record_uint64(void* handle, char const* key, std::uint64_t value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_float(void* handle, char const* key, float value) -> void
+    auto bactria_reports_record_float(void* handle, char const* key, float value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_double(void* handle, char const* key, double value) -> void
+    auto bactria_reports_record_double(void* handle, char const* key, double value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 
-    auto bactria_report_plugin_record_incident_string(void* handle, char const* key, char const* value) -> void
+    auto bactria_reports_record_string(void* handle, char const* key, char const* value) -> void
     {
-        record_incident(handle, key, value);
+        record(handle, key, value);
     }
 }

@@ -35,11 +35,11 @@ auto main() -> int
              * destructor is triggered.
              *
              * The alternative to the bactria_Sector macro is to use manual enter & leave; see below. */
-            auto m = bactria_Sector("MAIN FUNCTION", bactria::Function);
+            auto m = bactria_Sector("MAIN FUNCTION", bactria::metrics::Function);
 
             /* Create a logical phase. This is used to assign sectors to logical sections of the program. Certain
              * backends will use this information to collect metrics in another way. */
-            auto p1 = bactria::Phase("SECTOR PHASE");
+            auto p1 = bactria::metrics::Phase("SECTOR PHASE");
 
             /* The bactria_Enter macro will start instrumentation inside a phase or sector. Ideally it is accompanied
              * by a corresponding bactria_Leave macro, but leaving the scope works as well. Note that all pairs of
@@ -50,9 +50,9 @@ auto main() -> int
              * and phases. Ranges can be used to visualize a time span inside the program. Starting and stopping
              * ranges does not require any special ordering. By default, ranges are started on construction. This
              * can be switched off by setting the constructor's autostart parameter to false. */
-            auto r1 = bactria::Range{"HOW EXPENSIVE IS SECTOR CONSTRUCTION / DESTRUCTION"};
+            auto r1 = bactria::ranges::Range{"HOW EXPENSIVE IS SECTOR CONSTRUCTION / DESTRUCTION"};
             {
-                auto s = bactria_Sector("CONSTRUCTION / DESTRUCTION", bactria::Generic);
+                auto s = bactria_Sector("CONSTRUCTION / DESTRUCTION", bactria::metrics::Generic);
             }
 
             /* Ranges can be stopped manually. If a range goes out of scope before being stopped, the destructor
@@ -61,11 +61,13 @@ auto main() -> int
 
 
             /* Instrument a generic sector of the code. */
-            auto s = bactria::Sector<bactria::Generic>{"ENTER / LEAVE"};
+            auto s = bactria::metrics::Sector<bactria::metrics::Generic>{"ENTER / LEAVE"};
 
             /* Ranges take an optional second parameter for the color. This has to be supplied in ARGB format, e.g.
              * 0xFF000000 for the color black. A number of colors are predefined in <bactria/Colors.hpp>. */
-            auto r2 = bactria::Range{"HOW EXPENSIVE IS SECTOR ENTER / LEAVE", bactria::color::bactria_green};
+            auto r2 = bactria::ranges::Range{
+                "HOW EXPENSIVE IS SECTOR ENTER / LEAVE",
+                bactria::ranges::color::bactria_green};
             {
                 bactria_Enter(s);
                 bactria_Leave(s);
@@ -75,12 +77,12 @@ auto main() -> int
             /* Leave the phase p1. */
             bactria_Leave(p1);
 
-            auto p2 = bactria::Phase{"LOOP PHASE"};
+            auto p2 = bactria::metrics::Phase{"LOOP PHASE"};
             bactria_Enter(p2);
 
             /* Create a loop sector. This will instrument the whole loop but not any individual iterations. */
-            auto l = bactria::Sector<bactria::Loop>{"LOOP SECTOR"};
-            auto r3 = bactria::Range{"LOOP"};
+            auto l = bactria::metrics::Sector<bactria::metrics::Loop>{"LOOP SECTOR"};
+            auto r3 = bactria::ranges::Range{"LOOP"};
             bactria_Enter(l);
             for(auto i = 0; i < 20; ++i)
             {
@@ -92,8 +94,8 @@ auto main() -> int
 
 
             /* Instrument the loop body. Each iteration will be instrumented separately. */
-            auto b = bactria::Sector<bactria::Body>{"LOOP BODY"};
-            auto r4 = bactria::Range{"LOOP BODY"};
+            auto b = bactria::metrics::Sector<bactria::metrics::Body>{"LOOP BODY"};
+            auto r4 = bactria::ranges::Range{"LOOP BODY"};
 
             /* Sectors can be configured to execute user-defined code after entering and/or before leaving
              * a sector. */
@@ -115,14 +117,14 @@ auto main() -> int
 
             /* Events are another type of marker that denote a single point in time. They can be freely
              * combined with Ranges. */
-            bactria_Event("EVENT IN MAIN", bactria::color::bactria_orange, bactria::Category{});
+            bactria_Event("EVENT IN MAIN", bactria::ranges::color::bactria_orange, bactria::ranges::Category{});
 
             /* You can also define an action event with an action that generates the name. The action will only be
              * executed if bactria is activated. */
             bactria_ActionEvent(
                 []() { return "GENERATED EVENT"; },
-                bactria::color::bactria_turquoise,
-                bactria::Category{});
+                bactria::ranges::color::bactria_turquoise,
+                bactria::ranges::Category{});
 
             auto avgLoopTime = 0.0;
 
@@ -130,12 +132,12 @@ auto main() -> int
             using clock = std::chrono::high_resolution_clock;
 
             /* Set up the recorder. We need to define all intermediate types used by our recorder. */
-            using Recorder = bactria::IncidentRecorder<
+            using Recorder = bactria::reports::IncidentRecorder<
                 typename clock::time_point,
                 typename std::chrono::nanoseconds::rep,
-                bactria::Incident<double>,
-                bactria::Incident<int>,
-                bactria::Incident<int>>;
+                bactria::reports::Incident<double>,
+                bactria::reports::Incident<int>,
+                bactria::reports::Incident<int>>;
             auto ir = Recorder{};
 
             /* Extract record type from recorder. Our functors can use this to access the recorded values. */
@@ -178,9 +180,9 @@ auto main() -> int
                         avgLoopTime = 0.0;
 
                         // Save three different incidents we are interested in
-                        r.store<2>(bactria::make_incident("Average", avg));
-                        r.store<3>(bactria::make_incident("Step begin", i - 5 + 1));
-                        r.store<4>(bactria::make_incident("Step end", i + 1));
+                        r.store<2>(bactria::reports::make_incident("Average", avg));
+                        r.store<3>(bactria::reports::make_incident("Step begin", i - 5 + 1));
+                        r.store<4>(bactria::reports::make_incident("Step end", i + 1));
 
                         // Generate a report. The string (without any extensions) may be used to generate a filename
                         // Make sure you include all incident indices you are interested in.

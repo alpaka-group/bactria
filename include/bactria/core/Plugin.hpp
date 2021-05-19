@@ -14,24 +14,27 @@
  */
 
 /**
- * \file bactria.hpp
- * \brief bactria's main include file.
+ * \file Plugin.hpp
+ * \brief Library-facing plugin interface.
  *
- * This is bactria's main include file. It pulls in all functionality required by the user.
+ * This file includes the library's view of the plugin functionality. This should never be included by the user. As
+ * the functionality defined here is intended for bactria's internal use the user should never use anything found
+ * in this file.
  */
 
 #pragma once
 
-#include <bactria/core/Activation.hpp>
-#include <bactria/core/Context.hpp>
-#include <bactria/metrics/Phase.hpp>
-#include <bactria/metrics/Sector.hpp>
-#include <bactria/metrics/Tags.hpp>
-#include <bactria/ranges/Category.hpp>
-#include <bactria/ranges/Colors.hpp>
-#include <bactria/ranges/Event.hpp>
-#include <bactria/ranges/Marker.hpp>
-#include <bactria/ranges/Range.hpp>
-#include <bactria/reports/Incident.hpp>
-#include <bactria/reports/IncidentRecorder.hpp>
-#include <bactria/reports/Report.hpp>
+#include <bactria/core/POSIX.hpp>
+#include <bactria/core/Win32.hpp>
+
+#include <iostream>
+
+namespace bactria
+{
+    using plugin_handle_t = system::plugin_handle_t;
+
+    auto unload_plugin(plugin_handle_t handle) noexcept
+    {
+        system::close_plugin(handle);
+    }
+} // namespace bactria
