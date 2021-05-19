@@ -1,3 +1,5 @@
 build/
+.cache
+compile_commands.json
 .exrc
 .vimrc
