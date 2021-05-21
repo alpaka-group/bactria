@@ -17,6 +17,7 @@ option(bactria_STDOUT_BACKENDS "Build the STDOUT backends" ON)
 option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON)
 option(bactria_JSON_BACKENDS "Build the JSON backends" ON)
 option(bactria_SYSTEM_JSON "Use your local installation of nlohmann-json" ON)
+option(bactria_SCOREP_BACKEND "Build the Score-P metrics backend" OFF)
 
 ###############################################################################
 # Internal variables

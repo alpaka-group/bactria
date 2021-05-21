@@ -125,4 +125,39 @@ extern "C"
      * \sa bactria_metrics_create_phase
      */
     auto bactria_metrics_destroy_phase(void* phase_handle) noexcept -> void;
+
+    /**
+     * \brief Enter a phase.
+     *
+     * Enters the plugin-specific phase. It is called internally by bactria::Phase::enter().
+     *
+     * \param[in,out] phase_handle The phase handle created by bactria_metrics_create_phase().
+     * \param[in] source The source file of the call to bactria::Phase::enter().
+     * \param[in] lineno The source line of the call to bactria::Phase::enter().
+     * \param[in] caller The surrounding function of the call to bactria::Phase::enter().
+     * \sa bactria_metrics_create_phase, bactria_metrics_destroy_phase, bactria_metrics_leave_phase
+     */
+    auto bactria_metrics_enter_phase(
+        void* phase_handle,
+        char const* source,
+        std::uint32_t lineno,
+        char const* caller) noexcept -> void;
+
+    /**
+     * \brief Leave a phase.
+     *
+     * Leaves the plugin-specific sector. It is called internally by bactria::Phase::leave().
+     *
+     * \param[in,out] phase_handle The phase handle created by bactria_metrics_create_phase().
+     * \param[in] source The source file of the call to bactria::Phase::leave().
+     * \param[in] lineno The source line of the call to bactria::Phase::leave().
+     * \param[in] caller The surrounding function of the call to bactria::Phase::leave().
+     * \sa bactria_metrics_create_phase, bactria_metrics_destroy_phase, bactria_metrics_enter_phase
+     *
+     */
+    auto bactria_metrics_leave_phase(
+        void* phase_handle,
+        char const* source,
+        std::uint32_t lineno,
+        char const* caller) noexcept -> void;
 }
