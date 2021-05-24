@@ -4,6 +4,7 @@ project("bactria" VERSION 0.0.1
                   DESCRIPTION "Broadly Applicable C++ Tracing and Instrumentation API"
                   LANGUAGES CXX)
 
+include(CMakeDependentOption)
 include(GNUInstallDirs)
 
 ###############################################################################
@@ -13,11 +14,13 @@ include(GNUInstallDirs)
 option(bactria_BUILD_DOCUMENTATION "Generate the documentation" ON)
 option(bactria_BUILD_EXAMPLES "Build examples" ON)
 
-option(bactria_STDOUT_BACKENDS "Build the STDOUT backends" ON)
-option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON)
+option(bactria_CUDA_BACKENDS "Build the CUDA toolkit backends" OFF)
 option(bactria_JSON_BACKENDS "Build the JSON backends" ON)
-option(bactria_SYSTEM_JSON "Use your local installation of nlohmann-json" ON)
 option(bactria_SCOREP_BACKEND "Build the Score-P metrics backend" OFF)
+option(bactria_STDOUT_BACKENDS "Build the STDOUT backends" ON)
+
+cmake_dependent_option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON bactria_STDOUT_BACKENDS OFF)
+cmake_dependent_option(bactria_SYSTEM_JSON "Use your local installation of nlohmann-json" ON bactria_JSON_BACKENDS OFF)
 
 ###############################################################################
 # Internal variables
@@ -46,6 +49,10 @@ if(bactria_BUILD_EXAMPLES)
 endif()
 
 include(FetchContent)
+
+if(bactria_CUDA_BACKENDS)
+    find_package(CUDAToolkit REQUIRED)
+endif()
 
 if(bactria_JSON_BACKENDS)
     if(bactria_SYSTEM_JSON)
