@@ -1,1 +1,2 @@
+add_subdirectory(gpu_annotation)
 add_subdirectory(simpleLoop)

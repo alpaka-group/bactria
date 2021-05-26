@@ -16,6 +16,7 @@ option(bactria_BUILD_EXAMPLES "Build examples" ON)
 
 option(bactria_CUDA_BACKENDS "Build the CUDA toolkit backends" OFF)
 option(bactria_JSON_BACKENDS "Build the JSON backends" ON)
+option(bactria_ROCM_BACKENDS "Build the ROCm backends" OFF)
 option(bactria_SCOREP_BACKEND "Build the Score-P metrics backend" OFF)
 option(bactria_STDOUT_BACKENDS "Build the STDOUT backends" ON)
 
@@ -69,6 +70,10 @@ if(bactria_JSON_BACKENDS)
             add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
         endif()
     endif()
+endif()
+
+if(bactria_ROCM_BACKENDS)
+    find_package(rocTracer REQUIRED)
 endif()
 
 if(bactria_STDOUT_BACKENDS)
