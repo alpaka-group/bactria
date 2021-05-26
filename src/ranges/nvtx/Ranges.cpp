@@ -36,7 +36,7 @@ namespace
         std::uint32_t cat_id;
         nvtxRangeId_t id;
     };
-}
+} // namespace
 
 extern "C"
 {
@@ -44,39 +44,44 @@ extern "C"
     {
         return new event{color, cat_name, cat_id};
     }
-    
+
     auto bactria_ranges_destroy_event(void* event_handle) noexcept -> void
     {
         auto ev = static_cast<event*>(event_handle);
         delete ev;
     }
 
-    auto bactria_ranges_fire_event(void* event_handle, char const* event_name, char const* source,
-                                   std::uint32_t lineno, char const* caller) noexcept -> void
+    auto bactria_ranges_fire_event(
+        void* event_handle,
+        char const* event_name,
+        char const* source,
+        std::uint32_t lineno,
+        char const* caller) noexcept -> void
     {
         auto const ev = static_cast<event*>(event_handle);
 
-        auto const attributes = nvtxEventAttributes_t
-        {
-            /* .version = */        NVTX_VERSION,
-            /* .size = */           NVTX_EVENT_ATTRIB_STRUCT_SIZE,
-            /* .category = */       ev->cat_id,
-            /* .colorType = */      NVTX_COLOR_ARGB,
-            /* .color = */          ev->color,
-            /* .payloadType = */    NVTX_PAYLOAD_UNKNOWN,   // currently not supported
-            /* .reserved0 = */      0,
-            /* .payload = */        0,
-            /* .messageType = */    NVTX_MESSAGE_TYPE_ASCII,
-            /* .message = */        event_name
-        };
+        auto const attributes = nvtxEventAttributes_t{
+            /* .version = */ NVTX_VERSION,
+            /* .size = */ NVTX_EVENT_ATTRIB_STRUCT_SIZE,
+            /* .category = */ ev->cat_id,
+            /* .colorType = */ NVTX_COLOR_ARGB,
+            /* .color = */ ev->color,
+            /* .payloadType = */ NVTX_PAYLOAD_UNKNOWN, // currently not supported
+            /* .reserved0 = */ 0,
+            /* .payload = */ 0,
+            /* .messageType = */ NVTX_MESSAGE_TYPE_ASCII,
+            /* .message = */ event_name};
 
         nvtxNameCategoryA(ev->cat_id, ev->cat_name);
 
         nvtxMarkEx(&attributes);
     }
 
-    auto bactria_ranges_create_range(char const* name, std::uint32_t color,
-                                     char const* cat_name, std::uint32_t cat_id) noexcept -> void*
+    auto bactria_ranges_create_range(
+        char const* name,
+        std::uint32_t color,
+        char const* cat_name,
+        std::uint32_t cat_id) noexcept -> void*
     {
         return new range{name, color, cat_name, cat_id, nvtxRangeId_t{}};
     }
@@ -91,19 +96,17 @@ extern "C"
     {
         auto r = static_cast<range*>(range_handle);
 
-        auto const attributes = nvtxEventAttributes_t
-        {
-            /* .version = */        NVTX_VERSION,
-            /* .size = */           NVTX_EVENT_ATTRIB_STRUCT_SIZE,
-            /* .category = */       r->cat_id,
-            /* .colorType = */      NVTX_COLOR_ARGB,
-            /* .color = */          r->color,
-            /* .payloadType = */    NVTX_PAYLOAD_UNKNOWN,   // currently not supported
-            /* .reserved0 = */      0,
-            /* .payload = */        0,
-            /* .messageType = */    NVTX_MESSAGE_TYPE_ASCII,
-            /* .message = */        r->name
-        };
+        auto const attributes = nvtxEventAttributes_t{
+            /* .version = */ NVTX_VERSION,
+            /* .size = */ NVTX_EVENT_ATTRIB_STRUCT_SIZE,
+            /* .category = */ r->cat_id,
+            /* .colorType = */ NVTX_COLOR_ARGB,
+            /* .color = */ r->color,
+            /* .payloadType = */ NVTX_PAYLOAD_UNKNOWN, // currently not supported
+            /* .reserved0 = */ 0,
+            /* .payload = */ 0,
+            /* .messageType = */ NVTX_MESSAGE_TYPE_ASCII,
+            /* .message = */ r->name};
 
         nvtxNameCategoryA(r->cat_id, r->cat_name);
 
