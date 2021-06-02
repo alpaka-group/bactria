@@ -1,0 +1,59 @@
+[metrics.scorep]
+config.memory_limit = "16000k"
+config.page_size = "8k"
+config.machine_name = "Linux"
+config.timer = "tsc"
+
+profiling.enable = true
+profiling.base_name = "profile"
+profiling.format = "default"
+profiling.max_callpath_depth = 30
+profiling.clustering.enable = true
+profiling.clustering.region = "MAIN"
+profiling.clustering.count = 64
+profiling.clustering.mode = "subtree"
+profiling.enable_core_files = false
+
+tracing.enable = false
+
+filtering.files.exclude = []
+filtering.files.include = []
+filtering.regions.exclude = []
+filtering.regions.exclude_mangled = []
+filtering.regions.include = []
+filtering.regions.include_mangled = []
+
+selective_recording.regions = []
+
+papi.thread_counters = []
+papi.process_counters = []
+
+rusage.thread_counters = []
+rusage.process_counters = []
+
+perf.thread_counters = []
+perf.process_counters = []
+
+reports_plugin.enable = false
+reports_plugin.records = []
+
+mpi.groups = []
+
+cuda.enable = false
+cuda.buffer_size = "1M"
+cuda.buffer_chunk = "8k"
+
+opencl.enable = false
+opencl.buffer_size = "1M"
+opencl.buffer_queue = "8k"
+
+openacc.enabled_features = []
+kokkos.enabled_features = []
+
+online_access.hostname = "localhost"
+online_access.port = 50010
+online_access.application_name = "appl"
+
+substrate.plugins = []
+substrate.experiment.directory = "bactria_experiment"
+substrate.experiment.overwrite = false
