@@ -1,5 +1,7 @@
 if(bactria_SCOREP_BACKEND)
     if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+        enable_language(C)
+        
         find_program(SCOREP_CONFIG scorep-config PATHS /opt/scorep/bin)
         find_library(SCOREP_CONSTRUCTOR scorep_constructor PATHS /opt/scorep/lib)
 
@@ -80,9 +82,10 @@ if(bactria_SCOREP_BACKEND)
             set_source_files_properties(${CMAKE_CURRENT_BINARY_DIR}/main.scorep_init.c
                                         LANGUAGE C)
 
-            add_library(bactria_metrics_scorep MODULE Metrics.cpp
-                                                        ${CMAKE_CURRENT_BINARY_DIR}/main.scorep_init.c)
-            target_link_libraries(bactria_metrics_scorep PRIVATE bactria ScoreP ${SCOREP_CONSTRUCTOR})
+            add_library(bactria_metrics_scorep MODULE Configuration.cpp
+                                                      Metrics.cpp
+                                                      ${CMAKE_CURRENT_BINARY_DIR}/main.scorep_init.c)
+            target_link_libraries(bactria_metrics_scorep PRIVATE bactria ScoreP ${SCOREP_CONSTRUCTOR} toml11::toml11)
         endif()
     else()
         message(FATAL_ERROR "Score-P plugin not supported for non-GNU compilers")

@@ -15,6 +15,9 @@ option(bactria_BUILD_DOCUMENTATION "Generate the documentation" ON)
 option(bactria_BUILD_EXAMPLES "Build examples" ON)
 
 option(bactria_CUDA_BACKENDS "Build the CUDA toolkit backends" OFF)
+option(bactria_STDOUT_BACKENDS "Build the STDOUT backends" ON)
+option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON)
+option(bactria_SYSTEM_TOML11 "Use your local installation of toml11" ON)
 option(bactria_JSON_BACKENDS "Build the JSON backends" ON)
 option(bactria_ROCM_BACKENDS "Build the ROCm backends" OFF)
 option(bactria_SCOREP_BACKEND "Build the Score-P metrics backend" OFF)
@@ -51,6 +54,16 @@ endif()
 
 include(FetchContent)
 
+if(bactria_SYSTEM_TOML11)
+    find_package(toml11 REQUIRED)
+else()
+    message(STATUS "Downloading dependency toml11.")
+    FetchContent_Declare(toml_eleven
+        GIT_REPOSITORY https://github.com/ToruNiina/toml11.git
+        GIT_TAG v3.6.1)
+    FetchContent_MakeAvailable(toml_eleven)
+endif()
+
 if(bactria_CUDA_BACKENDS)
     find_package(CUDAToolkit REQUIRED)
 endif()
@@ -84,14 +97,8 @@ if(bactria_STDOUT_BACKENDS)
         FetchContent_Declare(fmtlib
             GIT_REPOSITORY https://github.com/fmtlib/fmt.git
             GIT_TAG 7.1.3)
-        FetchContent_GetProperties(fmtlib)
-        if(NOT fmtlib_POPULATED)
-            FetchContent_Populate(fmtlib)
-            add_subdirectory(${fmtlib_SOURCE_DIR} ${fmtlib_BINARY_DIR} EXCLUDE_FROM_ALL)
-        endif()
+        FetchContent_MakeAvailable(fmtlib)
     endif()
 endif()
 
-add_subdirectory("external")
 add_subdirectory("src")
-
