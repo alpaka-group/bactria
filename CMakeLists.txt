@@ -1,3 +1,17 @@
+# Copyright 2021 Jan Stephan
+#
+# Licensed under the EUPL, Version 1.2 or - as soon they will be approved by
+# the European Commission - subsequent versions of the EUPL (the “Licence”).
+# You may not use this work except in compliance with the Licence.
+# You may obtain a copy of the Licence at:
+#
+#     http://ec.europa.eu/idabc/eupl.html
+#
+#  Unless required by applicable law or agreed to in writing, software
+#  distributed under the Licence is distributed on an “AS IS” basis, WITHOUT
+#  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+#  Licence permissions and limitations under the Licence.
+
 cmake_minimum_required(VERSION 3.18)
 
 project("bactria" VERSION 0.0.1
@@ -14,17 +28,16 @@ include(GNUInstallDirs)
 option(bactria_BUILD_DOCUMENTATION "Generate the documentation" ON)
 option(bactria_BUILD_EXAMPLES "Build examples" ON)
 
-option(bactria_CUDA_BACKENDS "Build the CUDA toolkit backends" OFF)
-option(bactria_STDOUT_BACKENDS "Build the STDOUT backends" ON)
-option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON)
+option(bactria_CUDA_PLUGINS "Build the CUDA toolkit plugins" OFF)
+option(bactria_STDOUT_PLUGINS "Build the STDOUT plugins" ON)
+cmake_dependent_option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON bactria_STDOUT_PLUGINS OFF)
 option(bactria_SYSTEM_TOML11 "Use your local installation of toml11" ON)
-option(bactria_JSON_BACKENDS "Build the JSON backends" ON)
-option(bactria_ROCM_BACKENDS "Build the ROCm backends" OFF)
-option(bactria_SCOREP_BACKEND "Build the Score-P metrics backend" OFF)
-option(bactria_STDOUT_BACKENDS "Build the STDOUT backends" ON)
+option(bactria_JSON_PLUGINS "Build the JSON plugins" ON)
+cmake_dependent_option(bactria_SYSTEM_JSON "Use your local installation of nlohmann-json" ON bactria_JSON_PLUGINS OFF)
+option(bactria_ROCM_PLUGINS "Build the ROCm plugins" OFF)
+option(bactria_SCOREP_PLUGINS "Build the Score-P plugins" OFF)
+option(bactria_STDOUT_PLUGINS "Build the STDOUT plugins" ON)
 
-cmake_dependent_option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON bactria_STDOUT_BACKENDS OFF)
-cmake_dependent_option(bactria_SYSTEM_JSON "Use your local installation of nlohmann-json" ON bactria_JSON_BACKENDS OFF)
 
 ###############################################################################
 # Internal variables
@@ -64,11 +77,11 @@ else()
     FetchContent_MakeAvailable(toml_eleven)
 endif()
 
-if(bactria_CUDA_BACKENDS)
+if(bactria_CUDA_PLUGINS)
     find_package(CUDAToolkit REQUIRED)
 endif()
 
-if(bactria_JSON_BACKENDS)
+if(bactria_JSON_PLUGINS)
     if(bactria_SYSTEM_JSON)
         find_package(nlohmann_json REQUIRED)
     else()
@@ -85,11 +98,11 @@ if(bactria_JSON_BACKENDS)
     endif()
 endif()
 
-if(bactria_ROCM_BACKENDS)
+if(bactria_ROCM_PLUGINS)
     find_package(rocTracer REQUIRED)
 endif()
 
-if(bactria_STDOUT_BACKENDS)
+if(bactria_STDOUT_PLUGINS)
     if(bactria_SYSTEM_FMT)
         find_package(fmt REQUIRED)
     else()

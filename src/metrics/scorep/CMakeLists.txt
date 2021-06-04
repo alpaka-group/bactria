@@ -1,4 +1,4 @@
-if(bactria_SCOREP_BACKEND)
+if(bactria_SCOREP_PLUGINS)
     if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
         enable_language(C)
         
