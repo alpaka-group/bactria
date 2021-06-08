@@ -146,7 +146,7 @@ desired plugin:
 ```
 export BACTRIA_METRICS_PLUGIN=/path/to/bactria/build/src/metrics/scorep/libbactria_metrics_scorep.so
 export BACTRIA_RANGES_PLUGIN=/path/to/bactria/build/src/ranges/nvtx/libbactria_ranges_nvtx.so
-export BACTRIA_REPORTS_PLUGIN=/path/to/bactria/build/src/reports/json/libbactria_reports.json.so
+export BACTRIA_REPORTS_PLUGIN=/path/to/bactria/build/src/reports/json/libbactria_reports_json.so
 ./simpleLoop
 ```
 
