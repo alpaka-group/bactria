@@ -1,0 +1,42 @@
+name: Publish documentation to gh-pages
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  gh-pages:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install CMake
+      run: |
+          cd ${GITHUB_WORKSPACE}
+          mkdir build-deps
+          cd build-deps
+          wget https://cmake.org/files/v3.18/cmake-3.18.6-Linux-x86_64.tar.gz
+          tar xf cmake-3.18.6-Linux-x86_64.tar.gz
+    - name: Install Doxygen
+      run: |
+          sudo apt install -y --quit --no-install-recommends doxygen graphviz
+    - name: Run Doxygen
+      run: |
+          cd ${GITHUB_WORKSPACE}
+          mkdir build
+          cd build
+          ../build-deps/cmake-3.18.6-Linux-x86_64/bin/cmake -Dbactria_BUILD_DOCUMENTATION=ON -Dbactria_BUILD_EXAMPLES=OFF -Dbactria_ENABLE_PLUGINS=OFF ..
+          ../build-deps/cmake-3.18.6-Linux-x86_64/bin/cmake --build . 
+    - name: Publish documentation
+      run: |
+          cd ${GITHUB_WORKSPACE}
+          git clone -b gh-pages https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git doc-deploy
+          cd doc-deploy
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          rm -rf *
+          cp -r ../build/docs/html/* .
+          git add .
+          git log -n 3
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Update documentation skip-checks: true"; git push origin gh-pages)
