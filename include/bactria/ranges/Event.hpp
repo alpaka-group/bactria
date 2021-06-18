@@ -15,7 +15,7 @@
 
 /**
  * \file Event.hpp
- * \brief bactria's event include file.
+ * \brief Event definitions.
  *
  * This is bactria's event include file. It contains the definition for user-defined events that appear on the
  * visualizer. This file should not be included directly by the user.
@@ -37,8 +37,8 @@ namespace bactria
     namespace ranges
     {
         /**
-         * \ingroup Markers
          * \brief The event class.
+         * \ingroup bactria_ranges_user
          *
          * The user can record his own events which will appear as special markers on the visualizer. In contrast to
          * a Range, an event denotes a single point in time.
@@ -194,6 +194,7 @@ namespace bactria
 
 /**
  * \brief A macro that fires an event.
+ * \ingroup bactria_ranges_user
  *
  * A macro that internally creates an event, fires it and destroys it afterwards. If you want to customize the
  * event's behaviour you will have to manage the event's lifetime and fire operation on your own by instantiating
@@ -211,6 +212,7 @@ namespace bactria
 
 /**
  * \brief A macro that fires an event with an action.
+ * \ingroup bactria_ranges_user
  *
  * A macro that internally creates an event, assigns it an action, fires it and destroys it afterwards. If you want to
  * customize the event's behaviour you will have to manage the event's lifetime and fire operation on your own by

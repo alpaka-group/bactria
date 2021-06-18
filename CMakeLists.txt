@@ -14,18 +14,20 @@
 
 cmake_minimum_required(VERSION 3.18)
 
-project("bactria" VERSION 0.0.1
-                  DESCRIPTION "Broadly Applicable C++ Tracing and Instrumentation API"
-                  LANGUAGES CXX)
+project("bactria" VERSION       0.0.1
+                  DESCRIPTION   "The bactria library is a header-only C++14 library for profiling and tracing."
+                  HOMEPAGE_URL  "https://www.github.com/alpaka-group/bactria"
+                  LANGUAGES     CXX)
 
 include(CMakeDependentOption)
+include(FetchContent)
 include(GNUInstallDirs)
 
 ###############################################################################
 # Options and variants
 ###############################################################################
 
-option(bactria_BUILD_DOCUMENTATION "Generate the documentation" ON)
+option(bactria_BUILD_DOCUMENTATION "Generate the Doxygen documentation" OFF)
 option(bactria_BUILD_EXAMPLES "Build examples" ON)
 
 option(bactria_CUDA_PLUGINS "Build the CUDA toolkit plugins" OFF)
@@ -64,8 +66,6 @@ endif()
 if(bactria_BUILD_EXAMPLES)
     add_subdirectory("examples")
 endif()
-
-include(FetchContent)
 
 if(bactria_SYSTEM_TOML11)
     find_package(toml11 REQUIRED)

@@ -15,9 +15,9 @@
 
 /**
  * \file Category.hpp
- * \brief The Category include file.
- *
- * This is bactria's include file for Categories. It should not be included on its own.
+ * \brief Category definitions.
+
+ * This is bactria's include file for Categories. It should not be included directly by the user.
  */
 
 #pragma once
@@ -31,6 +31,7 @@ namespace bactria
     {
         /**
          * \brief Defines a category.
+         * \ingroup bactria_ranges_user
          *
          * This class can be used for defining own categories. Categories can later be used for filtering out
          * Ranges and Events. Each category is defined by an unique \a id and a \a name.
@@ -41,7 +42,7 @@ namespace bactria
             /**
              * \brief The default constructor.
              *
-             * This constructs a default Category with the ID \a 0 and the name \a BACTRIA_GENERIC_CATEGORY.
+             * This constructs a default Category with the ID `0` and the name `BACTRIA_GENERIC_CATEGORY`.
              */
             Category() = default;
 
@@ -57,7 +58,7 @@ namespace bactria
             /**
              * \brief The copy constructor.
              *
-             * Constructs a category with the same properties as \a other. \a this and \a other will share the same
+             * Constructs a category with the same properties as \a other. `this` and \a other will share the same
              * name and ID after construction.
              *
              * \param other The Category to copy from.
@@ -67,7 +68,7 @@ namespace bactria
             /**
              * \brief The copy assignment operator.
              *
-             * Copies the properties of \a rhs into \a this. \a this and \a other will share the same name and ID after
+             * Copies the properties of \a rhs into `this`. `this` and \a other will share the same name and ID after
              * the assignment.
              *
              * \param rhs The Category to copy from.

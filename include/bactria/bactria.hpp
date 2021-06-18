@@ -15,7 +15,7 @@
 
 /**
  * \file bactria.hpp
- * \brief bactria's main include file.
+ * \brief Main include file. Users must (only) include this file.
  *
  * This is bactria's main include file. It pulls in all functionality required by the user.
  */

@@ -15,9 +15,9 @@
 
 /**
  * \file Context.hpp
- * \brief bactria's Context include file.
+ * \brief Context definitions.
  *
- * This file defines the Context interface. The user should not include this directly.
+ * This file defines the Context interface. It should not be included directly by the user.
  */
 
 #pragma once
@@ -33,7 +33,15 @@
 namespace bactria
 {
     /**
-     * \brief The bactria context.
+     * \defgroup bactria_core_user User API
+     * \ingroup bactria_core
+     *
+     * User API for bactria's core functionality.
+     * \{
+     */
+
+    /**
+     * \brief The context.
      *
      * The bactria context. As long as at least one instance of this object exists in the process the user can use
      * bactria's functionality. However, frequent Context creations and destructions should be avoided as they might
@@ -133,4 +141,6 @@ namespace bactria
         plugin_handle_t m_rangesHandle{ranges::plugin::activated() ? ranges::plugin::load() : plugin_handle_t{}};
         plugin_handle_t m_reportsHandle{reports::plugin::activated() ? reports::plugin::load() : plugin_handle_t{}};
     };
+
+    /** \} */
 } // namespace bactria

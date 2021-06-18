@@ -15,7 +15,7 @@
 
 /**
  * \file Sector.hpp
- * \brief bactria's Sector include file.
+ * \brief Sector definitions.
  *
  * This file defines the interface for the Sector class. It should not be included directly by the user.
  */
@@ -36,12 +36,12 @@ namespace bactria
     namespace metrics
     {
         /**
-         * \defgroup Instrumentation Instrumentation classes
+         * \defgroup bactria_metrics_user User API
+         * \ingroup bactria_metrics
          *
-         * These classes enable user-defined instrumentation of code segments.
+         * User API for bactria's metrics functionality.
          * \{
          */
-
         /**
          * \brief The sector class.
          *
@@ -57,7 +57,7 @@ namespace bactria
             /**
              * \brief The default constructor.
              *
-             * The default constructor will generate a sector with the name \a BACTRIA_GENERIC_SECTOR. This sector will
+             * The default constructor will generate a sector with the name `BACTRIA_GENERIC_SECTOR`. This sector will
              * not be entered; this still needs to be done with a (correctly nested) pair of #bactria_Enter() and
              * #bactria_Leave() or ~Sector().
              *
@@ -119,8 +119,7 @@ namespace bactria
             /**
              * \brief The move constructor.
              *
-             * Moves the \a other sector into \a this sector. Using \a other after the move results in undefined
-             * behaviour.
+             * Moves the \a other sector into `this` sector.
              *
              * \param other The sector to be moved.
              */
@@ -137,7 +136,7 @@ namespace bactria
             /**
              * \brief The move assignment operator.
              *
-             * Moves the \a rhs sector into \a this sector. Using \a rhs after the move results in undefined behaviour.
+             * Moves the \a rhs sector into `this` sector.
              *
              * \param rhs The sector to be moved.
              */
@@ -157,8 +156,7 @@ namespace bactria
              * \brief The destructor.
              *
              * Destructs the sector. If the sector was entered and there was no preceeding call to #bactria_Leave() or
-             * leave() the destructor will trigger this functionality before the contents of \a this are deleted. Using
-             * \a this after the destructor was triggered results in undefined behaviour.
+             * leave() the destructor will trigger this functionality before the contents of \a this are deleted.
              *
              * \sa Sector(), bactria_Enter, bactria_Leave, enter, leave
              */
@@ -281,11 +279,11 @@ namespace bactria
          * \}
          */
     } // namespace metrics
-
 } // namespace bactria
 
 /**
  * \brief A macro that creates a sector and immediately enters it.
+ * \ingroup bactria_metrics_user
  *
  * A macro that creates a sector and immediately enters it. If you want to create a phase but enter it later use
  * Sector's constructor and the #bactria_Enter() and #bactria_Leave() macros. Note that all phases and sectors have to
@@ -303,6 +301,7 @@ namespace bactria
 
 /**
  * \brief Enter a phase or sector.
+ * \ingroup bactria_metrics_user
  *
  * A macro that enters a phase or sector. Requires a (correctly nested) corresponding call to #bactria_Leave() or
  * the destructor of the phase / sector.
@@ -314,11 +313,12 @@ namespace bactria
 
 /**
  * \brief Leave a phase or sector.
+ * \ingroup bactria_metrics_user
  *
  * A macro that leaves a phase or sector. Requires a (correctly nested) corresponding call to #bactria_Enter() or
  * the constructor of the phase / sector.
  *
  * \param[in] sec The previously created Phase or Sector object.
- * \sa bactria_Leave, Phase, Sector
+ * \sa bactria_Enter, Phase, Sector
  */
 #define bactria_Leave(sec) sec.leave(__FILE__, __LINE__, __func__)

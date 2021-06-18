@@ -15,7 +15,7 @@
 
 /**
  * \file Range.hpp
- * \brief bactria's Range include file.
+ * \brief Range definitions.
  *
  * This file contains the definition of the Range class. It should not be included directly by the user.
  */
@@ -35,8 +35,8 @@ namespace bactria
     namespace ranges
     {
         /**
-         * \ingroup Markers
          * \brief The range class.
+         * \ingroup bactria_ranges_user
          *
          * The range class is intended for improving the user's visualization experience. By using a range the user can
          * define time spans that will be highlighted in the visualizer (if supported by the corresponding back-end).
