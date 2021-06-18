@@ -30,15 +30,16 @@ include(GNUInstallDirs)
 option(bactria_BUILD_DOCUMENTATION "Generate the Doxygen documentation" OFF)
 option(bactria_BUILD_EXAMPLES "Build examples" ON)
 
-option(bactria_CUDA_PLUGINS "Build the CUDA toolkit plugins" OFF)
-option(bactria_STDOUT_PLUGINS "Build the STDOUT plugins" ON)
+option(bactria_ENABLE_PLUGINS "Build bactria's plugins" ON)
+cmake_dependent_option(bactria_CUDA_PLUGINS "Build the CUDA toolkit plugins" OFF bactria_ENABLE_PLUGINS OFF)
+cmake_dependent_option(bactria_STDOUT_PLUGINS "Build the STDOUT plugins" ON bactria_ENABLE_PLUGINS OFF)
 cmake_dependent_option(bactria_SYSTEM_FMT "Use your local installation of {fmt}" ON bactria_STDOUT_PLUGINS OFF)
-option(bactria_SYSTEM_TOML11 "Use your local installation of toml11" ON)
-option(bactria_JSON_PLUGINS "Build the JSON plugins" ON)
+cmake_dependent_option(bactria_SYSTEM_TOML11 "Use your local installation of toml11" ON bactria_ENABLE_PLUGINS OFF)
+cmake_dependent_option(bactria_JSON_PLUGINS "Build the JSON plugins" ON bactria_ENABLE_PLUGINS OFF)
 cmake_dependent_option(bactria_SYSTEM_JSON "Use your local installation of nlohmann-json" ON bactria_JSON_PLUGINS OFF)
-option(bactria_ROCM_PLUGINS "Build the ROCm plugins" OFF)
-option(bactria_SCOREP_PLUGINS "Build the Score-P plugins" OFF)
-option(bactria_STDOUT_PLUGINS "Build the STDOUT plugins" ON)
+cmake_dependent_option(bactria_ROCM_PLUGINS "Build the ROCm plugins" OFF bactria_ENABLE_PLUGINS OFF)
+cmake_dependent_option(bactria_SCOREP_PLUGINS "Build the Score-P plugins" OFF bactria_ENABLE_PLUGINS OFF)
+cmake_dependent_option(bactria_STDOUT_PLUGINS "Build the STDOUT plugins" ON bactria_ENABLE_PLUGINS OFF)
 
 
 ###############################################################################
@@ -67,51 +68,55 @@ if(bactria_BUILD_EXAMPLES)
     add_subdirectory("examples")
 endif()
 
-if(bactria_SYSTEM_TOML11)
+if(bactria_ENABLE_PLUGINS)
+    if(bactria_SYSTEM_TOML11)
     find_package(toml11 REQUIRED)
-else()
+    else()
     message(STATUS "Downloading dependency toml11.")
     FetchContent_Declare(toml_eleven
         GIT_REPOSITORY https://github.com/ToruNiina/toml11.git
         GIT_TAG v3.6.1)
     FetchContent_MakeAvailable(toml_eleven)
-endif()
+    endif()
 
-if(bactria_CUDA_PLUGINS)
+    if(bactria_CUDA_PLUGINS)
     find_package(CUDAToolkit REQUIRED)
-endif()
+    endif()
 
-if(bactria_JSON_PLUGINS)
-    if(bactria_SYSTEM_JSON)
-        find_package(nlohmann_json REQUIRED)
-    else()
-        message(STATUS "Downloading dependency nlohmann_json.")
-        FetchContent_Declare(json
-            GIT_REPOSITORY https://github.com/nlohmann/json.git
-            GIT_TAG v3.9.1)
-        FetchContent_GetProperties(json)
-        if(NOT json_POPULATED)
-            FetchContent_Populate(json)
-            set(JSON_BuildTests OFF CACHE INTERNAL "")
-            add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+    if(bactria_JSON_PLUGINS)
+        if(bactria_SYSTEM_JSON)
+            find_package(nlohmann_json REQUIRED)
+        else()
+            message(STATUS "Downloading dependency nlohmann_json.")
+            FetchContent_Declare(json
+                GIT_REPOSITORY https://github.com/nlohmann/json.git
+                GIT_TAG v3.9.1)
+            FetchContent_GetProperties(json)
+            if(NOT json_POPULATED)
+                FetchContent_Populate(json)
+                set(JSON_BuildTests OFF CACHE INTERNAL "")
+                add_subdirectory(${json_SOURCE_DIR} ${json_BINARY_DIR} EXCLUDE_FROM_ALL)
+            endif()
         endif()
     endif()
-endif()
 
-if(bactria_ROCM_PLUGINS)
-    find_package(rocTracer REQUIRED)
-endif()
-
-if(bactria_STDOUT_PLUGINS)
-    if(bactria_SYSTEM_FMT)
-        find_package(fmt REQUIRED)
-    else()
-        message(STATUS "Downloading dependency {fmt}.")
-        FetchContent_Declare(fmtlib
-            GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-            GIT_TAG 7.1.3)
-        FetchContent_MakeAvailable(fmtlib)
+    if(bactria_ROCM_PLUGINS)
+        find_package(rocTracer REQUIRED)
     endif()
+
+    if(bactria_STDOUT_PLUGINS)
+        if(bactria_SYSTEM_FMT)
+            find_package(fmt REQUIRED)
+        else()
+            message(STATUS "Downloading dependency {fmt}.")
+            FetchContent_Declare(fmtlib
+                GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+                GIT_TAG 7.1.3)
+            FetchContent_MakeAvailable(fmtlib)
+        endif()
+    endif()
+
+    add_subdirectory("src")
 endif()
 
-add_subdirectory("src")
+

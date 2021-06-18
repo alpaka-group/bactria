@@ -7,6 +7,7 @@ find_package(Doxygen REQUIRED)
 ###############################################################################
 
 # Better stylesheet
+message(STATUS "Downloading Doxygen CSS theme")
 FetchContent_Declare(awesome_theme
                      GIT_REPOSITORY https://github.com/jothepro/doxygen-awesome-css.git
                      GIT_TAG v1.4.0)
@@ -24,7 +25,6 @@ set(DOXYGEN_GENERATE_TREEVIEW YES)
 set(DOXYGEN_GENERATE_XML NO)
 set(DOXYGEN_HIDE_SCOPE_NAMES NO)
 set(DOXYGEN_SHOW_NAMESPACES YES)
-
 
 doxygen_add_docs(bactriaDocs ${BACTRIA_PUBLIC_HEADERS} ALL COMMENT "Generating Doxygen documentation")
 
