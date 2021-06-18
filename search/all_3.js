@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['dark_5fblue_160',['dark_blue',['../group__html.html#gaf0aa3372ffab56b716546c0401c082ae',1,'bactria::ranges::color']]],
+  ['dark_5fcyan_161',['dark_cyan',['../group__html.html#ga098b1eee062afe5473cbc463d6f12c79',1,'bactria::ranges::color']]],
+  ['dark_5fgray_162',['dark_gray',['../group__html.html#ga4828c9d92f00c72d24243a4ecc091e9a',1,'bactria::ranges::color']]],
+  ['dark_5fgreen_163',['dark_green',['../group__html.html#ga779c22b2b49368cf2465ad658e25ee47',1,'bactria::ranges::color']]],
+  ['dark_5fgrey_164',['dark_grey',['../group__html.html#ga1f9d48bbed948be8f44766dbac065ae7',1,'bactria::ranges::color']]],
+  ['dark_5fmagenta_165',['dark_magenta',['../group__html.html#ga01640c5f0cbd1b15dca41321e28884ce',1,'bactria::ranges::color']]],
+  ['dark_5forange_166',['dark_orange',['../group__html.html#gaa011b3ff5d645beb4809fd472df01864',1,'bactria::ranges::color']]],
+  ['dark_5fred_167',['dark_red',['../group__html.html#ga0557c69e0146a05d64cec305ee260844',1,'bactria::ranges::color']]],
+  ['dark_5fturquoise_168',['dark_turquoise',['../group__html.html#ga4c5122b1dd4c09f6f7cca53559616d47',1,'bactria::ranges::color']]],
+  ['dark_5fviolet_169',['dark_violet',['../group__html.html#gaccd1a6572beace8999c4a9776b234404',1,'bactria::ranges::color']]],
+  ['destroy_5fevent_170',['destroy_event',['../group__bactria__ranges__internal.html#ga292bcdde98a3bbfcadd8f6be5584d38f',1,'bactria::ranges::plugin']]],
+  ['destroy_5fevent_5fptr_171',['destroy_event_ptr',['../group__bactria__ranges__internal.html#ga3eb5589354f117886c8232cbc94e5a19',1,'bactria::ranges::plugin']]],
+  ['destroy_5fevent_5ft_172',['destroy_event_t',['../group__bactria__ranges__internal.html#gacf63cc5e26244e2ea6c36e72110e4590',1,'bactria::ranges::plugin']]],
+  ['destroy_5fphase_173',['destroy_phase',['../group__bactria__metrics__internal.html#ga4b3936f33bfb59820b7b177cb7fc9c18',1,'bactria::metrics::plugin']]],
+  ['destroy_5fphase_5fptr_174',['destroy_phase_ptr',['../group__bactria__metrics__internal.html#gae1682e9b4c6a084c2260ac2d047724e0',1,'bactria::metrics::plugin']]],
+  ['destroy_5fphase_5ft_175',['destroy_phase_t',['../group__bactria__metrics__internal.html#gafd5a9af2f6e6d25bacd3a54bc4868f10',1,'bactria::metrics::plugin']]],
+  ['destroy_5frange_176',['destroy_range',['../group__bactria__ranges__internal.html#ga0f49bc78819f4caa8b1fe775a51443e2',1,'bactria::ranges::plugin']]],
+  ['destroy_5frange_5fptr_177',['destroy_range_ptr',['../group__bactria__ranges__internal.html#ga7988cd3f3ae4f1dfb1018f03bcec0ec8',1,'bactria::ranges::plugin']]],
+  ['destroy_5frange_5ft_178',['destroy_range_t',['../group__bactria__ranges__internal.html#gaee7c0816000aa5b41e4e4755eee4c447',1,'bactria::ranges::plugin']]],
+  ['destroy_5freport_179',['destroy_report',['../group__bactria__reports__internal.html#ga9ce1701faab6a9b56f2c15d6f5893345',1,'bactria::reports::plugin']]],
+  ['destroy_5freport_5fptr_180',['destroy_report_ptr',['../group__bactria__reports__internal.html#gac272a6564463e71423d6438ad99e2d04',1,'bactria::reports::plugin']]],
+  ['destroy_5freport_5ft_181',['destroy_report_t',['../group__bactria__reports__internal.html#ga27ed12546efa07ec5a2afb1f8a718402',1,'bactria::reports::plugin']]],
+  ['destroy_5fsector_182',['destroy_sector',['../group__bactria__metrics__internal.html#ga9558a42002880e572dc9e491077cc572',1,'bactria::metrics::plugin']]],
+  ['destroy_5fsector_5fptr_183',['destroy_sector_ptr',['../group__bactria__metrics__internal.html#gad8e168b930300caa627c15c7b5962b2c',1,'bactria::metrics::plugin']]],
+  ['destroy_5fsector_5ft_184',['destroy_sector_t',['../group__bactria__metrics__internal.html#ga86e539187a3e6e0904a046a54fce0c2f',1,'bactria::metrics::plugin']]]
+];

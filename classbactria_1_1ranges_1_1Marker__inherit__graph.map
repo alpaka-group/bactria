@@ -1,0 +1,5 @@
+<map id="bactria::ranges::Marker" name="bactria::ranges::Marker">
+<area shape="rect" id="node1" title="The abstract base class for markers." alt="" coords="96,5,268,32"/>
+<area shape="rect" id="node2" href="$classbactria_1_1ranges_1_1Event.html" title="The event class." alt="" coords="5,80,169,107"/>
+<area shape="rect" id="node3" href="$classbactria_1_1ranges_1_1Range.html" title="The range class." alt="" coords="194,80,362,107"/>
+</map>

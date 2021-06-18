@@ -1,0 +1,15 @@
+<map id="/home/runner/work/bactria/bactria/include/bactria/core/Win32.hpp" name="/home/runner/work/bactria/bactria/include/bactria/core/Win32.hpp">
+<area shape="rect" id="node1" title="Windows&#45;specific internals." alt="" coords="459,5,653,61"/>
+<area shape="rect" id="node2" href="$core_2Plugin_8hpp.html" title="bactria&#45;internal plugin handling." alt="" coords="459,109,653,165"/>
+<area shape="rect" id="node3" href="$Context_8hpp.html" title="Context definitions." alt="" coords="443,421,637,477"/>
+<area shape="rect" id="node5" href="$metrics_2Plugin_8hpp.html" title="bactria&#45;internal handling of metrics plugins." alt="" coords="240,317,435,373"/>
+<area shape="rect" id="node8" href="$ranges_2Plugin_8hpp.html" title="bactria&#45;internal handling of ranges plugins." alt="" coords="661,317,856,373"/>
+<area shape="rect" id="node11" href="$reports_2Plugin_8hpp.html" title="bactria&#45;internal handling of reports plugins." alt="" coords="527,213,721,269"/>
+<area shape="rect" id="node4" href="$bactria_8hpp.html" title="Main include file. Users must (only) include this file." alt="" coords="661,525,856,581"/>
+<area shape="rect" id="node6" href="$Phase_8hpp.html" title="Phase definitions." alt="" coords="224,421,419,477"/>
+<area shape="rect" id="node7" href="$Sector_8hpp.html" title="Sector definitions." alt="" coords="5,421,200,477"/>
+<area shape="rect" id="node9" href="$Event_8hpp.html" title="Event definitions." alt="" coords="880,421,1075,477"/>
+<area shape="rect" id="node10" href="$Range_8hpp.html" title="Range definitions." alt="" coords="661,421,856,477"/>
+<area shape="rect" id="node12" href="$Report_8hpp.html" title="Report definition." alt="" coords="1108,317,1303,373"/>
+<area shape="rect" id="node13" href="$IncidentRecorder_8hpp.html" title="IncidentRecorder definitions." alt="" coords="1099,421,1312,477"/>
+</map>

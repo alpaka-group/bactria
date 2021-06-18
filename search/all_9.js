@@ -1,0 +1,20 @@
+var searchData=
+[
+  ['leave_249',['leave',['../classbactria_1_1metrics_1_1Phase.html#a665485d2d62cf9339983b3cd179a7a5d',1,'bactria::metrics::Phase::leave()'],['../classbactria_1_1metrics_1_1Sector.html#a345bc43fc492fb7e8120bdbcdecaba2d',1,'bactria::metrics::Sector::leave()']]],
+  ['leave_5fphase_250',['leave_phase',['../group__bactria__metrics__internal.html#ga171d30129181e931b31c92445898fd8a',1,'bactria::metrics::plugin']]],
+  ['leave_5fphase_5fptr_251',['leave_phase_ptr',['../group__bactria__metrics__internal.html#ga61cecc5f89622bbae75f8d6046afc558',1,'bactria::metrics::plugin']]],
+  ['leave_5fphase_5ft_252',['leave_phase_t',['../group__bactria__metrics__internal.html#ga139ea9f9325af2badd7609502bfe5def',1,'bactria::metrics::plugin']]],
+  ['leave_5fsector_253',['leave_sector',['../group__bactria__metrics__internal.html#ga7143bb2b1e5a4757470522ea41558702',1,'bactria::metrics::plugin']]],
+  ['leave_5fsector_5fptr_254',['leave_sector_ptr',['../group__bactria__metrics__internal.html#gaf40746f570b1e5b79e1c84de4748f77b',1,'bactria::metrics::plugin']]],
+  ['leave_5fsector_5ft_255',['leave_sector_t',['../group__bactria__metrics__internal.html#ga74288b7233a8dd6e1ec0bec601a08f8e',1,'bactria::metrics::plugin']]],
+  ['light_5fblue_256',['light_blue',['../group__html.html#gab678d2de943d73bafdb6bbf1013e4229',1,'bactria::ranges::color']]],
+  ['light_5fcyan_257',['light_cyan',['../group__html.html#ga421b637febf67735fac297b740daab39',1,'bactria::ranges::color']]],
+  ['light_5fgray_258',['light_gray',['../group__html.html#gac298fa2897c9d01246f143c1c69d051c',1,'bactria::ranges::color']]],
+  ['light_5fgreen_259',['light_green',['../group__html.html#gaf037529a181ff53031e25657a7067f6a',1,'bactria::ranges::color']]],
+  ['light_5fgrey_260',['light_grey',['../group__html.html#ga05d83787bcb6078bb06e30a4d983be9a',1,'bactria::ranges::color']]],
+  ['light_5fyellow_261',['light_yellow',['../group__html.html#ga7dc8f1bf0f89d5a290f2387ad7d35913',1,'bactria::ranges::color']]],
+  ['lime_262',['lime',['../group__html.html#gaf32e3e0ac8493414dfd8e2fe7497423b',1,'bactria::ranges::color']]],
+  ['load_263',['load',['../classbactria_1_1reports_1_1IncidentRecorder.html#aca815857aad037e5d85571225d1eb0ba',1,'bactria::reports::IncidentRecorder::load()'],['../group__bactria__metrics__internal.html#gae358851222cc365493cc5066aa0f1a36',1,'bactria::metrics::plugin::load()'],['../group__bactria__ranges__internal.html#ga0d6b93f7a7a17ee5c91aa0e64695e51d',1,'bactria::ranges::plugin::load()'],['../group__bactria__reports__internal.html#ga931911a271f7a3cd38c8d67272290fdb',1,'bactria::reports::plugin::load()']]],
+  ['load_5ffunc_264',['load_func',['../group__bactria__core__internal.html#gae637e30aa5b4d93d091a10a36f342aa0',1,'bactria::system']]],
+  ['loop_265',['Loop',['../structbactria_1_1metrics_1_1Loop.html',1,'bactria::metrics']]]
+];

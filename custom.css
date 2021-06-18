@@ -1,0 +1,18 @@
+:root {
+    --primary-color: #005096;
+    --page-foreground-color: #005096;
+    --page-secondary-foreground-color: #000000;
+
+    --code-background: #E7E7E6;
+    --code-foreground: #005096;
+
+    --fragment-background: #E7E6E6;
+    --fragment-foreground: #000000;
+    --fragment-keyword: #005096;
+    --fragment-keywordtype: #005096;
+    --fragment-keywordflow: #005096;
+    --fragment-token: #44546A;
+    --fragment-comment: #385723;
+    --fragment-link: #005096;
+    --fragment-preprocessor: #00C3FF;
+}

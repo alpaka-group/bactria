@@ -1,0 +1,26 @@
+var group__bactria__ranges__internal =
+[
+    [ "create_event_t", "group__bactria__ranges__internal.html#ga640a8754cf8a616a3b6efc7a0202921f", null ],
+    [ "create_range_t", "group__bactria__ranges__internal.html#gaa8b9b03c94229f7806dcd119a72e2f58", null ],
+    [ "destroy_event_t", "group__bactria__ranges__internal.html#gacf63cc5e26244e2ea6c36e72110e4590", null ],
+    [ "destroy_range_t", "group__bactria__ranges__internal.html#gaee7c0816000aa5b41e4e4755eee4c447", null ],
+    [ "fire_event_t", "group__bactria__ranges__internal.html#gaa1362523a26d8dc372eada609d81aae3", null ],
+    [ "start_range_t", "group__bactria__ranges__internal.html#ga81f54a3e3037050255d7a991b54a2039", null ],
+    [ "stop_range_t", "group__bactria__ranges__internal.html#ga5630020d7d74b65dd59e1a9b1d6f7a41", null ],
+    [ "activated", "group__bactria__ranges__internal.html#ga1baff7467d3e4aca61f9fd3aa496e6da", null ],
+    [ "create_event", "group__bactria__ranges__internal.html#ga799395d4c4cae58f000f2c5a2e7e8f98", null ],
+    [ "create_range", "group__bactria__ranges__internal.html#ga77d86837bdb327e1443412e48fdd0e48", null ],
+    [ "destroy_event", "group__bactria__ranges__internal.html#ga292bcdde98a3bbfcadd8f6be5584d38f", null ],
+    [ "destroy_range", "group__bactria__ranges__internal.html#ga0f49bc78819f4caa8b1fe775a51443e2", null ],
+    [ "fire_event", "group__bactria__ranges__internal.html#gac9cda00f09077d7ceb96bdaad2b423da", null ],
+    [ "load", "group__bactria__ranges__internal.html#ga0d6b93f7a7a17ee5c91aa0e64695e51d", null ],
+    [ "start_range", "group__bactria__ranges__internal.html#gafaf94de0c5110a826693e0d62024e048", null ],
+    [ "stop_range", "group__bactria__ranges__internal.html#ga17538081699cfddf588ef5f5fbbcc69b", null ],
+    [ "create_event_ptr", "group__bactria__ranges__internal.html#gadb06d1254870139d87b1acef37277cec", null ],
+    [ "create_range_ptr", "group__bactria__ranges__internal.html#ga4d4b5e0a2eafb7fc73e454fa1d80af9a", null ],
+    [ "destroy_event_ptr", "group__bactria__ranges__internal.html#ga3eb5589354f117886c8232cbc94e5a19", null ],
+    [ "destroy_range_ptr", "group__bactria__ranges__internal.html#ga7988cd3f3ae4f1dfb1018f03bcec0ec8", null ],
+    [ "fire_event_ptr", "group__bactria__ranges__internal.html#gaed6606ee8204fbad37e305c7f1da2b80", null ],
+    [ "start_range_ptr", "group__bactria__ranges__internal.html#ga1085438ccb76313b23339e1e73ced5c8", null ],
+    [ "stop_range_ptr", "group__bactria__ranges__internal.html#gaea95a5244e01a4f8381670c465fc47b1", null ]
+];
