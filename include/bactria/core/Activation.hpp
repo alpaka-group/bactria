@@ -59,8 +59,13 @@ namespace bactria
      * \}
      */
 
+    // clang-format off
     /**
      * \mainpage bactria - Broadly Applicable C++ Tracing and Instrumentation API
+     *
+     * [![Language](https://img.shields.io/badge/-C++14-5E97D0?logo=C%2B%2B&logoColor=white&style=for-the-badge)](https://isocpp.org/)
+     * [![Platforms](https://img.shields.io/badge/platform-linux%20|%20windows%20|%20mac-lightgrey?style=for-the-badge)](https://github.com/alpaka-group/alpaka)
+     * [![License](https://img.shields.io/github/license/alpaka-group/bactria?color=003399&style=for-the-badge)](https://www.mozilla.org/en-US/MPL/2.0/)
      *
      * \section about About this project
      * \subsection about_intro Introduction
@@ -309,4 +314,5 @@ namespace bactria
      * source code directory for the concrete details of this licence.
      *
      */
+    // clang-format on
 } // namespace bactria
