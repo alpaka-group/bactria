@@ -15,8 +15,8 @@
 
 /**
  * \file Phase.hpp
- * \brief bactria's Phase include file.
- *
+ * \brief Phase definitions.
+
  * This file contains the Phase definition. It should not be included directly by the user.
  */
 
@@ -32,8 +32,8 @@ namespace bactria
     namespace metrics
     {
         /**
-         * \ingroup Instrumentation
          * \brief The phase class.
+         * \ingroup bactria_metrics_user
          *
          * Phases are used for structuring the program into logical segments. Sectors
          * can be added to any phase in the program. Like Sectors, Phases have to be
@@ -45,7 +45,7 @@ namespace bactria
             /**
              * \brief The default constructor.
              *
-             * The default constructor will generate a phase with the name \a BACTRIA_GENERIC_PHASE. This phase will
+             * The default constructor will generate a phase with the name `BACTRIA_GENERIC_PHASE`. This phase will
              * not be entered; this still needs to be done with a (correctly nested) pair of #bactria_Enter() and
              * #bactria_Leave() or ~Phase().
              *
@@ -104,8 +104,7 @@ namespace bactria
             /**
              * \brief The move constructor.
              *
-             * Moves the \a other phase into \a this phase. Using \a other after the move results in undefined
-             * behaviour.
+             * Moves the \a other phase into `this` phase. Using `other` after the move results in undefined behaviour.
              *
              * \param other The phase to be moved.
              */
@@ -119,7 +118,7 @@ namespace bactria
             /**
              * \brief The move assignment operator.
              *
-             * Moves the \a rhs phase into \a this phase. Using \a rhs after the move results in undefined behaviour.
+             * Moves the \a rhs phase into `this` phase. Using \a rhs after the move results in undefined behaviour.
              *
              * \param rhs The phase to be moved.
              */
@@ -136,8 +135,7 @@ namespace bactria
              * \brief The destructor.
              *
              * Destructs the phase. If the phase was entered and there was no preceeding call to #bactria_Leave() or
-             * leave() the destructor will trigger this functionality before the contents of \a this are deleted. Using
-             * \a this after the destructor was triggered results in undefined behaviour.
+             * leave() the destructor will trigger this functionality before the contents of `this` are deleted.
              *
              * \sa Phase, bactria_Enter, bactria_Leave, enter, leave
              */
@@ -202,13 +200,14 @@ namespace bactria
 
 /**
  * \brief A macro that creates a phase and immediately enters it.
+ * \ingroup bactria_metrics_user
  *
- * A macro that creates a phase and immediately enters it. If you want to create a phase but enter it later use
- * Phase's constructor and the #bactria_Enter() and #bactria_Leave() macros. Note that all phases and sectors have to
- * be correctly nested.
+ * A macro that creates a phase and immediately enters it. If you want to create a Phase but enter it later use
+ * its non-entering constructor in combination with the #bactria_Enter() and #bactria_Leave() macros. Note that
+ * all phases and sectors must be correctly nested.
  *
- * \param[in] name The name of the phase as it should later appear in the output or the visualizer.
- * \sa bactria_Enter, bactria_Leave, bactria_Sector, Phase
+ * \param[in] name The name of the phase as it should later appear in the output file or the visualizer.
+ * \sa bactria_Enter, bactria_Leave, bactria_Sector
  */
 #define bactria_Phase(name)                                                                                           \
     ::bactria::metrics::Phase                                                                                         \

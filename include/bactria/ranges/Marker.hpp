@@ -15,7 +15,7 @@
 
 /**
  * \file Marker.hpp
- * \brief bactria's Marker include file.
+ * \brief Marker definitions.
  *
  * This file contains the definition for the Marker class. It should not be included by the
  * user.
@@ -35,9 +35,10 @@ namespace bactria
     namespace ranges
     {
         /**
-         * \defgroup Markers Visualization markers
+         * \defgroup bactria_ranges_user User API
+         * \ingroup bactria_ranges
          *
-         * These markers enable user-defined highlighting during visualization.
+         * User API for bactria's ranges functionality.
          * \{
          */
 
@@ -49,8 +50,23 @@ namespace bactria
         class Marker
         {
         public:
+            /**
+             * \brief Default constructor.
+             *
+             * Constructs a marker with the name `BACTRIA_GENERIC_MARKER`, the color bactria::ranges::color::orange
+             * and a default-initialized category.
+             */
             Marker() = default;
 
+            /**
+             * \brief Constructor.
+             *
+             * Constructs a marker with the name \a name, the color \a color and the category \a category.
+             *
+             * \param name The name shown in the visual output.
+             * \param color The color shown in the visual output.
+             * \param category The category.
+             */
             Marker(std::string name, std::uint32_t color, Category category)
                 : m_name{std::move(name)}
                 , m_color{color}
@@ -58,18 +74,55 @@ namespace bactria
             {
             }
 
-            Marker(Marker const&) = default;
-            auto operator=(Marker const&) -> Marker& = default;
+            /**
+             * \brief Copy constructor.
+             *
+             * Copy-constructs a Marker by copying the internals from \a other. After the copy, `this` and \a other
+             * will have copies of the same name, color and category.
+             *
+             * \param other The Marker to copy from.
+             */
+            Marker(Marker const& other) = default;
 
-            Marker(Marker&&) = default;
-            auto operator=(Marker&&) -> Marker& = default;
+            /**
+             * \brief Copy-assignment operator.
+             *
+             * Copies the contents of \a rhs into `this`. After the copy, `this` and \a rhs will have copies of the
+             * same name, color and category.
+             *
+             * \param rhs The Marker to copy from.
+             */
+            auto operator=(Marker const& rhs) -> Marker& = default;
 
+            /**
+             * \brief Move constructor.
+             *
+             * Move-constructs a Marker by moving the internals from \a other. After the move, `this` will have taken
+             * over the internals from \a other which is in an undefined state afterwards.
+             *
+             * \param other The Marker to move into `this`.
+             */
+            Marker(Marker&& other) = default;
+
+            /**
+             * \brief Move-assignment operator.
+             *
+             * Moves the contents of \a rhs into `this`. After the move, `this` will have taken over the internals
+             * from \a rhs which is in an undefined state afterwards.
+             *
+             * \param rhs The Marker to move into `this`.
+             */
+            auto operator=(Marker&& rhs) -> Marker& = default;
+
+            /**
+             * \brief Destroy the Marker object.
+             */
             virtual ~Marker() = default;
 
             /**
              * \brief Return the marker's name.
              *
-             * Returns the name assigned to \a this event / range.
+             * Returns the name assigned to `this` Marker.
              *
              * \return The name.
              */
@@ -81,7 +134,7 @@ namespace bactria
             /**
              * \brief Return the marker's name (C string).
              *
-             * Returns the name assigned to \a this event / range as a C string.
+             * Returns the name assigned to `this` Marker as a C string.
              *
              * \return The name.
              */
@@ -93,7 +146,7 @@ namespace bactria
             /**
              * \brief Return the marker's color.
              *
-             * Returns the color assigned to \a this event / range.
+             * Returns the color assigned to `this` Marker.
              *
              * \return The color.
              */
@@ -105,7 +158,7 @@ namespace bactria
             /**
              * \brief Return the marker's category.
              *
-             * Returns the Category assigned to \a this event / range.
+             * Returns the Category assigned to `this` Marker.
              *
              * \return The Category.
              */
@@ -115,8 +168,28 @@ namespace bactria
             }
 
         protected:
+            /**
+             * \brief The name assigned to the Marker.
+             *
+             * Users should not rely on this member to be stable. It may change between versions without further
+             * notice.
+             */
             std::string m_name{"BACTRIA_GENERIC_MARKER"};
+
+            /**
+             * \brief The color assigned to the Marker.
+             *
+             * Users should not rely on this member to be stable. It may change between versions without further
+             * notice.
+             */
             std::uint32_t m_color{color::orange};
+
+            /**
+             * \brief The Category assigned to the Marker.
+             *
+             * Users should not rely on this member to be stable. It may change between versions without further
+             * notice.
+             */
             Category m_category{};
         };
 
@@ -124,5 +197,4 @@ namespace bactria
          * \}
          */
     } // namespace ranges
-
 } // namespace bactria

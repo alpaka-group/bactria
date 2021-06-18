@@ -15,11 +15,11 @@
 
 /**
  * \file Plugin.hpp
- * \brief Library-facing plugin interface.
+ * \brief bactria-internal plugin handling.
  *
- * This file includes the library's view of the plugin functionality. This should never be included by the user. As
- * the functionality defined here is intended for bactria's internal use the user should never use anything found
- * in this file.
+ * This file includes bactria's internal view of the plugin functionality. It should not be included directly by the
+ * user. As the functionality defined here is intended for bactria's internal use the user should never use anything
+ * found in this file.
  */
 
 #pragma once
@@ -31,9 +31,24 @@
 
 namespace bactria
 {
+    /**
+     * \brief The platform-specific plugin handle type.
+     * \ingroup bactria_core_internal
+     *
+     * A system-specific typedef for a plugin handle. This typedef is an abstraction for the various native handles,
+     * e.g. the handles returned by POSIX' `dlopen()` and Windows' `LoadLibrary()`.
+     */
     using plugin_handle_t = system::plugin_handle_t;
 
-    auto unload_plugin(plugin_handle_t handle) noexcept
+    /**
+     * \brief Unloads the plugin.
+     * \ingroup bactria_core_internal
+     *
+     * Forwards an open library handle to the native functions for closing shared libraries.
+     *
+     * \param handle The handle to the plugin in question.
+     */
+    [[gnu::always_inline]] inline auto unload_plugin(plugin_handle_t handle) noexcept
     {
         system::close_plugin(handle);
     }

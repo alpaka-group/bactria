@@ -15,7 +15,7 @@
 
 /**
  * \file PluginInterface.hpp
- * \brief bactria's metrics plugin interface include.
+ * \brief Interface for plugin developers.
  *
  * This is bactria's metrics plugin interface. Plugin developers should include this file and implement all functions
  * declared by it.
@@ -28,7 +28,17 @@
 extern "C"
 {
     /**
-     * \brief Create a sector handle.
+     * \defgroup bactria_metrics_plugin Plugin interface
+     * \ingroup bactria_metrics
+     *
+     * This is the interface for a metrics plugin. Plugin developers should include metrics/PluginInterface.hpp and
+     * implement all functions listed here.
+     *
+     * \{
+     */
+
+    /**
+     * \brief Creates a sector handle.
      *
      * This function creates a plugin-specific sector handle. This is internally used by bactria::Sector to
      * communicate with the plugin. Each bactria::Sector encapsulates its own sector handle.
@@ -37,21 +47,21 @@ extern "C"
      * \param[in] type The type of the sector. See Tags.hpp for the possible values.
      *
      * \return A handle to the plugin-specific sector.
-     * \sa bactria_metrics_destroy_sector, bactria_metrics_enter_sector, bactria_metrics_leave_sector,
-     *     bactria_metrics_sector_summary
+     * \sa bactria_metrics_destroy_sector(), bactria_metrics_enter_sector(), bactria_metrics_leave_sector(),
+     *     bactria_metrics_sector_summary()
      */
     auto bactria_metrics_create_sector(char const* name, std::uint32_t type) noexcept -> void*;
 
     /**
-     * \brief Destroy a sector handle.
+     * \brief Destroys a sector handle.
      *
      * Destroys a plugin-specific sector handle. This is internally called by bactria::Sector::~Sector(). The
      * \a sector_handle must not be used after the call unless it has been reinitialized with
      * bactria_metrics_create_sector().
      *
      * \param[in] sector_handle The sector handle created by bactria_metrics_create_sector().
-     * \sa bactria_metrics_create_sector, bactria_metrics_enter_sector, bactria_metrics_leave_sector,
-     *     bactria_metrics_sector_summary
+     * \sa bactria_metrics_create_sector(), bactria_metrics_enter_sector(), bactria_metrics_leave_sector(),
+     *     bactria_metrics_sector_summary()
      */
     auto bactria_metrics_destroy_sector(void* sector_handle) noexcept -> void;
 
@@ -64,8 +74,8 @@ extern "C"
      * \param[in] source The source file of the call to bactria::Sector::enter().
      * \param[in] lineno The source line of the call to bactria::Sector::enter().
      * \param[in] caller The surrounding function of the call to bactria::Sector::enter().
-     * \sa bactria_metrics_create_sector, bactria_metrics_destroy_sector, bactria_metrics_leave_sector,
-     *     bactria_metrics_sector_summary
+     * \sa bactria_metrics_create_sector(), bactria_metrics_destroy_sector(), bactria_metrics_leave_sector(),
+     *     bactria_metrics_sector_summary()
      */
     auto bactria_metrics_enter_sector(
         void* sector_handle,
@@ -82,8 +92,8 @@ extern "C"
      * \param[in] source The source file of the call to bactria::Sector::leave().
      * \param[in] lineno The source line of the call to bactria::Sector::leave().
      * \param[in] caller The surrounding function of the call to bactria::Sector::leave().
-     * \sa bactria_metrics_create_sector, bactria_metrics_destroy_sector, bactria_metrics_enter_sector,
-     *     bactria_metrics_sector_summary
+     * \sa bactria_metrics_create_sector(), bactria_metrics_destroy_sector(), bactria_metrics_enter_sector(),
+     *     bactria_metrics_sector_summary()
      */
     auto bactria_metrics_leave_sector(
         void* sector_handle,
@@ -98,8 +108,8 @@ extern "C"
      * bactria::Sector::~Sector() if bactria::Sector::summary() has not been called before.
      *
      * \param[in,out] sector_handle The sector handle created by bactria_metrics_create_sector().
-     * \sa bactria_metrics_create_sector, bactria_metrics_destroy_sector, bactria_metrics_enter_sector,
-     *     bactria_metrics_leave_sector
+     * \sa bactria_metrics_create_sector(), bactria_metrics_destroy_sector(), bactria_metrics_enter_sector(),
+     *     bactria_metrics_leave_sector()
      */
     auto bactria_metrics_sector_summary(void* sector_handle) noexcept -> void;
 
@@ -110,7 +120,7 @@ extern "C"
      *
      * \param[in] name The phase name as it should appear in the output.
      * \return A plugin-specific phase handle.
-     * \sa bactria_metrics_destroy_phase
+     * \sa bactria_metrics_destroy_phase(), bactria_metrics_enter_phase(), bactria_metrics_leave_phase()
      */
     auto bactria_metrics_create_phase(char const* name) noexcept -> void*;
 
@@ -122,7 +132,7 @@ extern "C"
      * bactria_metrics_create_phase().
      *
      * \param[in] phase_handle The phase handle created by bactria_metrics_create_phase().
-     * \sa bactria_metrics_create_phase
+     * \sa bactria_metrics_create_phase(), bactria_metrics_enter_phase(), bactria_metrics_leave_phase()
      */
     auto bactria_metrics_destroy_phase(void* phase_handle) noexcept -> void;
 
@@ -135,7 +145,7 @@ extern "C"
      * \param[in] source The source file of the call to bactria::Phase::enter().
      * \param[in] lineno The source line of the call to bactria::Phase::enter().
      * \param[in] caller The surrounding function of the call to bactria::Phase::enter().
-     * \sa bactria_metrics_create_phase, bactria_metrics_destroy_phase, bactria_metrics_leave_phase
+     * \sa bactria_metrics_create_phase(), bactria_metrics_destroy_phase(), bactria_metrics_leave_phase()
      */
     auto bactria_metrics_enter_phase(
         void* phase_handle,
@@ -152,7 +162,7 @@ extern "C"
      * \param[in] source The source file of the call to bactria::Phase::leave().
      * \param[in] lineno The source line of the call to bactria::Phase::leave().
      * \param[in] caller The surrounding function of the call to bactria::Phase::leave().
-     * \sa bactria_metrics_create_phase, bactria_metrics_destroy_phase, bactria_metrics_enter_phase
+     * \sa bactria_metrics_create_phase(), bactria_metrics_destroy_phase(), bactria_metrics_enter_phase()
      *
      */
     auto bactria_metrics_leave_phase(
@@ -160,4 +170,8 @@ extern "C"
         char const* source,
         std::uint32_t lineno,
         char const* caller) noexcept -> void;
+
+    /**
+     * \}
+     */
 }

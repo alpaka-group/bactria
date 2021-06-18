@@ -15,7 +15,7 @@
 
 /**
  * \file PluginInterface.hpp
- * \brief bactria's ranges plugin interface include.
+ * \brief Interface for plugin developers.
  *
  * This is bactria's ranges plugin interface. Plugin developers should include this file and implement all functions
  * declared by it.
@@ -24,6 +24,15 @@
 #pragma once
 
 #include <cstdint>
+
+/**
+ * \defgroup bactria_ranges_plugin Plugin interface
+ * \ingroup bactria_ranges
+ *
+ * This is the interface for a ranges plugin. Plugin developers should include ranges/PluginInterface.hpp and
+ * implement all functions listed here.
+ * \{
+ */
 
 extern "C"
 {
@@ -124,3 +133,7 @@ extern "C"
      */
     auto bactria_ranges_stop_range(void* range_handle) noexcept -> void;
 }
+
+/**
+ * \}
+ */

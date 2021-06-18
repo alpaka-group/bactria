@@ -15,7 +15,7 @@
 
 /**
  * \file Tags.hpp
- * \brief bactria's Tag include file.
+ * \brief Tag definitions.
  *
  * This file defines a number of tags that can be used to add more details to a Sector.
  * It should not be included directly by the user.
@@ -28,42 +28,57 @@ namespace bactria
     namespace metrics
     {
         /**
-         * \ingroup Instrumentation
          * \brief The generic tag.
+         * \ingroup bactria_metrics_user
          *
          * Used for defining a generic Sector.
          */
         struct Generic
         {
+            /**
+             * Internal value of the tag which is supplied to the plugin. Note that this may change between bactria
+             * without further announcement. Users are strongly advised to never rely directly on the value of this
+             * tag.
+             */
             static constexpr auto value = 1u;
         };
 
         /**
-         * \ingroup Instrumentation
          * \brief The function tag.
+         * \ingroup bactria_metrics_user
          *
          * Used for defining a Sector that instruments a function.
          */
         struct Function
         {
+            /**
+             * Internal value of the tag which is supplied to the plugin. Note that this may change between bactria
+             * without further announcement. Users are strongly advised to never rely directly on the value of this
+             * tag.
+             */
             static constexpr auto value = 2u;
         };
 
         /**
-         * \ingroup Instrumentation
          * \brief The loop tag.
+         * \ingroup bactria_metrics_user
          *
          * Used for defining a Sector that instruments an entire loop.
          * \sa Body
          */
         struct Loop
         {
+            /**
+             * Internal value of the tag which is supplied to the plugin. Note that this may change between bactria
+             * without further announcement. Users are strongly advised to never rely directly on the value of this
+             * tag.
+             */
             static constexpr auto value = 3u;
         };
 
         /**
-         * \ingroup Instrumentation
          * \brief The body tag.
+         * \ingroup bactria_metrics_user
          *
          * Used for defining a Sector that instruments a (loop) body. This will result in separate
          * instrumentation paths for each (loop) iteration of the Sector.
@@ -71,8 +86,12 @@ namespace bactria
          */
         struct Body
         {
+            /**
+             * Internal value of the tag which is supplied to the plugin. Note that this may change between bactria
+             * without further announcement. Users are strongly advised to never rely directly on the value of this
+             * tag.
+             */
             static constexpr auto value = 4u;
         };
     } // namespace metrics
-
 } // namespace bactria
